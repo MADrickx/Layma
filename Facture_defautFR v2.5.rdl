@@ -1,0 +1,4508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="IGSoftIGFactModel">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>38e420ba-fe7d-4daf-90d6-e913c26589a3</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="InvoiceHeader">
+      <Query>
+        <DataSourceName>IGSoftIGFactModel</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="AcceptanceGiro">
+          <DataField>AcceptanceGiro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AccountingBookCode">
+          <DataField>AccountingBookCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AccountingBookId">
+          <DataField>AccountingBookId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AccountingComment">
+          <DataField>AccountingComment</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AccountingCounterId">
+          <DataField>AccountingCounterId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AccountingPeriodId">
+          <DataField>AccountingPeriodId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AccountingPeriodMonth">
+          <DataField>AccountingPeriodMonth</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AccountingPeriodYear">
+          <DataField>AccountingPeriodYear</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AmountTotalPayment">
+          <DataField>AmountTotalPayment</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="AmountVatExcluded">
+          <DataField>AmountVatExcluded</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="AmountVatIncluded">
+          <DataField>AmountVatIncluded</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyAddressBox">
+          <DataField>BillCompanyAddressBox</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyAddressCity">
+          <DataField>BillCompanyAddressCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyAddressCountryIso">
+          <DataField>BillCompanyAddressCountryIso</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyAddressCountryName">
+          <DataField>BillCompanyAddressCountryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyAddressHouseNumber">
+          <DataField>BillCompanyAddressHouseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyAddressStreet">
+          <DataField>BillCompanyAddressStreet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyAddressZip">
+          <DataField>BillCompanyAddressZip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyEmail">
+          <DataField>BillCompanyEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyEnterpriseNumber">
+          <DataField>BillCompanyEnterpriseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyFax">
+          <DataField>BillCompanyFax</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyFullName">
+          <DataField>BillCompanyFullName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyId">
+          <DataField>BillCompanyId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyLogoPath">
+          <DataField>BillCompanyLogoPath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyLogoUrl">
+          <DataField>BillCompanyLogoUrl</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyMobilePhoneNumber">
+          <DataField>BillCompanyMobilePhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyName">
+          <DataField>BillCompanyName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyNationalNumber">
+          <DataField>BillCompanyNationalNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyPhoneNumber">
+          <DataField>BillCompanyPhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyVatNumber">
+          <DataField>BillCompanyVatNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CashRegisterId">
+          <DataField>CashRegisterId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Comment">
+          <DataField>Comment</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CreatedBy">
+          <DataField>CreatedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CreatedDate">
+          <DataField>CreatedDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressBox">
+          <DataField>CustomerAddressBox</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressCity">
+          <DataField>CustomerAddressCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressCountryIso">
+          <DataField>CustomerAddressCountryIso</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressCountryName">
+          <DataField>CustomerAddressCountryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressHouseNumber">
+          <DataField>CustomerAddressHouseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressLatitude">
+          <DataField>CustomerAddressLatitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressLongitude">
+          <DataField>CustomerAddressLongitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressStreet">
+          <DataField>CustomerAddressStreet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerAddressZip">
+          <DataField>CustomerAddressZip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerCode">
+          <DataField>CustomerCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressBox">
+          <DataField>CustomerDeliveryAddressBox</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressCity">
+          <DataField>CustomerDeliveryAddressCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressCountryIso">
+          <DataField>CustomerDeliveryAddressCountryIso</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressCountryName">
+          <DataField>CustomerDeliveryAddressCountryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressHouseNumber">
+          <DataField>CustomerDeliveryAddressHouseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressLatitude">
+          <DataField>CustomerDeliveryAddressLatitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressLongitude">
+          <DataField>CustomerDeliveryAddressLongitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressStreet">
+          <DataField>CustomerDeliveryAddressStreet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryAddressZip">
+          <DataField>CustomerDeliveryAddressZip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryEmail">
+          <DataField>CustomerDeliveryEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryFullName">
+          <DataField>CustomerDeliveryFullName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryMobilePhoneNumber">
+          <DataField>CustomerDeliveryMobilePhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryName">
+          <DataField>CustomerDeliveryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerDeliveryPhoneNumber">
+          <DataField>CustomerDeliveryPhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerFax">
+          <DataField>CustomerFax</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerFullName">
+          <DataField>CustomerFullName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerId">
+          <DataField>CustomerId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressBox">
+          <DataField>CustomerInvoiceAddressBox</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressCity">
+          <DataField>CustomerInvoiceAddressCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressCountryIso">
+          <DataField>CustomerInvoiceAddressCountryIso</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressCountryName">
+          <DataField>CustomerInvoiceAddressCountryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressHouseNumber">
+          <DataField>CustomerInvoiceAddressHouseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressLatitude">
+          <DataField>CustomerInvoiceAddressLatitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressLongitude">
+          <DataField>CustomerInvoiceAddressLongitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressStreet">
+          <DataField>CustomerInvoiceAddressStreet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceAddressZip">
+          <DataField>CustomerInvoiceAddressZip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceFullName">
+          <DataField>CustomerInvoiceFullName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerInvoiceName">
+          <DataField>CustomerInvoiceName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerMobilePhoneNumber">
+          <DataField>CustomerMobilePhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerName">
+          <DataField>CustomerName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerPaymentTermDays">
+          <DataField>CustomerPaymentTermDays</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CustomerPaymentTermType">
+          <DataField>CustomerPaymentTermType</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.PaymentTermType</rd:TypeName>
+        </Field>
+        <Field Name="CustomerPhoneNumber">
+          <DataField>CustomerPhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerTitle">
+          <DataField>CustomerTitle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerTitleCompany">
+          <DataField>CustomerTitleCompany</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerTitleCompanyId">
+          <DataField>CustomerTitleCompanyId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CustomerTitleId">
+          <DataField>CustomerTitleId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CustomerVatNumber">
+          <DataField>CustomerVatNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomLayoutId">
+          <DataField>CustomLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DateShipmentOrdered">
+          <DataField>DateShipmentOrdered</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DateShipmentProposed">
+          <DataField>DateShipmentProposed</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DateShipmentReel">
+          <DataField>DateShipmentReel</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DeletedBy">
+          <DataField>DeletedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DeletedDate">
+          <DataField>DeletedDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DeleteKey">
+          <DataField>DeleteKey</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DeliveryAddressId">
+          <DataField>DeliveryAddressId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DeliveryCountryId">
+          <DataField>DeliveryCountryId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DocumentDate">
+          <DataField>DocumentDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="DocumentNumber">
+          <DataField>DocumentNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DocumentOwnerId">
+          <DataField>DocumentOwnerId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DocumentType">
+          <DataField>DocumentType</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.DocumentType</rd:TypeName>
+        </Field>
+        <Field Name="DocumentYear">
+          <DataField>DocumentYear</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DueDate">
+          <DataField>DueDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="EInvoicingError">
+          <DataField>EInvoicingError</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EInvoicingId">
+          <DataField>EInvoicingId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EInvoicingStatus">
+          <DataField>EInvoicingStatus</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.IGFact.Model.InvoiceHeader+EInvoicingStatusEnum, IGSoft.IGFact.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="ElectronicDocumentSentDate">
+          <DataField>ElectronicDocumentSentDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="GroupId">
+          <DataField>GroupId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="Guid">
+          <DataField>Guid</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HasComments">
+          <DataField>HasComments</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="HasPhotos">
+          <DataField>HasPhotos</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Id">
+          <DataField>Id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="IdDocumentToReuse">
+          <DataField>IdDocumentToReuse</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="IdSourceDocumentReused">
+          <DataField>IdSourceDocumentReused</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="InvoiceAddressId">
+          <DataField>InvoiceAddressId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="InvoiceCountryId">
+          <DataField>InvoiceCountryId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="IsDeleted">
+          <DataField>IsDeleted</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsDisabled">
+          <DataField>IsDisabled</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsElectronicDocument">
+          <DataField>IsElectronicDocument</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsInAccounting">
+          <DataField>IsInAccounting</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="LastCreditNoteHeaderNumber">
+          <DataField>LastCreditNoteHeaderNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LastCreditNoteId">
+          <DataField>LastCreditNoteId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="LastProvidedFacilityDate">
+          <DataField>LastProvidedFacilityDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="LayoutId">
+          <DataField>LayoutId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Lines">
+          <DataField>Lines</DataField>
+          <rd:TypeName>System.Collections.Generic.ICollection`1[[IGSoft.IGFact.Model.InvoiceLine, IGSoft.IGFact.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="MandatorySigning">
+          <DataField>MandatorySigning</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="NumberOfPhotos">
+          <DataField>NumberOfPhotos</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OriginKey">
+          <DataField>OriginKey</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PayOnDelivery">
+          <DataField>PayOnDelivery</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="PdfGenerationError">
+          <DataField>PdfGenerationError</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PdfPath">
+          <DataField>PdfPath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PdfUrl">
+          <DataField>PdfUrl</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProcessingStatus">
+          <DataField>ProcessingStatus</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.Interface.ProcessingStatus</rd:TypeName>
+        </Field>
+        <Field Name="QrCodeUrl">
+          <DataField>QrCodeUrl</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QuoteHeaderId">
+          <DataField>QuoteHeaderId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="QuoteHeaderNumber">
+          <DataField>QuoteHeaderNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Reuse">
+          <DataField>Reuse</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.ReuseType, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="SendingError">
+          <DataField>SendingError</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SendingStatus">
+          <DataField>SendingStatus</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.Interface.SendingStatus, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="StatusPayment">
+          <DataField>StatusPayment</DataField>
+          <rd:TypeName>IGSoft.IGFact.Model.StatusPayment</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionNextDeadlineDate">
+          <DataField>SubscriptionNextDeadlineDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionPeriodicity">
+          <DataField>SubscriptionPeriodicity</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.IGFact.Model.PeriodicityType, IGSoft.IGFact.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionValidityEndDate">
+          <DataField>SubscriptionValidityEndDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionValidityFromDate">
+          <DataField>SubscriptionValidityFromDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionValidityToDate">
+          <DataField>SubscriptionValidityToDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="TotalWeight">
+          <DataField>TotalWeight</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="TourName">
+          <DataField>TourName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TourOrderNumber">
+          <DataField>TourOrderNumber</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="Translations">
+          <DataField>Translations</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[IGSoft.Common.Model.Model.Translation, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="TypePayment">
+          <DataField>TypePayment</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.PaymentTypeEnum, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="UpdateByCollaboratorId">
+          <DataField>UpdateByCollaboratorId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="UpdatedBy">
+          <DataField>UpdatedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UpdatedDate">
+          <DataField>UpdatedDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="VatAmount">
+          <DataField>VatAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="VatDescription">
+          <DataField>VatDescription</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="WeekOfYear">
+          <DataField>WeekOfYear</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="WeightUnitId">
+          <DataField>WeightUnitId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="WeightUnitName">
+          <DataField>WeightUnitName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>IGSoft.WinPrest.Model</rd:DataSetName>
+        <rd:TableName>InvoiceHeader</rd:TableName>
+        <rd:ObjectDataSourceType>IGSoft.WinPrest.Model.InvoiceHeader, IGSoft.WinPrest.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="InvoiceLine">
+      <Query>
+        <DataSourceName>IGSoftIGFactModel</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="AccountCode">
+          <DataField>AccountCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AccountId">
+          <DataField>AccountId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="AccountName">
+          <DataField>AccountName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Alias">
+          <DataField>Alias</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AmountRate">
+          <DataField>AmountRate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="AmountRateBase">
+          <DataField>AmountRateBase</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="AmountVat">
+          <DataField>AmountVat</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="AmountVatExcluded">
+          <DataField>AmountVatExcluded</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="AmountVatExcludedDescription">
+          <DataField>AmountVatExcludedDescription</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AmountVatIncluded">
+          <DataField>AmountVatIncluded</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="BillCompanyId">
+          <DataField>BillCompanyId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CalculationFlow">
+          <DataField>CalculationFlow</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CollaboratorCode">
+          <DataField>CollaboratorCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CollaboratorId">
+          <DataField>CollaboratorId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CollaboratorName">
+          <DataField>CollaboratorName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ContactCode">
+          <DataField>ContactCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ContactId">
+          <DataField>ContactId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ContactName">
+          <DataField>ContactName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cost">
+          <DataField>Cost</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CostBase">
+          <DataField>CostBase</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CostInBaseUnit">
+          <DataField>CostInBaseUnit</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CostInBaseUnitBase">
+          <DataField>CostInBaseUnitBase</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CreatedBy">
+          <DataField>CreatedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CreatedDate">
+          <DataField>CreatedDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="CustomerContractCode">
+          <DataField>CustomerContractCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerContractId">
+          <DataField>CustomerContractId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="CustomerContractName">
+          <DataField>CustomerContractName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerId">
+          <DataField>CustomerId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CustomerUnitPrice">
+          <DataField>CustomerUnitPrice</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DeletedBy">
+          <DataField>DeletedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DeletedDate">
+          <DataField>DeletedDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DeleteKey">
+          <DataField>DeleteKey</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescriptionHtml">
+          <DataField>DescriptionHtml</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescriptionRtf">
+          <DataField>DescriptionRtf</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DocumentDate">
+          <DataField>DocumentDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="DocumentHeaderId">
+          <DataField>DocumentHeaderId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="FacilityCode">
+          <DataField>FacilityCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FacilityId">
+          <DataField>FacilityId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="FacilityName">
+          <DataField>FacilityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FacilityType">
+          <DataField>FacilityType</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.FacilityType, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="FileNumber">
+          <DataField>FileNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Guid">
+          <DataField>Guid</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Id">
+          <DataField>Id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="IsCustomerRatePrice">
+          <DataField>IsCustomerRatePrice</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsDeleted">
+          <DataField>IsDeleted</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsDisabled">
+          <DataField>IsDisabled</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="LineNumber">
+          <DataField>LineNumber</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="LineType">
+          <DataField>LineType</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.LineType</rd:TypeName>
+        </Field>
+        <Field Name="LineTypeUnit">
+          <DataField>LineTypeUnit</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="Lots">
+          <DataField>Lots</DataField>
+          <rd:TypeName>System.Collections.Generic.ICollection`1[[IGSoft.IGFact.Model.InvoiceLineLot, IGSoft.IGFact.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="OrderHeaderId">
+          <DataField>OrderHeaderId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="OriginKey">
+          <DataField>OriginKey</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PriceCalculType">
+          <DataField>PriceCalculType</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.PriceCalculType, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="PriceCalculTypeBase">
+          <DataField>PriceCalculTypeBase</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.PriceCalculType, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="PriceType">
+          <DataField>PriceType</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.PriceType, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="PriceTypeBase">
+          <DataField>PriceTypeBase</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.Common.Model.Model.PriceType, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="ProductCode">
+          <DataField>ProductCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProductId">
+          <DataField>ProductId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProductNameDisplay">
+          <DataField>ProductNameDisplay</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProvidedFacilityId">
+          <DataField>ProvidedFacilityId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="QuantityPaid">
+          <DataField>QuantityPaid</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ShipmentHeaderId">
+          <DataField>ShipmentHeaderId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ShipmentLineId">
+          <DataField>ShipmentLineId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ShipmentNumber">
+          <DataField>ShipmentNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionHeaderId">
+          <DataField>SubscriptionHeaderId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionLineId">
+          <DataField>SubscriptionLineId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="SubscriptionNumber">
+          <DataField>SubscriptionNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TotalWeight">
+          <DataField>TotalWeight</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="Translations">
+          <DataField>Translations</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[IGSoft.Common.Model.Model.Translation, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitBaseId">
+          <DataField>UnitBaseId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitBaseName">
+          <DataField>UnitBaseName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UnitBaseRatio">
+          <DataField>UnitBaseRatio</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitId">
+          <DataField>UnitId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitName">
+          <DataField>UnitName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UnitPrice">
+          <DataField>UnitPrice</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitPriceBase">
+          <DataField>UnitPriceBase</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitPriceInBaseUnit">
+          <DataField>UnitPriceInBaseUnit</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitPriceInBaseUnitBase">
+          <DataField>UnitPriceInBaseUnitBase</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UnitWeightBaseRatio">
+          <DataField>UnitWeightBaseRatio</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="UpdatedBy">
+          <DataField>UpdatedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UpdatedDate">
+          <DataField>UpdatedDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="VariantProductCode">
+          <DataField>VariantProductCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VariantProductId">
+          <DataField>VariantProductId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="VariantProductName">
+          <DataField>VariantProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VatCode">
+          <DataField>VatCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VatDescription">
+          <DataField>VatDescription</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VatExternalCode">
+          <DataField>VatExternalCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VatId">
+          <DataField>VatId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="VatRate">
+          <DataField>VatRate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="WeightUnitId">
+          <DataField>WeightUnitId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="WeightUnitName">
+          <DataField>WeightUnitName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>IGSoft.WinPrest.Model</rd:DataSetName>
+        <rd:TableName>InvoiceHeader</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>OrderLines</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceType>IGSoft.WinPrest.Model.InvoiceHeader, IGSoft.WinPrest.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="BillCompany">
+      <Query>
+        <DataSourceName>IGSoftIGFactModel</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="AccountantEmailAddress">
+          <DataField>AccountantEmailAddress</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AccountingBooks">
+          <DataField>AccountingBooks</DataField>
+          <rd:TypeName>System.Collections.Generic.ICollection`1[[IGSoft.IGFact.Model.AccountingBook, IGSoft.IGFact.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="AccountingSoftwareType">
+          <DataField>AccountingSoftwareType</DataField>
+          <rd:TypeName>IGSoft.IGFact.Model.AccountingSoftwareType</rd:TypeName>
+        </Field>
+        <Field Name="AddCommentToGeneratedDocuments">
+          <DataField>AddCommentToGeneratedDocuments</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="B2BBic">
+          <DataField>B2BBic</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="B2BFinancialInstitution">
+          <DataField>B2BFinancialInstitution</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="B2BIban">
+          <DataField>B2BIban</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="B2BSepaCreditorIdentifier">
+          <DataField>B2BSepaCreditorIdentifier</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="B2CBic">
+          <DataField>B2CBic</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="B2CFinancialInstitution">
+          <DataField>B2CFinancialInstitution</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="B2CIban">
+          <DataField>B2CIban</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="B2CSepaCreditorIdentifier">
+          <DataField>B2CSepaCreditorIdentifier</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BankAccounts">
+          <DataField>BankAccounts</DataField>
+          <rd:TypeName>System.Collections.Generic.ICollection`1[[IGSoft.IGFact.Model.BankAccount, IGSoft.IGFact.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CodeNameDisplay">
+          <DataField>CodeNameDisplay</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Copies">
+          <DataField>Copies</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="CreatedBy">
+          <DataField>CreatedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CreatedDate">
+          <DataField>CreatedDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="CurrencyId">
+          <DataField>CurrencyId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DefaultAccountId">
+          <DataField>DefaultAccountId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultAutomaticOrderAccountingBookId">
+          <DataField>DefaultAutomaticOrderAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultCashRegisterId">
+          <DataField>DefaultCashRegisterId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultCreditNoteAccountingBookId">
+          <DataField>DefaultCreditNoteAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultCreditNoteLayoutId">
+          <DataField>DefaultCreditNoteLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultDeliveryDelay">
+          <DataField>DefaultDeliveryDelay</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DefaultInvoiceAccountingBookId">
+          <DataField>DefaultInvoiceAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultInvoiceLayoutId">
+          <DataField>DefaultInvoiceLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultInvoicePeriodicity">
+          <DataField>DefaultInvoicePeriodicity</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.InvoicePeriodicity</rd:TypeName>
+        </Field>
+        <Field Name="DefaultLengthUnitId">
+          <DataField>DefaultLengthUnitId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultOrderAccountingBookId">
+          <DataField>DefaultOrderAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultOrderLayoutId">
+          <DataField>DefaultOrderLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultPaymentTermId">
+          <DataField>DefaultPaymentTermId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultPriceCalculType">
+          <DataField>DefaultPriceCalculType</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.PriceCalculType</rd:TypeName>
+        </Field>
+        <Field Name="DefaultPriceType">
+          <DataField>DefaultPriceType</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.PriceType</rd:TypeName>
+        </Field>
+        <Field Name="DefaultProformaAccountingBookId">
+          <DataField>DefaultProformaAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultProformaLayoutId">
+          <DataField>DefaultProformaLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultPurchaseUnitId">
+          <DataField>DefaultPurchaseUnitId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultQuoteAccountingBookId">
+          <DataField>DefaultQuoteAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultQuoteLayoutId">
+          <DataField>DefaultQuoteLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultSaleUnitId">
+          <DataField>DefaultSaleUnitId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultShipmentAccountingBookId">
+          <DataField>DefaultShipmentAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultShipmentLayoutId">
+          <DataField>DefaultShipmentLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultSubscriptionAccountingBookId">
+          <DataField>DefaultSubscriptionAccountingBookId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultSubscriptionDateFilterRule">
+          <DataField>DefaultSubscriptionDateFilterRule</DataField>
+          <rd:TypeName>System.Nullable`1[[IGSoft.IGFact.Model.SubscriptionDateFilterRule, IGSoft.IGFact.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultSubscriptionLayoutId">
+          <DataField>DefaultSubscriptionLayoutId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultTimeSlot">
+          <DataField>DefaultTimeSlot</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.DefaultTimeSlot</rd:TypeName>
+        </Field>
+        <Field Name="DefaultUnitBaseId">
+          <DataField>DefaultUnitBaseId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DefaultValidationStatus">
+          <DataField>DefaultValidationStatus</DataField>
+          <rd:TypeName>IGSoft.IGFact.Model.ValidationStatus</rd:TypeName>
+        </Field>
+        <Field Name="DefaultVatId">
+          <DataField>DefaultVatId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DeletedBy">
+          <DataField>DeletedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DeletedDate">
+          <DataField>DeletedDate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="DeleteKey">
+          <DataField>DeleteKey</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="EInvoicingSupplierId">
+          <DataField>EInvoicingSupplierId</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Email">
+          <DataField>Email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EnterpriseNumber">
+          <DataField>EnterpriseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExternalAccountingApiKey">
+          <DataField>ExternalAccountingApiKey</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExternalAccountingAuthenticationType">
+          <DataField>ExternalAccountingAuthenticationType</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.AuthenticationType</rd:TypeName>
+        </Field>
+        <Field Name="ExternalAccountingFolder">
+          <DataField>ExternalAccountingFolder</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExternalAccountingLogin">
+          <DataField>ExternalAccountingLogin</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExternalAccountingPassword">
+          <DataField>ExternalAccountingPassword</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExternalAccountingType">
+          <DataField>ExternalAccountingType</DataField>
+          <rd:TypeName>IGSoft.Common.Model.Model.ExternalAccountingType</rd:TypeName>
+        </Field>
+        <Field Name="FavoriteProductDialog">
+          <DataField>FavoriteProductDialog</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Fax">
+          <DataField>Fax</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FirstName">
+          <DataField>FirstName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FullName">
+          <DataField>FullName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GeneralConditionFileName">
+          <DataField>GeneralConditionFileName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GeneralConditionPath">
+          <DataField>GeneralConditionPath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="GeneralConditionUrl">
+          <DataField>GeneralConditionUrl</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Guid">
+          <DataField>Guid</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Id">
+          <DataField>Id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="IsDeleted">
+          <DataField>IsDeleted</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="IsDisabled">
+          <DataField>IsDisabled</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LogoPicturePath">
+          <DataField>LogoPicturePath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LogoPictureUrl">
+          <DataField>LogoPictureUrl</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MobilePhoneNumber">
+          <DataField>MobilePhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MobilePhoneNumberCountryId">
+          <DataField>MobilePhoneNumberCountryId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NationalNumber">
+          <DataField>NationalNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OriginKey">
+          <DataField>OriginKey</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PhoneNumber">
+          <DataField>PhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PhoneNumberCountryId">
+          <DataField>PhoneNumberCountryId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="PrivateAddressBox">
+          <DataField>PrivateAddressBox</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrivateAddressCity">
+          <DataField>PrivateAddressCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrivateAddressHouseNumber">
+          <DataField>PrivateAddressHouseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrivateAddressLatitude">
+          <DataField>PrivateAddressLatitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="PrivateAddressLongitude">
+          <DataField>PrivateAddressLongitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="PrivateAddressStreet">
+          <DataField>PrivateAddressStreet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrivateAddressZip">
+          <DataField>PrivateAddressZip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrivateCountryId">
+          <DataField>PrivateCountryId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalAddressBox">
+          <DataField>ProfessionalAddressBox</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalAddressCity">
+          <DataField>ProfessionalAddressCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalAddressHouseNumber">
+          <DataField>ProfessionalAddressHouseNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalAddressLatitude">
+          <DataField>ProfessionalAddressLatitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalAddressLongitude">
+          <DataField>ProfessionalAddressLongitude</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalAddressStreet">
+          <DataField>ProfessionalAddressStreet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalAddressZip">
+          <DataField>ProfessionalAddressZip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProfessionalCountryId">
+          <DataField>ProfessionalCountryId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="RegistrationCity">
+          <DataField>RegistrationCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SendUblToAccountant">
+          <DataField>SendUblToAccountant</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="ShowPricesVatIncluded">
+          <DataField>ShowPricesVatIncluded</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Signature">
+          <DataField>Signature</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TitleCompanyId">
+          <DataField>TitleCompanyId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="TitleId">
+          <DataField>TitleId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="Translations">
+          <DataField>Translations</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[IGSoft.Common.Model.Model.Translation, IGSoft.Common.Model, Version=0.0.80.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+        <Field Name="UpdatedBy">
+          <DataField>UpdatedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UpdatedDate">
+          <DataField>UpdatedDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="VatNumber">
+          <DataField>VatNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="WeightUnitId">
+          <DataField>WeightUnitId</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]</rd:TypeName>
+        </Field>
+        <Field Name="WeightUnitName">
+          <DataField>WeightUnitName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.32792cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>6.48665cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.32292cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.28292cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.85209cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.96126cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.83212cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.88479cm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.94721cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox24">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!Ref.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox22">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!Description.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox32">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!Qt.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!Unit.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox25">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!PU.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox33">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIF(Sum(IIF(IsNothing(Sum(Fields!AmountRate.Value)), 0, Sum(Fields!AmountRate.Value))), Parameters!Rem.Value, "")</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox36">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!TVA.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox28">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Parameters!Montant.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Gray</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.50271cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ProductCode1">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ProductCode.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ProductNameDisplay">
+                          <CanGrow>true</CanGrow>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>= Fields!Description.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Quantity2">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIf( Fields!LineType.Value = "Refund" Or Fields!LineType.Value = 8
+, -1*Fields!Quantity.Value, Fields!Quantity.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Format>0.00</Format>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!UnitName.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CostInBaseUnit">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!UnitPriceInBaseUnit.Value</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Format>#,0.00'€';-#,0.00'€';'-'</Format>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="AmountRate2">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=if(Fields!AmountRate.Value&lt;&gt;0,Fields!AmountRate.Value+" %","")</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Visibility>
+                            <Hidden>=IIF(Sum(IIF(IsNothing(Sum(Fields!AmountRate.Value)), 0, Sum(Fields!AmountRate.Value))), False, True)</Hidden>
+                          </Visibility>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="AmountVatExcluded">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!VatRate.Value/100</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Format>0%</Format>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="VatRate">
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=if(Fields!AmountVatExcluded.Value&lt;&gt;0,Fields!AmountVatExcluded.Value,"")</Value>
+                                  <Style>
+                                    <FontFamily>Calibri Light</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <Format>#,0.00'€'</Format>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>White</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                  <FixedData>true</FixedData>
+                  <Visibility>
+                    <Hidden>=Fields!ProductCode.Value="ESC"</Hidden>
+                  </Visibility>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <RepeatColumnHeaders>true</RepeatColumnHeaders>
+            <RepeatRowHeaders>true</RepeatRowHeaders>
+            <KeepTogether>true</KeepTogether>
+            <DataSetName>InvoiceLine</DataSetName>
+            <Top>0.12632cm</Top>
+            <Left>0.2621cm</Left>
+            <Height>1.44992cm</Height>
+            <Width>18.95067cm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>10cm</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>19.5cm</Width>
+      <Page>
+        <PageHeader>
+          <Height>9cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="DocumentNumber">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!DocumentNumber.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>5.72067cm</Top>
+              <Left>15.25756cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.9552cm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="DocumentDate">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!DocumentDate.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>dd/MM/yyyy</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>6.35595cm</Top>
+              <Left>15.25755cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.95521cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox10">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Facture.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>5.72067cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.73435cm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox11">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Date.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>6.35595cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.73435cm</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox7">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Client.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>7.62651cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.73435cm</Width>
+              <ZIndex>4</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="BillCompanyVatNumber">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!CustomerVatNumber.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>6.99123cm</Top>
+              <Left>15.25755cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.95521cm</Width>
+              <ZIndex>5</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox12">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TVAClient.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>6.99123cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.73435cm</Width>
+              <ZIndex>6</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Comment">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!Comment.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>6.99123cm</Top>
+              <Left>0.2621cm</Left>
+              <Height>1.23528cm</Height>
+              <Width>10.47246cm</Width>
+              <ZIndex>7</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="CustomerInvoiceAddressCity">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!CustomerAddressZip.Value, "InvoiceHeader") &amp; " " &amp; First(Fields!CustomerAddressCity.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>3.59917cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>7.9cm</Width>
+              <ZIndex>8</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="CustomerAddressStreet">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!CustomerAddressStreet.Value, "InvoiceHeader") &amp;" "&amp; First(Fields!CustomerAddressHouseNumber.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.86288cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>7.9cm</Width>
+              <ZIndex>9</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="CustomerAddressCountryName">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!CustomerAddressCountryName.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>4.3297cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>7.89999cm</Width>
+              <ZIndex>10</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="CustomerCode">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!CustomerCode.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>7.62651cm</Top>
+              <Left>15.25756cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.95521cm</Width>
+              <ZIndex>11</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="CustomerName">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!CustomerName.Value, "InvoiceHeader") + 
+  " " +
+First(Fields!CustomerTitleCompany.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.15705cm</Top>
+              <Left>11.31277cm</Left>
+              <Height>0.6cm</Height>
+              <Width>7.9cm</Width>
+              <ZIndex>12</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox15">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!BillCompanyPhoneNumber.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <LineHeight>0.03492cm</LineHeight>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>5.53784cm</Top>
+              <Left>0.82094cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.05318cm</Width>
+              <ZIndex>13</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox17">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!BillCompanyEmail.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>5.93201cm</Top>
+              <Left>0.82695cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.04717cm</Width>
+              <ZIndex>14</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Image Name="Logo">
+              <Source>External</Source>
+              <Value>=First(Fields!BillCompanyLogoUrl.Value, "InvoiceHeader")</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.29032cm</Top>
+              <Left>0.2622cm</Left>
+              <Height>3.63101cm</Height>
+              <Width>4.30957cm</Width>
+              <ZIndex>15</ZIndex>
+              <ToolTip>Logo</ToolTip>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+            <Image Name="Phone">
+              <Source>Embedded</Source>
+              <Value>=Parameters!phone241.Value</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>5.53784cm</Top>
+              <Left>0.3257cm</Left>
+              <Height>0.4994cm</Height>
+              <Width>0.39605cm</Width>
+              <ZIndex>16</ZIndex>
+              <ToolTip>Phone</ToolTip>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+            <Image Name="Email">
+              <Source>Embedded</Source>
+              <Value>=Parameters!clavier501.Value</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>5.93201cm</Top>
+              <Left>0.33076cm</Left>
+              <Height>0.50064cm</Height>
+              <Width>0.37703cm</Width>
+              <ZIndex>17</ZIndex>
+              <ToolTip>Email</ToolTip>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+            <Textbox Name="Textbox1">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Globals!PageNumber &amp; "/" &amp; Globals!TotalPages</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.29032cm</Top>
+              <Left>15.44151cm</Left>
+              <Height>0.6cm</Height>
+              <Width>3.54542cm</Width>
+              <ZIndex>18</ZIndex>
+              <Visibility>
+                <Hidden>=IIf(Globals!TotalPages=1)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox18">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=iif(First(Fields!BillCompanyAddressCountryIso.Value, "InvoiceHeader")="BE","",First(Fields!BillCompanyAddressCountryIso.Value, "InvoiceHeader")+"-")+First(Fields!BillCompanyAddressZip.Value, "InvoiceHeader")+" "+First(Fields!BillCompanyAddressCity.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <LineHeight>0.03492cm</LineHeight>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>5.13309cm</Top>
+              <Left>0.28974cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.58438cm</Width>
+              <ZIndex>19</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox19">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!BillCompanyAddressStreet.Value, "InvoiceHeader") + " " + First(Fields!BillCompanyAddressHouseNumber.Value, "InvoiceHeader") + " " + First(Fields!BillCompanyAddressBox.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <LineHeight>0.03492cm</LineHeight>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>4.72034cm</Top>
+              <Left>0.28974cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.58438cm</Width>
+              <ZIndex>20</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox23">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!BillCompanyName.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <LineHeight>0.03492cm</LineHeight>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>4.3297cm</Top>
+              <Left>0.28974cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.58438cm</Width>
+              <ZIndex>21</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Image Name="Image1">
+              <Source>External</Source>
+              <Value>=First(Fields!QrCodeUrl.Value, "InvoiceHeader")</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>3.64808cm</Top>
+              <Left>7.59037cm</Left>
+              <Height>2.38916cm</Height>
+              <Width>2.32833cm</Width>
+              <ZIndex>22</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>8.74337cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Line Name="Line3">
+              <Top>4.81675cm</Top>
+              <Left>0.2621cm</Left>
+              <Height>0cm</Height>
+              <Width>18.72483cm</Width>
+              <Style>
+                <Border>
+                  <Color>Gray</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Gray</Color>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Gray</Color>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Gray</Color>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Gray</Color>
+                  <Width>1pt</Width>
+                </RightBorder>
+              </Style>
+            </Line>
+            <Textbox Name="Textbox2">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!BillCompanyName.Value, "InvoiceHeader")&amp;chr(13)+chr(10)&amp;First(Fields!BillCompanyAddressStreet.Value, "InvoiceHeader")&amp;" "&amp;First(Fields!BillCompanyAddressHouseNumber.Value, "InvoiceHeader")&amp;First(Fields!BillCompanyAddressBox.Value, "InvoiceHeader")&amp;chr(13)+chr(10)&amp;First(Fields!BillCompanyAddressCountryIso.Value, "InvoiceHeader")+"-"&amp;First(Fields!BillCompanyAddressZip.Value, "InvoiceHeader")&amp;" "&amp;First(Fields!BillCompanyAddressCity.Value, "InvoiceHeader")&amp;chr(13)+chr(10)&amp;"TVA: "+First(Fields!BillCompanyVatNumber.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>6.95298cm</Top>
+              <Left>0.2622cm</Left>
+              <Height>1.5cm</Height>
+              <Width>6.57013cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="AcceptanceGiro">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="+++"+ Left(First(Fields!AcceptanceGiro.Value, "InvoiceHeader") ,3) + "/" +Mid(First(Fields!AcceptanceGiro.Value, "InvoiceHeader") ,4,4)+"/"+Mid(First(Fields!AcceptanceGiro.Value, "InvoiceHeader") ,8,5)+"+++"</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>4.18869cm</Top>
+              <Left>0.2621cm</Left>
+              <Height>0.5cm</Height>
+              <Width>6.57023cm</Width>
+              <ZIndex>2</ZIndex>
+              <Visibility>
+                <Hidden>=Globals!PageNumber&lt;&gt;Globals!TotalPages</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox72">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Echeance.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextDecoration>Underline</TextDecoration>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>3.61814cm</Top>
+              <Left>13.00913cm</Left>
+              <Height>0.5cm</Height>
+              <Width>6.00426cm</Width>
+              <ZIndex>3</ZIndex>
+              <Visibility>
+                <Hidden>=Globals!PageNumber&lt;&gt;Globals!TotalPages</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="DueDate">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!DueDate.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Format>dd/MM/yyyy</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>4.18869cm</Top>
+              <Left>13.00913cm</Left>
+              <Height>0.5cm</Height>
+              <Width>6.00426cm</Width>
+              <ZIndex>4</ZIndex>
+              <Visibility>
+                <Hidden>=Globals!PageNumber&lt;&gt;Globals!TotalPages</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox73">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!PaymentText.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>Underline</TextDecoration>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>3.61814cm</Top>
+              <Left>0.2621cm</Left>
+              <Height>0.5cm</Height>
+              <Width>6.57023cm</Width>
+              <ZIndex>5</ZIndex>
+              <Visibility>
+                <Hidden>=Globals!PageNumber&lt;&gt;Globals!TotalPages</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox4">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Banque1.Value +chr(13)+chr(10)+Parameters!Banque2.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>6.95298cm</Top>
+              <Left>13.00913cm</Left>
+              <Height>1.5cm</Height>
+              <Width>6.01207cm</Width>
+              <ZIndex>6</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox27">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Base.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.0138cm</Top>
+              <Left>0.10323in</Left>
+              <Height>0.6cm</Height>
+              <Width>2.27cm</Width>
+              <ZIndex>7</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox29">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Taux.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.0138cm</Top>
+              <Left>0.99874in</Left>
+              <Height>0.6cm</Height>
+              <Width>1.9cm</Width>
+              <ZIndex>8</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox30">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TVA.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.0138cm</Top>
+              <Left>1.74501in</Left>
+              <Height>0.6cm</Height>
+              <Width>2.4cm</Width>
+              <ZIndex>9</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox16">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!Information.Value+"  "+Parameters!CGV1.Value+"  "+Parameters!CGV2.Value+"  "+Parameters!CGV3.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>4.90036cm</Top>
+              <Left>0.2622cm</Left>
+              <Height>1.94679cm</Height>
+              <Width>18.7666cm</Width>
+              <ZIndex>10</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="DocumentNumber2">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=iif(Variables!BTVA6.Value&gt;0,Parameters!PhraseTVA6.Value,iif(Variables!BTVA0.Value&gt;0,Parameters!PhraseTVA0.Value,""))</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.381cm</Top>
+              <Left>0.2621cm</Left>
+              <Height>0.45757cm</Height>
+              <Width>18.72483cm</Width>
+              <ZIndex>11</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="AmountVatExcluded1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Sum(Fields!AmountVatExcluded.Value, "InvoiceHeader")+Variables!esc.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.39913in</Top>
+              <Left>16.13693cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.85cm</Width>
+              <ZIndex>12</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox14">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TotalHTVA.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.39913in</Top>
+              <Left>5.1217in</Left>
+              <Height>0.6cm</Height>
+              <Width>3.15cm</Width>
+              <ZIndex>13</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox6">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TotalTVA.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.61381cm</Top>
+              <Left>5.1217in</Left>
+              <Height>0.6cm</Height>
+              <Width>3.15cm</Width>
+              <ZIndex>14</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="VatAmount">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Sum(Fields!VatAmount.Value, "InvoiceHeader")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.61381cm</Top>
+              <Left>16.16868cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.81825cm</Width>
+              <ZIndex>15</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="AmountVatIncluded">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Sum(Fields!AmountVatIncluded.Value, "InvoiceHeader")+Variables!esc.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Format>#,0.00 '€'</Format>
+                        <TextDecoration>Underline</TextDecoration>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.21043cm</Top>
+              <Left>16.13693cm</Left>
+              <Height>0.56824cm</Height>
+              <Width>2.85cm</Width>
+              <ZIndex>16</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox13">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TotalTVAC.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <TextDecoration>Underline</TextDecoration>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.21043cm</Top>
+              <Left>13.00913cm</Left>
+              <Height>0.56824cm</Height>
+              <Width>3.15cm</Width>
+              <ZIndex>17</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <BackgroundColor>=Variables!Couleur.Value</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox31">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Powered by IGFact Web"</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>Silver</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>3.19355in</Top>
+              <Left>2.74545in</Left>
+              <Height>0.5cm</Height>
+              <Width>5.83162cm</Width>
+              <ZIndex>18</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox74">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=iif( (Variables!esc.Value)=0,"","En cas de paiement avant le " &amp; FormatDateTime(First(Fields!DueDate.Value, "InvoiceHeader"),DateFormat.ShortDate) &amp; ", un escompte de " &amp; Round((Variables!esc.Value),2) &amp; " € pourra être déduit.  Soit un montant total de " &amp; Sum(Fields!AmountVatIncluded.Value, "InvoiceHeader") &amp; " €")</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.0138cm</Top>
+              <Left>7.04399cm</Left>
+              <Height>1.76487cm</Height>
+              <Width>5.79757cm</Width>
+              <ZIndex>19</ZIndex>
+              <Visibility>
+                <Hidden>=Globals!PageNumber&lt;&gt;Globals!TotalPages</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Top</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox75">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=iif(Variables!BTVA0.Value&gt;0,iif(Parameters!PhraseTVA0.Value="PhraseTVA0","",Parameters!PhraseTVA0.Value),iif(Variables!BTVA6.Value&gt;0,iif(Parameters!PhraseTVA6.Value="PhraseTVA6","",Parameters!PhraseTVA6.Value),iif(Variables!BTVAE.Value&gt;0,iif(Parameters!PhraseTVAE.Value="PhraseTVAE","",Parameters!PhraseTVAE.Value),iif(Variables!BTVAX.Value&gt;0,iif(Parameters!PhraseTVAX.Value="PhraseTVAX","",Parameters!PhraseTVAX.Value),""))))</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <FontWeight>Normal</FontWeight>
+                        <TextDecoration>None</TextDecoration>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.91077cm</Top>
+              <Left>7.04399cm</Left>
+              <Height>1.76487cm</Height>
+              <Width>5.79757cm</Width>
+              <ZIndex>20</ZIndex>
+              <Visibility>
+                <Hidden>=Globals!PageNumber&lt;&gt;Globals!TotalPages</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Top</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox21">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TVA6.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.17867cm</Top>
+              <Left>2.5322cm</Left>
+              <Height>0.6cm</Height>
+              <Width>1.9cm</Width>
+              <ZIndex>21</ZIndex>
+              <Visibility>
+                <Hidden>= (Variables!BTVA6.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="AmountVatExcluded3">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=CDec(Variables!BTVA6.Value)</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.17867cm</Top>
+              <Left>0.2576cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.27cm</Width>
+              <ZIndex>22</ZIndex>
+              <Visibility>
+                <Hidden>=(Variables!BTVA6.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="VatAmount3">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=CLng(Variables!BTVA0.Value)</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.57867cm</Top>
+              <Left>0.2576cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.27cm</Width>
+              <ZIndex>23</ZIndex>
+              <Visibility>
+                <Hidden>=(Variables!BTVA0.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox20">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TVA0.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.58205cm</Top>
+              <Left>0.99693in</Left>
+              <Height>0.6cm</Height>
+              <Width>1.9cm</Width>
+              <ZIndex>24</ZIndex>
+              <Visibility>
+                <Hidden>=(Variables!BTVA0.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="AmountVatExcluded2">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=CDec(Variables!TVA6.Value)</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.17867cm</Top>
+              <Left>1.7432in</Left>
+              <Height>0.6cm</Height>
+              <Width>2.4cm</Width>
+              <ZIndex>25</ZIndex>
+              <Visibility>
+                <Hidden>= (Variables!BTVA6.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="VatAmount2">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=CDec(Variables!TVA0.Value)</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                        <Language>fr-BE</Language>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.57867cm</Top>
+              <Left>1.7432in</Left>
+              <Height>0.6cm</Height>
+              <Width>2.4cm</Width>
+              <ZIndex>26</ZIndex>
+              <Visibility>
+                <Hidden>=(Variables!BTVA0.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox26">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!TVA21.Value</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.77853cm</Top>
+              <Left>2.5322cm</Left>
+              <Height>0.6cm</Height>
+              <Width>1.9cm</Width>
+              <ZIndex>27</ZIndex>
+              <Visibility>
+                <Hidden>= (Variables!BTVA21.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="AmountVatExcluded4">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=CDec(Variables!BTVA21.Value)</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.77853cm</Top>
+              <Left>0.2576cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.27cm</Width>
+              <ZIndex>28</ZIndex>
+              <Visibility>
+                <Hidden>=(Variables!BTVA21.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="AmountVatExcluded5">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=CDec(Variables!TVA21.Value)</Value>
+                      <Style>
+                        <FontFamily>Calibri Light</FontFamily>
+                        <Format>#,0.00 '€'</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>2.77853cm</Top>
+              <Left>1.7432in</Left>
+              <Height>0.6cm</Height>
+              <Width>2.4cm</Width>
+              <ZIndex>29</ZIndex>
+              <Visibility>
+                <Hidden>= (Variables!BTVA21.Value &gt; 0) = False</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                </Border>
+                <TopBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </TopBorder>
+                <BottomBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </BottomBorder>
+                <LeftBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </LeftBorder>
+                <RightBorder>
+                  <Color>Silver</Color>
+                  <Style>Solid</Style>
+                  <Width>1pt</Width>
+                </RightBorder>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <InteractiveHeight>29.7cm</InteractiveHeight>
+        <InteractiveWidth>21cm</InteractiveWidth>
+        <LeftMargin>0.5cm</LeftMargin>
+        <RightMargin>0.5cm</RightMargin>
+        <TopMargin>0.5cm</TopMargin>
+        <BottomMargin>0.5cm</BottomMargin>
+        <ColumnSpacing>0.13cm</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="Ref">
+      <DataType>String</DataType>
+      <Prompt>Ref</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Description">
+      <DataType>String</DataType>
+      <Prompt>Description</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="PU">
+      <DataType>String</DataType>
+      <Prompt>PU</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Qt">
+      <DataType>String</DataType>
+      <Prompt>Qt</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Rem">
+      <DataType>String</DataType>
+      <Prompt>Rem</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Date">
+      <DataType>String</DataType>
+      <Prompt>Date</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Client">
+      <DataType>String</DataType>
+      <Prompt>Client</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVAClient">
+      <DataType>String</DataType>
+      <Prompt>TVAClient</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TotalTVAC">
+      <DataType>String</DataType>
+      <Prompt>TotalTVAC</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TotalTVA">
+      <DataType>String</DataType>
+      <Prompt>TotalTVA</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TotalHTVA">
+      <DataType>String</DataType>
+      <Prompt>TotalHTVA</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVA0">
+      <DataType>String</DataType>
+      <Prompt>TVA0</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVA21">
+      <DataType>String</DataType>
+      <Prompt>TVA21</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TitleTVA">
+      <DataType>String</DataType>
+      <Prompt>TitleTVA</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Base">
+      <DataType>String</DataType>
+      <Prompt>Base</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVA">
+      <DataType>String</DataType>
+      <Prompt>TVA</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Taux">
+      <DataType>String</DataType>
+      <Prompt>Taux</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Banque1">
+      <DataType>String</DataType>
+      <Prompt>Banque1</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Banque2">
+      <DataType>String</DataType>
+      <Prompt>Banque2</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="PaymentText">
+      <DataType>String</DataType>
+      <Prompt>PaymentText</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Echeance">
+      <DataType>String</DataType>
+      <Prompt>Echeance</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Information">
+      <DataType>String</DataType>
+      <Prompt>Information</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Facture">
+      <DataType>String</DataType>
+      <Prompt>Facture</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Montant">
+      <DataType>String</DataType>
+      <Prompt>Montant</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVA6">
+      <DataType>String</DataType>
+      <Prompt>TVA6</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVAC">
+      <DataType>String</DataType>
+      <Prompt>TVAC</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVA12">
+      <DataType>String</DataType>
+      <Prompt>TVA12</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVA16">
+      <DataType>String</DataType>
+      <Prompt>TVA16</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVA17">
+      <DataType>String</DataType>
+      <Prompt>TVA17</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVAE">
+      <DataType>String</DataType>
+      <Prompt>TVAE</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TVAX">
+      <DataType>String</DataType>
+      <Prompt>TVAX</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="phone24">
+      <DataType>String</DataType>
+      <Prompt>phone24</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="clavier50">
+      <DataType>String</DataType>
+      <Prompt>clavier50</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="CGV1">
+      <DataType>String</DataType>
+      <Prompt>CGV1</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="CGV2">
+      <DataType>String</DataType>
+      <Prompt>CGV2</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="CGV3">
+      <DataType>String</DataType>
+      <Prompt>CGV3</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Color">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=System.Drawing.Color.FromName("#C0C0C0")</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Color</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="EscCode">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=iif(Parameters!EscCode.Value&lt;&gt;"EscCode",Parameters!EscCode.Value,"ESC")</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>EscCode</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="PhraseTVA6">
+      <DataType>String</DataType>
+      <Prompt>PhraseTVA6</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="PhraseTVA0">
+      <DataType>String</DataType>
+      <Prompt>PhraseTVA0</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="Unit">
+      <DataType>String</DataType>
+      <Prompt>Unit</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="phone241">
+      <DataType>String</DataType>
+      <Prompt>phone241</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="clavier501">
+      <DataType>String</DataType>
+      <Prompt>clavier501</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Color</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="phone24">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAVxJREFUSEvF1LlKBEEUheGOTDQUEzcMFMwFRVQEDTQxcok1FPUNxKdweQPB0MREMFMDNRFTcUEEMTJxX/4zdENN163pmhb0wAdF1b23h+pmkv9ME+awhWM84DWltfY2MYtGRKcTG3jCdyTVrqMDwTRgDS+whsR4xio0qyptOILVdIoVDKA91Y9lnMDqOUQrKunCJaxCWUAo87B65BrdSC7SjZBRhDICqydzjuTO2cj7RAtCacYXrF65RTIGvZz8ofYWUZQlWB+G+jW7kim8ITvUO9HLtR6cp5ozXDl7mqWZVZnGPXaxDXdIDPXs4REzCKYH77CG1PKBXhRmB27jIIYK1hn11kwf8l+FhgwXrDPq1Yxg9uE2lHEAM+OwGuq5ooxmeQn9+tC1uOs8zfIS883H0iwvVqGUuSLxYhVJ6FrctcWLVfQbXvTPZxWWcQMvk9CB1VAPzZjAXyRJfgCISlRz+Y7njgAAAABJRU5ErkJggg==</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="clavier50">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAcBJREFUaEPtmb0uRUEUhQ8alQfwFxFEQvQKhd4LiFqUap37DAoPIAqEBj1PIEqJSu0/opKw1uTunTGZjDOFk9n3ni/5kjtrKfZ2D25G1dLyJ4NwGk65k2HG4Td8cCfDLEIucutOhlmHXOTMnQxzCLnItjsZZQV+wU84ysAaM3AXfkC+Gx1YPPNwE+7BK/gCOby4DwdgsSzAa+gPLT7DU7gKi2YZvkMO/QqP4Q5cg5PQBMPwHnKJAzgCTbIBucQNHGJglRPIRbbcyTB3kIssudM/ww9q/M7JD6QFOSt/081CB5d4grEvtiBnH4P6DJ9LYATOegE5+xEDeZwsLSFMQM7Ov03uBbWKzt/Ti0gWdqXlRLNUGXal5USzVBl2peVEs1QZdqXlRLNYaYn+WESymELTua+PZqkyptB07uujWaqMKTSd+/polipjCk3nvj6axUpL9McikoVd3TxXITcnmqXKsKub5yrk5kSzVBl2dfNchdycaJYqw65unquQmxPNYqUlem+Rt+4LXgtZ49flAy+5eODViqVlOOsl5Oy80qrm4GM3sCgv6PgfLwfvtHjJJY+ZBTkr3wldoqWlpcUKVfUDBGasT+jZv3UAAAAASUVORK5CYII=</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>fr-BE</Language>
+  <CodeModules>
+    <CodeModule>IGSoft.WinPrest.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</CodeModule>
+  </CodeModules>
+  <Variables>
+    <Variable Name="TVA21">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 21,Fields!AmountVat.Value,0)
+)</Value>
+    </Variable>
+    <Variable Name="TVA0">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 0 ,Fields!AmountVat.Value,0)
+)</Value>
+    </Variable>
+    <Variable Name="BTVA21">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 21,
+Fields!AmountVatExcluded.Value,
+0)
+)</Value>
+    </Variable>
+    <Variable Name="BTVA0">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 0 ,
+Fields!AmountVatExcluded.Value,
+0)
+)</Value>
+    </Variable>
+    <Variable Name="BTVA6">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 6 ,
+Fields!AmountVatExcluded.Value,
+0)
+)</Value>
+    </Variable>
+    <Variable Name="TVA6">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 6 ,Fields!AmountVat.Value,0)
+)</Value>
+    </Variable>
+    <Variable Name="TVA12">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 12 ,Fields!AmountVat.Value,0)
+)</Value>
+    </Variable>
+    <Variable Name="TVA16">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 16 ,Fields!AmountVat.Value,0)
+)</Value>
+    </Variable>
+    <Variable Name="TVA17">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 17 ,Fields!AmountVat.Value,0)
+)</Value>
+    </Variable>
+    <Variable Name="BTVA12">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 12 ,
+Fields!AmountVatExcluded.Value,
+0)
+)</Value>
+    </Variable>
+    <Variable Name="BTVA16">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 16 ,
+Fields!AmountVatExcluded.Value,
+0)
+)</Value>
+    </Variable>
+    <Variable Name="BTVA17">
+      <Value>=Sum(
+IIF(Fields!VatRate.Value = 17 ,
+Fields!AmountVatExcluded.Value,
+0)
+)</Value>
+    </Variable>
+    <Variable Name="Couleur">
+      <Value>=Parameters!Color.Value</Value>
+    </Variable>
+    <Variable Name="esc">
+      <Value>=(Sum(iif(Fields!ProductCode.Value="ESC",Fields!AmountVatExcluded.Value,0))*-1)</Value>
+    </Variable>
+    <Variable Name="rt">
+      <Value>=chr(10)+chr(13)</Value>
+    </Variable>
+    <Variable Name="VATCode0">
+      <Value>=iif(First(Fields!AmountRate.Value, "InvoiceLine")=0,First(Fields!VatCode.Value, "InvoiceLine"),"")</Value>
+    </Variable>
+  </Variables>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>3f606aab-cf4c-4f01-939a-30f01de33228</rd:ReportID>
+</Report>

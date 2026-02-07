@@ -1,0 +1,288 @@
+/* ================================================================
+   Layout: sidebar (left) + header (top) + stage (fill)
+   ================================================================ */
+
+.layma-editor {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  grid-template-rows: 48px 1fr;
+  height: 100%;
+  background: #f3f4f6;
+}
+
+/* ── Sidebar ── */
+
+.layma-sidebar {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 52px 0 8px;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+}
+
+.layma-sideBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.layma-sideBtn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.layma-sideBtn.isActive {
+  background: #111827;
+  color: #fff;
+}
+
+.layma-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.layma-iconSm {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Header ── */
+
+.layma-header {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.layma-headerTitle {
+  font-weight: 700;
+  font-size: 14px;
+  color: #111827;
+  margin-right: auto;
+}
+
+.layma-headerActions {
+  display: flex;
+  gap: 6px;
+}
+
+.layma-headerBtn {
+  appearance: none;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.layma-headerBtn:hover {
+  background: #f9fafb;
+}
+
+.layma-hidden {
+  display: none;
+}
+
+/* ── Stage ── */
+
+.layma-stage {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  overflow: auto;
+  padding: 24px;
+}
+
+.layma-page {
+  position: relative;
+  transform-origin: top left;
+  background: #fff;
+  margin: 0 auto;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.06);
+  border-radius: 2px;
+  user-select: none;
+  background-image: linear-gradient(to right, rgba(17, 24, 39, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 24, 39, 0.04) 1px, transparent 1px);
+  background-size: var(--layma-grid-size, 5mm) var(--layma-grid-size, 5mm);
+  background-position: 0 0;
+}
+
+/* ── Element hosts ── */
+
+.layma-elementHost {
+  position: absolute;
+  box-sizing: border-box;
+  /* Editor-only wireframe: visible in editor, not in exported HTML */
+  outline: 1px dashed rgba(148, 163, 184, 0.45);
+  outline-offset: -1px;
+}
+
+.layma-elementHost:hover {
+  outline-color: rgba(59, 130, 246, 0.5);
+}
+
+.layma-elementHost.isSelected {
+  outline: none;
+}
+
+.layma-rect,
+.layma-line {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.layma-text {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  overflow: hidden;
+  word-break: break-word;
+  padding: 1mm;
+  cursor: default;
+}
+
+.layma-text.isEditing {
+  cursor: text;
+  outline: none;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.layma-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.layma-imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 2px;
+}
+
+.layma-imagePlaceholderIcon {
+  width: 32px;
+  height: 32px;
+  color: #9ca3af;
+}
+
+.layma-tablePreview {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.layma-tablePreviewInner {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9pt;
+}
+
+.layma-tablePreviewCell {
+  border: 0.3mm solid #cbd5e1;
+  padding: 1mm;
+  vertical-align: top;
+  color: #111;
+  background: #fff;
+}
+
+.layma-tablePreviewCell--header {
+  font-weight: 700;
+  background: #f3f4f6;
+}
+
+/* ── Selection + handles ── */
+
+.layma-selection {
+  position: absolute;
+  box-sizing: border-box;
+  border: 0.5mm solid rgba(37, 99, 235, 0.6);
+  pointer-events: none;
+}
+
+.layma-handle {
+  position: absolute;
+  width: 4mm;
+  height: 4mm;
+  background: #fff;
+  border: 0.5mm solid rgba(37, 99, 235, 0.9);
+  border-radius: 999px;
+  box-sizing: border-box;
+  pointer-events: all;
+}
+
+.layma-handle--nw {
+  left: -2mm;
+  top: -2mm;
+  cursor: nwse-resize;
+}
+.layma-handle--n {
+  left: calc(50% - 2mm);
+  top: -2mm;
+  cursor: ns-resize;
+}
+.layma-handle--ne {
+  right: -2mm;
+  top: -2mm;
+  cursor: nesw-resize;
+}
+.layma-handle--e {
+  right: -2mm;
+  top: calc(50% - 2mm);
+  cursor: ew-resize;
+}
+.layma-handle--se {
+  right: -2mm;
+  bottom: -2mm;
+  cursor: nwse-resize;
+}
+.layma-handle--s {
+  left: calc(50% - 2mm);
+  bottom: -2mm;
+  cursor: ns-resize;
+}
+.layma-handle--sw {
+  left: -2mm;
+  bottom: -2mm;
+  cursor: nesw-resize;
+}
+.layma-handle--w {
+  left: -2mm;
+  top: calc(50% - 2mm);
+  cursor: ew-resize;
+}
+
+/* Props panel styles are in layma-props.component.css */

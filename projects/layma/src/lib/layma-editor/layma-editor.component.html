@@ -1,0 +1,257 @@
+<div class="layma-editor">
+  <!-- ── Sidebar: drawing tools ── -->
+  <aside class="layma-sidebar" role="toolbar" aria-label="Drawing tools">
+    <button
+      type="button"
+      class="layma-sideBtn"
+      [class.isActive]="tool() === 'select'"
+      (click)="setTool('select')"
+      title="Select (V)"
+    >
+      <svg viewBox="0 0 20 20" fill="currentColor" class="layma-icon">
+        <path d="M4 2l10 8-4.5 1.2L13 17l-2.5 1-3.5-5.8L3 15z" />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      class="layma-sideBtn"
+      [class.isActive]="tool() === 'text'"
+      (click)="setTool('text')"
+      title="Text (T)"
+    >
+      <svg viewBox="0 0 20 20" fill="currentColor" class="layma-icon">
+        <path d="M4 4v3h1.5V5.5h4V15H7.5v1.5h5V15H10.5V5.5h4V7H16V4z" />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      class="layma-sideBtn"
+      [class.isActive]="tool() === 'rect'"
+      (click)="setTool('rect')"
+      title="Rectangle (R)"
+    >
+      <svg
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="layma-icon"
+      >
+        <rect x="3" y="4" width="14" height="12" rx="2" />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      class="layma-sideBtn"
+      [class.isActive]="tool() === 'line'"
+      (click)="setTool('line')"
+      title="Line (L)"
+    >
+      <svg
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="layma-icon"
+      >
+        <line x1="3" y1="17" x2="17" y2="3" />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      class="layma-sideBtn"
+      [class.isActive]="tool() === 'image'"
+      (click)="setTool('image')"
+      title="Image (I)"
+    >
+      <svg
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="layma-icon"
+      >
+        <rect x="3" y="4" width="14" height="12" rx="2" />
+        <circle cx="7.5" cy="8" r="1.5" fill="currentColor" stroke="none" />
+        <polyline points="3,14 7,10 10,13 13,9 17,14" fill="none" />
+      </svg>
+    </button>
+  </aside>
+
+  <!-- ── Header: actions ── -->
+  <header class="layma-header">
+    <span class="layma-headerTitle">Layma</span>
+
+    <div class="layma-headerActions">
+      <button type="button" class="layma-headerBtn" (click)="requestExport()">Export HTML</button>
+      <button type="button" class="layma-headerBtn" (click)="triggerRdlPick()">Import RDL</button>
+    </div>
+
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      multiple
+      class="layma-hidden"
+      (change)="onImageFilePicked()"
+    />
+    <input
+      #rdlInput
+      type="file"
+      accept=".rdl,application/xml,text/xml"
+      class="layma-hidden"
+      (change)="onRdlFilePicked()"
+    />
+  </header>
+
+  <!-- ── Stage: canvas ── -->
+  <div class="layma-stage" (dragover)="onStageDragOver($event)" (drop)="onStageDrop($event)">
+    <div
+      #page
+      class="layma-page"
+      [ngStyle]="pageStyle()"
+      [style.--layma-grid-size]="gridSizeMm() + 'mm'"
+      (pointerdown)="onPagePointerDown($event)"
+    >
+      @for (el of elements(); track el.id; let idx = $index) {
+      <div
+        class="layma-elementHost"
+        [class.isSelected]="el.id === selectedElementId()"
+        [ngClass]="elementClass(el)"
+        [ngStyle]="elementStyle(el, idx)"
+        (pointerdown)="onElementPointerDown($event, el.id)"
+      >
+        @switch (el.type) { @case ('text') {
+        <div
+          class="layma-text"
+          [class.isEditing]="editingTextId() === el.id"
+          [attr.contenteditable]="editingTextId() === el.id ? 'plaintext-only' : null"
+          [ngStyle]="{
+            fontFamily: el.fontFamily,
+            fontSize: el.fontSizePt + 'pt',
+            color: el.color,
+            textAlign: el.align
+          }"
+          (dblclick)="onTextDblClick($event, el.id)"
+          (blur)="onTextBlur($event, el.id)"
+          (keydown)="onTextKeyDown($event)"
+        >
+          {{ el.text }}
+        </div>
+        } @case ('rect') {
+        <div
+          class="layma-rect"
+          [ngStyle]="{
+            background: el.fillColor,
+            borderColor: el.borderColor,
+            borderWidth: el.borderWidthMm + 'mm',
+            borderStyle: 'solid',
+            borderRadius: el.borderRadiusMm + 'mm'
+          }"
+        ></div>
+        } @case ('line') {
+        <div class="layma-line" [ngStyle]="{ background: el.color }"></div>
+        } @case ('image') { @if (isImageBroken(el.id)) {
+        <div class="layma-imagePlaceholder">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            class="layma-imagePlaceholderIcon"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="3" />
+            <line x1="3" y1="3" x2="21" y2="21" />
+          </svg>
+        </div>
+        } @else {
+        <img
+          class="layma-image"
+          [src]="el.dataUri"
+          [style.objectFit]="el.objectFit"
+          [style.opacity]="el.opacity"
+          alt=""
+          (error)="onImageError(el.id)"
+        />
+        } } @case ('table') {
+        <div class="layma-tablePreview">
+          <table class="layma-tablePreviewInner" cellspacing="0" cellpadding="0">
+            <colgroup>
+              @for (c of el.columns; track $index) {
+              <col [style.width]="c.widthMm + 'mm'" />
+              }
+            </colgroup>
+            <thead>
+              <tr>
+                @for (c of el.header; track $index) {
+                <th class="layma-tablePreviewCell layma-tablePreviewCell--header">{{ c.text }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                @for (c of el.rowTemplate; track $index) {
+                <td class="layma-tablePreviewCell">{{ c.text }}</td>
+                }
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        } }
+      </div>
+      } @if (selectionStyle(); as s) {
+      <div class="layma-selection" [ngStyle]="s" aria-hidden="true">
+        <div
+          class="layma-handle layma-handle--nw"
+          (pointerdown)="onResizeHandlePointerDown($event, 'nw')"
+        ></div>
+        <div
+          class="layma-handle layma-handle--n"
+          (pointerdown)="onResizeHandlePointerDown($event, 'n')"
+        ></div>
+        <div
+          class="layma-handle layma-handle--ne"
+          (pointerdown)="onResizeHandlePointerDown($event, 'ne')"
+        ></div>
+        <div
+          class="layma-handle layma-handle--e"
+          (pointerdown)="onResizeHandlePointerDown($event, 'e')"
+        ></div>
+        <div
+          class="layma-handle layma-handle--se"
+          (pointerdown)="onResizeHandlePointerDown($event, 'se')"
+        ></div>
+        <div
+          class="layma-handle layma-handle--s"
+          (pointerdown)="onResizeHandlePointerDown($event, 's')"
+        ></div>
+        <div
+          class="layma-handle layma-handle--sw"
+          (pointerdown)="onResizeHandlePointerDown($event, 'sw')"
+        ></div>
+        <div
+          class="layma-handle layma-handle--w"
+          (pointerdown)="onResizeHandlePointerDown($event, 'w')"
+        ></div>
+      </div>
+      }
+    </div>
+
+    <!-- ── Properties panel (sticky, right side) ── -->
+    @if (selectedElement(); as sel) {
+    <layma-props
+      [element]="sel"
+      (propChange)="onPropsChange($event)"
+      (close)="clearSelection()"
+      (deleteElement)="deleteSelected()"
+      (reorder)="onPropsReorder($event)"
+      (replaceImage)="replaceSelectedImage()"
+      (imageFitChange)="setSelectedImageObjectFit($event)"
+    />
+    }
+  </div>
+</div>

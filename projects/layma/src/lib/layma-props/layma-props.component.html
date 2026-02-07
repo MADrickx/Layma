@@ -1,0 +1,290 @@
+<div class="layma-props">
+  <div class="layma-propsHeader">
+    <span class="layma-propsType">{{ element().type }}</span>
+    <button type="button" class="layma-propsClose" (click)="close.emit()" title="Close">
+      &times;
+    </button>
+  </div>
+
+  <!-- Position & Size -->
+  <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">Position</h4>
+    <div class="layma-propsGrid">
+      <label class="layma-propsLabel"
+        >X
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="element().xMm"
+          step="1"
+          (change)="onPropChange('xMm', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >Y
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="element().yMm"
+          step="1"
+          (change)="onPropChange('yMm', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >W
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="element().widthMm"
+          step="1"
+          min="1"
+          (change)="onPropChange('widthMm', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >H
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="element().heightMm"
+          step="1"
+          min="1"
+          (change)="onPropChange('heightMm', $event)"
+        />
+      </label>
+    </div>
+  </section>
+
+  <!-- Layer -->
+  <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">Layer</h4>
+    <div class="layma-propsRow">
+      <button type="button" class="layma-propsBtnSm" (click)="reorder.emit('back')" title="To back">
+        <svg viewBox="0 0 16 16" fill="currentColor" class="layma-iconSm">
+          <path d="M2 12h12v2H2zM4 8h8v2H4zM6 4h4v2H6z" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="layma-propsBtnSm"
+        (click)="reorder.emit('backward')"
+        title="Backward"
+      >
+        <svg viewBox="0 0 16 16" fill="currentColor" class="layma-iconSm">
+          <path d="M3 10h10v2H3zM5 6h6v2H5z" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="layma-propsBtnSm"
+        (click)="reorder.emit('forward')"
+        title="Forward"
+      >
+        <svg viewBox="0 0 16 16" fill="currentColor" class="layma-iconSm">
+          <path d="M5 8h6v2H5zM3 4h10v2H3z" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="layma-propsBtnSm"
+        (click)="reorder.emit('front')"
+        title="To front"
+      >
+        <svg viewBox="0 0 16 16" fill="currentColor" class="layma-iconSm">
+          <path d="M6 10h4v2H6zM4 6h8v2H4zM2 2h12v2H2z" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Text -->
+  @if (asText(); as t) {
+  <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">Text</h4>
+    <label class="layma-propsLabelBlock"
+      >Font
+      <input
+        type="text"
+        class="layma-propsInput layma-propsInputWide"
+        [value]="t.fontFamily"
+        (change)="onPropChange('fontFamily', $event)"
+      />
+    </label>
+    <div class="layma-propsGrid">
+      <label class="layma-propsLabel"
+        >Size
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="t.fontSizePt"
+          step="1"
+          min="1"
+          (change)="onPropChange('fontSizePt', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >Color
+        <input
+          type="color"
+          class="layma-propsColor"
+          [value]="t.color"
+          (change)="onPropChange('color', $event)"
+        />
+      </label>
+    </div>
+    <label class="layma-propsLabelBlock"
+      >Align
+      <select class="layma-propsSelect" [value]="t.align" (change)="onPropChange('align', $event)">
+        <option value="left">Left</option>
+        <option value="center">Center</option>
+        <option value="right">Right</option>
+      </select>
+    </label>
+  </section>
+  }
+
+  <!-- Rect -->
+  @if (asRect(); as r) {
+  <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">Style</h4>
+    <div class="layma-propsGrid">
+      <label class="layma-propsLabel"
+        >Fill
+        <input
+          type="color"
+          class="layma-propsColor"
+          [value]="r.fillColor === 'transparent' ? '#ffffff' : r.fillColor"
+          (change)="onPropChange('fillColor', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >Border
+        <input
+          type="color"
+          class="layma-propsColor"
+          [value]="r.borderColor"
+          (change)="onPropChange('borderColor', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >Width
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="r.borderWidthMm"
+          step="0.1"
+          min="0"
+          (change)="onPropChange('borderWidthMm', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >Radius
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="r.borderRadiusMm"
+          step="0.5"
+          min="0"
+          (change)="onPropChange('borderRadiusMm', $event)"
+        />
+      </label>
+    </div>
+  </section>
+  }
+
+  <!-- Line -->
+  @if (asLine(); as l) {
+  <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">Style</h4>
+    <label class="layma-propsLabelBlock"
+      >Color
+      <input
+        type="color"
+        class="layma-propsColor"
+        [value]="l.color"
+        (change)="onPropChange('color', $event)"
+      />
+    </label>
+  </section>
+  }
+
+  <!-- Image -->
+  @if (asImage(); as img) {
+  <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">Image</h4>
+    <label class="layma-propsLabelBlock"
+      >Fit
+      <select class="layma-propsSelect" [value]="img.objectFit" (change)="onImageFitChange($event)">
+        <option value="contain">Contain</option>
+        <option value="cover">Cover</option>
+        <option value="fill">Fill</option>
+        <option value="none">None</option>
+      </select>
+    </label>
+    <div class="layma-propsGrid" style="margin-top: 6px">
+      <label class="layma-propsLabel"
+        >Opacity
+        <input
+          type="range"
+          class="layma-propsRange"
+          min="0"
+          max="1"
+          step="0.05"
+          [value]="img.opacity"
+          (input)="onPropChange('opacity', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel"
+        >Radius
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="img.borderRadiusMm"
+          step="0.5"
+          min="0"
+          (change)="onPropChange('borderRadiusMm', $event)"
+        />
+      </label>
+    </div>
+    <label class="layma-propsCheckboxLabel" style="margin-top: 6px">
+      <input
+        type="checkbox"
+        [checked]="img.aspectRatioLocked"
+        (change)="onPropCheckboxChange('aspectRatioLocked', $event)"
+      />
+      Lock aspect ratio
+    </label>
+    <button
+      type="button"
+      class="layma-propsBtn"
+      style="margin-top: 6px"
+      (click)="replaceImage.emit()"
+    >
+      Replace image
+    </button>
+  </section>
+  }
+
+  <!-- Table -->
+  @if (asTable(); as tbl) {
+  <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">Table</h4>
+    <label class="layma-propsLabelBlock"
+      >Border
+      <input
+        type="color"
+        class="layma-propsColor"
+        [value]="tbl.borderColor"
+        (change)="onPropChange('borderColor', $event)"
+      />
+    </label>
+  </section>
+  }
+
+  <!-- Delete -->
+  <section class="layma-propsSection">
+    <button type="button" class="layma-propsDeleteBtn" (click)="deleteElement.emit()">
+      Delete element
+    </button>
+  </section>
+</div>
