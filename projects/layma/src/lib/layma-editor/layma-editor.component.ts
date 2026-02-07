@@ -82,13 +82,53 @@ type DragState = DragStateNone | DragStateMove | DragStateResize | DragStateCrea
 export class LaymaEditorComponent {
   private readonly destroyRef = inject(DestroyRef);
 
+  // ── Inputs ──
+
+  /**
+   * The document model driving the editor.
+   * Contains the page dimensions and the full list of elements (text, rect, line, image, table).
+   * Bind two-way with `(documentChange)` to keep the host in sync.
+   * If not provided, starts with an empty A4 portrait document.
+   */
   readonly document = input<LaymaDocument>(createEmptyDocument());
+
+  /**
+   * CSS scale factor applied to the A4 page surface.
+   * `1` = actual mm-based size; `0.5` = half size; `2` = double.
+   * Interactions (drag, resize, snap) compensate for zoom automatically.
+   */
   readonly zoom = input<number>(1);
+
+  /**
+   * Grid cell size in millimeters.
+   * Controls both the visible dot grid and the snapping increment.
+   * Typical values: 1, 2.5, 5.
+   */
   readonly gridSizeMm = input<number>(5);
+
+  /**
+   * When `true`, element positions and sizes snap to the nearest `gridSizeMm` multiple
+   * during drag, resize, create, and arrow-key nudge.
+   */
   readonly snapEnabled = input<boolean>(true);
 
+  // ── Outputs ──
+
+  /**
+   * Emitted every time the document model changes (element added, moved, resized, deleted, property edited, etc.).
+   * Bind to this to keep a parent-owned signal / store in sync:
+   * `(documentChange)="myDoc.set($event)"`
+   */
   readonly documentChange = output<LaymaDocument>();
+
+  /**
+   * Emitted when the user clicks "Export HTML".
+   * Contains the full self-contained HTML string (with `<style>` in head and base64 images inline).
+   * Useful if the host wants to post-process or upload the HTML instead of just downloading it.
+   */
   readonly exportHtml = output<string>();
+
+  // ── View children (internal template refs) ──
 
   readonly pageEl = viewChild.required<ElementRef<HTMLElement>>('page');
   readonly fileInputEl = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');
@@ -666,10 +706,6 @@ export class LaymaEditorComponent {
     this.setSelectedImageObjectFit(value);
   }
 
-  /**
-   * Generic property change handler for the properties panel.
-   * Reads the value from the event target (input/select) and patches the selected element.
-   */
   /** Handle property changes emitted by the LaymaPropsComponent. */
   onPropsChange(event: LaymaPropsEvent): void {
     const selectedId = this.selectedElementId();
