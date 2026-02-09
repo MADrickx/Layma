@@ -80,11 +80,40 @@
         <polyline points="3,14 7,10 10,13 13,9 17,14" fill="none" />
       </svg>
     </button>
+
+    <button
+      type="button"
+      class="layma-sideBtn"
+      [class.isActive]="tool() === 'table'"
+      (click)="setTool('table')"
+      title="Table (B)"
+    >
+      <svg
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="layma-icon"
+      >
+        <rect x="3" y="4" width="14" height="12" rx="1" />
+        <line x1="3" y1="8" x2="17" y2="8" />
+        <line x1="3" y1="12" x2="17" y2="12" />
+        <line x1="9" y1="4" x2="9" y2="16" />
+      </svg>
+    </button>
   </aside>
 
   <!-- ── Header: actions ── -->
   <header class="layma-header">
     <span class="layma-headerTitle">Layma</span>
+    <span
+      class="layma-sectionChip"
+      [class.isHeader]="activeSection() === 'header'"
+      [class.isBody]="activeSection() === 'body'"
+      [class.isFooter]="activeSection() === 'footer'"
+    >
+      Editing: {{ activeSection() }}
+    </span>
 
     <div class="layma-headerActions">
       <button type="button" class="layma-headerBtn" (click)="requestExport()">Export HTML</button>
@@ -122,10 +151,35 @@
       [style.--layma-grid-size]="gridSizeMm() + 'mm'"
       (pointerdown)="onPagePointerDown($event)"
     >
+      <div
+        class="layma-zone layma-zone--header"
+        [class.isActive]="activeSection() === 'header'"
+        [ngStyle]="headerZoneStyle()"
+        (dblclick)="onZoneDblClick($event, 'header')"
+      >
+        <span class="layma-zoneLabel">Header</span>
+      </div>
+      <div
+        class="layma-zone layma-zone--body"
+        [class.isActive]="activeSection() === 'body'"
+        [ngStyle]="bodyZoneStyle()"
+        (dblclick)="onZoneDblClick($event, 'body')"
+      >
+        <span class="layma-zoneLabel">Body</span>
+      </div>
+      <div
+        class="layma-zone layma-zone--footer"
+        [class.isActive]="activeSection() === 'footer'"
+        [ngStyle]="footerZoneStyle()"
+        (dblclick)="onZoneDblClick($event, 'footer')"
+      >
+        <span class="layma-zoneLabel">Footer</span>
+      </div>
       @for (el of elements(); track el.id; let idx = $index) {
       <div
         class="layma-elementHost"
         [class.isSelected]="isElementSelected(el.id)"
+        [class.isInactiveSection]="el.section !== activeSection()"
         [ngClass]="elementClass(el)"
         [ngStyle]="elementStyle(el, idx)"
         (pointerdown)="onElementPointerDown($event, el.id)"

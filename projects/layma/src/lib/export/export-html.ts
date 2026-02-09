@@ -59,6 +59,11 @@ function elementInlineStyleMm(el: LaymaElement, zIndex: number): string {
 
 function tableHtml(el: LaymaTableElement, zIndex: number): string {
   const style = escapeHtmlAttr(elementInlineStyleMm(el, zIndex));
+  // Repeat marker: external pipeline should duplicate the template row per dataset item.
+  const repeatOpen = el.tableDataset
+    ? `<layma-repeat dataset="${escapeHtmlAttr(el.tableDataset)}">`
+    : '';
+  const repeatClose = el.tableDataset ? `</layma-repeat>` : '';
 
   const colgroup = el.columns
     .map((c) => `<col style="width:${escapeHtmlAttr(`${c.widthMm}mm`)}" />`)
@@ -78,7 +83,7 @@ function tableHtml(el: LaymaTableElement, zIndex: number): string {
     `<colgroup>${colgroup}</colgroup>`,
     `<thead><tr>${headerCells}</tr></thead>`,
     `<tbody>`,
-    `<tr class="layma-tableTemplate">${rowCells}</tr>`,
+    `${repeatOpen}<tr class="layma-tableTemplate">${rowCells}</tr>${repeatClose}`,
     `</tbody>`,
     `</table>`,
     `</div>`,
@@ -111,6 +116,8 @@ function elementHtml(el: LaymaElement, zIndex: number): string {
 }
 
 export function exportDocumentToHtml(doc: LaymaDocument): string {
+  // Repeat contract: any <layma-repeat dataset="X"> wrapper marks a template row
+  // that the external pipeline should duplicate for each item in dataset X.
   const { widthMm, heightMm } = doc.page;
   const elementsHtml = doc.elements.map((el, idx) => elementHtml(el, idx)).join('\n');
 

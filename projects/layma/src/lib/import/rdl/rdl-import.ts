@@ -3,6 +3,7 @@ import {
   type LaymaElement,
   type LaymaImageElement,
   type LaymaLineElement,
+  type LaymaSection,
   type LaymaTableCell,
   type LaymaTableColumn,
   type LaymaTableElement,
@@ -186,7 +187,8 @@ function resolveEmbeddedImageDataUri(
 function importTextbox(
   textboxEl: Element,
   offsetMm: { xMm: number; yMm: number },
-  datasetHint: string
+  datasetHint: string,
+  section: LaymaSection
 ): LaymaTextElement | null {
   const box = parsePositionBoxMm(textboxEl);
   if (!box) return null;
@@ -212,6 +214,7 @@ function importTextbox(
   return {
     id: createLaymaElementId(),
     type: 'text',
+    section,
     xMm: offsetMm.xMm + box.xMm,
     yMm: offsetMm.yMm + box.yMm,
     widthMm: box.widthMm,
@@ -227,7 +230,8 @@ function importTextbox(
 
 function importLine(
   lineEl: Element,
-  offsetMm: { xMm: number; yMm: number }
+  offsetMm: { xMm: number; yMm: number },
+  section: LaymaSection
 ): LaymaLineElement | null {
   const box = parsePositionBoxMm(lineEl);
   if (!box) return null;
@@ -237,6 +241,7 @@ function importLine(
   return {
     id: createLaymaElementId(),
     type: 'line',
+    section,
     xMm: offsetMm.xMm + box.xMm,
     yMm: offsetMm.yMm + box.yMm,
     widthMm: box.widthMm,
@@ -249,7 +254,8 @@ function importImage(
   imgEl: Element,
   offsetMm: { xMm: number; yMm: number },
   embedded: Map<string, string>,
-  datasetHint: string
+  datasetHint: string,
+  section: LaymaSection
 ): LaymaImageElement | null {
   const box = parsePositionBoxMm(imgEl);
   if (!box) return null;
@@ -276,6 +282,7 @@ function importImage(
   return {
     id: createLaymaElementId(),
     type: 'image',
+    section,
     xMm: offsetMm.xMm + box.xMm,
     yMm: offsetMm.yMm + box.yMm,
     widthMm: box.widthMm,
@@ -291,7 +298,8 @@ function importImage(
 function importTablixAsTable(
   tablixEl: Element,
   offsetMm: { xMm: number; yMm: number },
-  datasetHint: string
+  datasetHint: string,
+  section: LaymaSection
 ): LaymaTableElement | null {
   const box = parsePositionBoxMm(tablixEl);
   if (!box) return null;
@@ -328,6 +336,7 @@ function importTablixAsTable(
   return {
     id: createLaymaElementId(),
     type: 'table',
+    section,
     xMm: offsetMm.xMm + box.xMm,
     yMm: offsetMm.yMm + box.yMm,
     widthMm: box.widthMm,
@@ -395,6 +404,8 @@ export function importRdlToLaymaDocument(xmlText: string): LaymaDocument {
   if (!sectionEl) {
     return {
       page: { widthMm: 210, heightMm: 297 },
+      headerHeightMm: 25,
+      footerHeightMm: 25,
       elements: [],
     };
   }
@@ -417,20 +428,20 @@ export function importRdlToLaymaDocument(xmlText: string): LaymaDocument {
   const headerItems = headerEl ? reportItemsElement(sectionEl, 'PageHeader') : null;
   if (headerItems) {
     const offsetMm = { xMm: leftMarginMm, yMm: topMarginMm };
-    elements.push(...importReportItems(headerItems, offsetMm, embedded, 'InvoiceHeader'));
+    elements.push(...importReportItems(headerItems, offsetMm, embedded, 'InvoiceHeader', 'header'));
   }
 
   const bodyItems = bodyEl ? reportItemsElement(sectionEl, 'Body') : null;
   if (bodyItems) {
     const offsetMm = { xMm: leftMarginMm, yMm: topMarginMm + headerHeightMm };
-    elements.push(...importReportItems(bodyItems, offsetMm, embedded, 'InvoiceLine'));
+    elements.push(...importReportItems(bodyItems, offsetMm, embedded, 'InvoiceLine', 'body'));
   }
 
   const footerItems = footerEl ? reportItemsElement(sectionEl, 'PageFooter') : null;
   if (footerItems) {
     const yBase = pageHeightMm - bottomMarginMm - footerHeightMm;
     const offsetMm = { xMm: leftMarginMm, yMm: yBase };
-    elements.push(...importReportItems(footerItems, offsetMm, embedded, 'InvoiceFooter'));
+    elements.push(...importReportItems(footerItems, offsetMm, embedded, 'InvoiceFooter', 'footer'));
   }
 
   const cleanPageWidthMm = Number.isFinite(pageWidthMm) ? pageWidthMm : 210;
@@ -441,6 +452,8 @@ export function importRdlToLaymaDocument(xmlText: string): LaymaDocument {
       widthMm: cleanPageWidthMm,
       heightMm: cleanPageHeightMm,
     },
+    headerHeightMm: headerHeightMm > 0 ? headerHeightMm : 25,
+    footerHeightMm: footerHeightMm > 0 ? footerHeightMm : 25,
     elements,
   };
 }
@@ -449,27 +462,28 @@ function importReportItems(
   reportItemsEl: Element,
   offsetMm: { xMm: number; yMm: number },
   embedded: Map<string, string>,
-  datasetHint: string
+  datasetHint: string,
+  section: LaymaSection
 ): LaymaElement[] {
   const out: LaymaElement[] = [];
   for (const child of Array.from(reportItemsEl.children)) {
     if (child.localName === 'Textbox') {
-      const el = importTextbox(child, offsetMm, datasetHint);
+      const el = importTextbox(child, offsetMm, datasetHint, section);
       if (el) out.push(el);
       continue;
     }
     if (child.localName === 'Image') {
-      const el = importImage(child, offsetMm, embedded, datasetHint);
+      const el = importImage(child, offsetMm, embedded, datasetHint, section);
       if (el) out.push(el);
       continue;
     }
     if (child.localName === 'Line') {
-      const el = importLine(child, offsetMm);
+      const el = importLine(child, offsetMm, section);
       if (el) out.push(el);
       continue;
     }
     if (child.localName === 'Tablix') {
-      const el = importTablixAsTable(child, offsetMm, datasetHint);
+      const el = importTablixAsTable(child, offsetMm, datasetHint, section);
       if (el) out.push(el);
       continue;
     }

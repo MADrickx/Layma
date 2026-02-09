@@ -2,6 +2,8 @@ export type LaymaElementType = 'text' | 'rect' | 'line' | 'image' | 'table';
 
 export type LaymaElementId = string;
 
+export type LaymaSection = 'header' | 'body' | 'footer';
+
 export interface LaymaPage {
   /**
    * Use millimeters for stable export to A4/PDF.
@@ -13,12 +15,17 @@ export interface LaymaPage {
 
 export interface LaymaDocument {
   readonly page: LaymaPage;
+  /** Header height in mm, measured from top. */
+  readonly headerHeightMm: number;
+  /** Footer height in mm, measured from bottom. */
+  readonly footerHeightMm: number;
   readonly elements: readonly LaymaElement[];
 }
 
 export interface LaymaElementBase {
   readonly id: LaymaElementId;
   readonly type: LaymaElementType;
+  readonly section: LaymaSection;
   /** Top-left position in mm relative to page origin. */
   readonly xMm: number;
   readonly yMm: number;
@@ -76,6 +83,8 @@ export interface LaymaTableElement extends LaymaElementBase {
   readonly columns: readonly LaymaTableColumn[];
   readonly header: readonly LaymaTableCell[];
   readonly rowTemplate: readonly LaymaTableCell[];
+  /** Optional dataset binding for the template row. */
+  readonly tableDataset?: string;
   readonly borderColor: string;
   readonly borderWidthMm: number;
   readonly headerBackground: string;
@@ -93,6 +102,8 @@ export const A4_PORTRAIT_PAGE: LaymaPage = Object.freeze({ widthMm: 210, heightM
 export function createEmptyDocument(): LaymaDocument {
   return {
     page: A4_PORTRAIT_PAGE,
+    headerHeightMm: 25,
+    footerHeightMm: 25,
     elements: [],
   };
 }
@@ -114,6 +125,7 @@ export function createDefaultTextElement(boxMm: {
   return {
     id: createLaymaElementId(),
     type: 'text',
+    section: 'body',
     ...normalized,
     text: 'Text',
     fontFamily: 'Arial, Helvetica, sans-serif',
@@ -134,6 +146,7 @@ export function createDefaultRectElement(boxMm: {
   return {
     id: createLaymaElementId(),
     type: 'rect',
+    section: 'body',
     ...normalized,
     fillColor: 'transparent',
     borderColor: '#111',
@@ -156,6 +169,7 @@ export function createDefaultLineElement(boxMm: {
   return {
     id: createLaymaElementId(),
     type: 'line',
+    section: 'body',
     xMm: normalized.xMm,
     yMm: normalized.yMm,
     widthMm,
@@ -177,6 +191,7 @@ export function createDefaultImageElement(
   return {
     id: createLaymaElementId(),
     type: 'image',
+    section: 'body',
     ...normalized,
     dataUri,
     objectFit: 'contain',
@@ -196,6 +211,7 @@ export function createDefaultTableElement(boxMm: {
   return {
     id: createLaymaElementId(),
     type: 'table',
+    section: 'body',
     ...normalized,
     columns: [
       { widthMm: normalized.widthMm * 0.3, align: 'left' },

@@ -20,10 +20,12 @@ import {
   type LaymaElement,
   type LaymaElementId,
   type LaymaImageElement,
+  type LaymaSection,
   createDefaultLineElement,
   createDefaultImageElement,
   createDefaultRectElement,
   createDefaultTextElement,
+  createDefaultTableElement,
   createEmptyDocument,
   normalizeBoxMm,
 } from '../model/model';
@@ -35,7 +37,7 @@ import { readFileAsDataUri } from '../images/image-import';
 import { exportDocumentToHtml } from '../export/export-html';
 import { importRdlToLaymaDocument } from '../import/rdl/rdl-import';
 
-type LaymaTool = 'select' | 'text' | 'rect' | 'line' | 'image';
+type LaymaTool = 'select' | 'text' | 'rect' | 'line' | 'image' | 'table';
 type ResizeHandle = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 
 interface DragStateNone {
@@ -164,6 +166,7 @@ export class LaymaEditorComponent {
   readonly brokenImageIds = signal<ReadonlySet<LaymaElementId>>(new Set());
   readonly editingTextId = signal<LaymaElementId | null>(null);
   readonly marqueeEndMm = signal<{ readonly xMm: number; readonly yMm: number } | null>(null);
+  readonly activeSection = signal<LaymaSection>('body');
   private replaceMode = false;
 
   private latestPointerEvent: PointerEvent | null = null;
@@ -171,6 +174,75 @@ export class LaymaEditorComponent {
   private isDragging = false;
 
   readonly elements = computed(() => this.documentState().elements);
+
+  readonly sectionHeights = computed(() => {
+    const doc = this.documentState();
+    const pageH = doc.page?.heightMm ?? A4_PORTRAIT_PAGE.heightMm;
+    const header = Math.max(0, Math.min(pageH, doc.headerHeightMm ?? 0));
+    const footer = Math.max(0, Math.min(pageH - header, doc.footerHeightMm ?? 0));
+    const body = Math.max(0, pageH - header - footer);
+    return {
+      headerHeightMm: header,
+      footerHeightMm: footer,
+      bodyHeightMm: body,
+      pageHeightMm: pageH,
+    };
+  });
+
+  private sectionBoundsMm(section: LaymaSection): { topMm: number; bottomMm: number } {
+    const { headerHeightMm, footerHeightMm, pageHeightMm } = this.sectionHeights();
+    if (section === 'header') return { topMm: 0, bottomMm: headerHeightMm };
+    if (section === 'footer')
+      return { topMm: pageHeightMm - footerHeightMm, bottomMm: pageHeightMm };
+    return { topMm: headerHeightMm, bottomMm: pageHeightMm - footerHeightMm };
+  }
+
+  private isPointerInActiveSection(pointerMm: { xMm: number; yMm: number }): boolean {
+    const b = this.sectionBoundsMm(this.activeSection());
+    return pointerMm.yMm >= b.topMm && pointerMm.yMm <= b.bottomMm;
+  }
+
+  setActiveSection(section: LaymaSection): void {
+    this.activeSection.set(section);
+    this.clearSelection();
+    this.dragState.set({ kind: 'none' });
+  }
+
+  onZoneDblClick(event: MouseEvent, section: LaymaSection): void {
+    event.stopPropagation();
+    this.setActiveSection(section);
+  }
+
+  readonly headerZoneStyle = computed(() => {
+    const doc = this.documentState();
+    const page = doc.page ?? A4_PORTRAIT_PAGE;
+    const { headerHeightMm } = this.sectionHeights();
+    return { left: '0mm', top: '0mm', width: `${page.widthMm}mm`, height: `${headerHeightMm}mm` };
+  });
+
+  readonly bodyZoneStyle = computed(() => {
+    const doc = this.documentState();
+    const page = doc.page ?? A4_PORTRAIT_PAGE;
+    const { headerHeightMm, bodyHeightMm } = this.sectionHeights();
+    return {
+      left: '0mm',
+      top: `${headerHeightMm}mm`,
+      width: `${page.widthMm}mm`,
+      height: `${bodyHeightMm}mm`,
+    };
+  });
+
+  readonly footerZoneStyle = computed(() => {
+    const doc = this.documentState();
+    const page = doc.page ?? A4_PORTRAIT_PAGE;
+    const { footerHeightMm, pageHeightMm } = this.sectionHeights();
+    return {
+      left: '0mm',
+      top: `${pageHeightMm - footerHeightMm}mm`,
+      width: `${page.widthMm}mm`,
+      height: `${footerHeightMm}mm`,
+    };
+  });
 
   /** All selected elements. */
   readonly selectedElements = computed((): readonly LaymaElement[] => {
@@ -408,6 +480,7 @@ export class LaymaEditorComponent {
     this.selectedElementIds.set(new Set());
     this.tool.set('select');
     this.applyDocument({ ...imported, elements: snappedElements });
+    this.activeSection.set('body');
   }
 
   async onImageFilePicked(): Promise<void> {
@@ -444,14 +517,16 @@ export class LaymaEditorComponent {
     // Multiple images: create them stacked with a small offset.
     const doc = this.documentState();
     const newElements: LaymaElement[] = [];
+    const section = this.activeSection();
+    const { topMm } = this.sectionBoundsMm(section);
     for (let i = 0; i < imageFiles.length; i++) {
       const dataUri = await readFileAsDataUri(imageFiles[i]);
       const offsetMm = i * 5;
       const el = createDefaultImageElement(
-        { xMm: 10 + offsetMm, yMm: 10 + offsetMm, widthMm: 60, heightMm: 40 },
+        { xMm: 10 + offsetMm, yMm: topMm + 10 + offsetMm, widthMm: 60, heightMm: 40 },
         dataUri
       );
-      newElements.push(el);
+      newElements.push({ ...el, section });
     }
     this.applyDocument({ ...doc, elements: [...doc.elements, ...newElements] });
     if (newElements.length > 0) {
@@ -508,13 +583,18 @@ export class LaymaEditorComponent {
     const dropMm = this.clientToPageMm(event.clientX, event.clientY);
     const doc = this.documentState();
     const newElements: LaymaElement[] = [];
+    const section = this.activeSection();
+    const { topMm } = this.sectionBoundsMm(section);
+
+    if (dropMm && !this.isPointerInActiveSection(dropMm)) return;
 
     for (let i = 0; i < imageFiles.length; i++) {
       const dataUri = await readFileAsDataUri(imageFiles[i]);
       const offsetMm = i * 5;
       const xMm = dropMm ? dropMm.xMm + offsetMm : 10 + offsetMm;
-      const yMm = dropMm ? dropMm.yMm + offsetMm : 10 + offsetMm;
-      newElements.push(createDefaultImageElement({ xMm, yMm, widthMm: 60, heightMm: 40 }, dataUri));
+      const yMm = dropMm ? dropMm.yMm + offsetMm : topMm + 10 + offsetMm;
+      const el = createDefaultImageElement({ xMm, yMm, widthMm: 60, heightMm: 40 }, dataUri);
+      newElements.push({ ...el, section });
     }
 
     this.applyDocument({ ...doc, elements: [...doc.elements, ...newElements] });
@@ -536,6 +616,10 @@ export class LaymaEditorComponent {
         this.clearSelection();
         return;
       }
+      if (!this.isPointerInActiveSection(startPointerMm)) {
+        this.clearSelection();
+        return;
+      }
       this.clearSelection();
       this.marqueeEndMm.set(startPointerMm);
       this.dragState.set({ kind: 'marquee', startPointerMm });
@@ -546,6 +630,7 @@ export class LaymaEditorComponent {
     // Creation starts on page background.
     const startPointerMm = this.pointerToPageMm(event);
     if (!startPointerMm) return;
+    if (!this.isPointerInActiveSection(startPointerMm)) return;
 
     const elementId = this.createElementForTool(tool, startPointerMm);
     if (!elementId) return;
@@ -713,11 +798,12 @@ export class LaymaEditorComponent {
     if (tool === 'select') return null;
 
     const seedBox = { xMm: startPointerMm.xMm, yMm: startPointerMm.yMm, widthMm: 1, heightMm: 1 };
+    const section = this.activeSection();
 
     if (tool === 'image') {
       // Create with a placeholder; the real image is picked after the draw-to-size drag.
       const dataUri = this.pendingImageDataUri() ?? '';
-      const el = createDefaultImageElement(seedBox, dataUri);
+      const el = { ...createDefaultImageElement(seedBox, dataUri), section };
       this.applyDocument({
         ...this.documentState(),
         elements: [...this.documentState().elements, el],
@@ -727,10 +813,12 @@ export class LaymaEditorComponent {
 
     const el =
       tool === 'text'
-        ? createDefaultTextElement({ ...seedBox, widthMm: 40, heightMm: 10 })
+        ? { ...createDefaultTextElement({ ...seedBox, widthMm: 40, heightMm: 10 }), section }
         : tool === 'rect'
-        ? createDefaultRectElement({ ...seedBox, widthMm: 40, heightMm: 25 })
-        : createDefaultLineElement({ ...seedBox, widthMm: 60, heightMm: 0.6 });
+        ? { ...createDefaultRectElement({ ...seedBox, widthMm: 40, heightMm: 25 }), section }
+        : tool === 'line'
+        ? { ...createDefaultLineElement({ ...seedBox, widthMm: 60, heightMm: 0.6 }), section }
+        : { ...createDefaultTableElement({ ...seedBox, widthMm: 80, heightMm: 30 }), section };
 
     this.applyDocument({
       ...this.documentState(),
@@ -791,6 +879,7 @@ export class LaymaEditorComponent {
         });
         const ids = new Set<LaymaElementId>();
         for (const el of this.documentState().elements) {
+          if (el.section !== this.activeSection()) continue;
           if (
             el.xMm < box.xMm + box.widthMm &&
             el.xMm + el.widthMm > box.xMm &&
@@ -873,11 +962,12 @@ export class LaymaEditorComponent {
       }
 
       const maxX = Math.max(0, page.widthMm - el.widthMm);
-      const maxY = Math.max(0, page.heightMm - el.heightMm);
+      const { topMm, bottomMm } = this.sectionBoundsMm(el.section);
+      const maxY = Math.max(topMm, bottomMm - el.heightMm);
       return {
         ...el,
         xMm: Math.max(0, Math.min(maxX, nextX)),
-        yMm: Math.max(0, Math.min(maxY, nextY)),
+        yMm: Math.max(topMm, Math.min(maxY, nextY)),
       };
     });
 
@@ -997,11 +1087,12 @@ export class LaymaEditorComponent {
         nextY = snapMm(nextY, grid);
       }
       const maxX = Math.max(0, page.widthMm - el.widthMm);
-      const maxY = Math.max(0, page.heightMm - el.heightMm);
+      const { topMm, bottomMm } = this.sectionBoundsMm(el.section);
+      const maxY = Math.max(topMm, bottomMm - el.heightMm);
       return {
         ...el,
         xMm: Math.max(0, Math.min(maxX, nextX)),
-        yMm: Math.max(0, Math.min(maxY, nextY)),
+        yMm: Math.max(topMm, Math.min(maxY, nextY)),
       };
     });
 
@@ -1027,11 +1118,12 @@ export class LaymaEditorComponent {
         nextY = snapMm(nextY, grid);
       }
       const maxX = Math.max(0, page.widthMm - el.widthMm);
-      const maxY = Math.max(0, page.heightMm - el.heightMm);
+      const { topMm, bottomMm } = this.sectionBoundsMm(el.section);
+      const maxY = Math.max(topMm, bottomMm - el.heightMm);
       return {
         ...el,
         xMm: Math.max(0, Math.min(maxX, nextX)),
-        yMm: Math.max(0, Math.min(maxY, nextY)),
+        yMm: Math.max(topMm, Math.min(maxY, nextY)),
       };
     });
 
@@ -1103,6 +1195,13 @@ export class LaymaEditorComponent {
       };
     }
 
+    // Clamp to section bounds.
+    const section = targetEl?.section ?? 'body';
+    const bounds = this.sectionBoundsMm(section);
+    const yMm = Math.max(bounds.topMm, Math.min(bounds.bottomMm - minSizeMm, clamped.yMm));
+    const heightMm = Math.max(minSizeMm, Math.min(bounds.bottomMm - yMm, clamped.heightMm));
+    clamped = { ...clamped, yMm, heightMm };
+
     const elements = doc.elements.map((el) =>
       el.id === drag.elementId ? { ...el, ...clamped } : el
     );
@@ -1130,7 +1229,15 @@ export class LaymaEditorComponent {
       heightMm: Math.max(minSizeMm, Math.min(page.heightMm, box.heightMm)),
     };
 
-    const snapped = this.snapEnabled() ? snapBoxMm(clamped, this.gridSizeMm()) : clamped;
+    let snapped = this.snapEnabled() ? snapBoxMm(clamped, this.gridSizeMm()) : clamped;
+
+    // Clamp to section bounds.
+    const targetEl = doc.elements.find((el) => el.id === drag.elementId);
+    const section = targetEl?.section ?? this.activeSection();
+    const bounds = this.sectionBoundsMm(section);
+    const yMm = Math.max(bounds.topMm, Math.min(bounds.bottomMm - minSizeMm, snapped.yMm));
+    const heightMm = Math.max(minSizeMm, Math.min(bounds.bottomMm - yMm, snapped.heightMm));
+    snapped = { ...snapped, yMm, heightMm };
 
     const elements = doc.elements.map((el) =>
       el.id === drag.elementId ? { ...el, ...snapped } : el

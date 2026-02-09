@@ -11,7 +11,7 @@ import type {
 
 export interface LaymaPropsEvent {
   readonly propName: string;
-  readonly value: string | number | boolean;
+  readonly value: unknown;
 }
 
 @Component({
@@ -92,5 +92,16 @@ export class LaymaPropsComponent {
     const value = target.value;
     if (value !== 'contain' && value !== 'cover' && value !== 'fill' && value !== 'none') return;
     this.imageFitChange.emit(value);
+  }
+
+  onTableRowTagChange(index: number, event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    const table = this.asTable();
+    if (!table) return;
+    const next = table.rowTemplate.map((cell, i) =>
+      i === index ? { ...cell, text: target.value } : cell
+    );
+    this.propChange.emit({ propName: 'rowTemplate', value: next });
   }
 }

@@ -287,6 +287,30 @@
   <section class="layma-propsSection">
     <h4 class="layma-propsSectionTitle">Table</h4>
     <label class="layma-propsLabelBlock"
+      >Dataset
+      <input
+        type="text"
+        class="layma-propsInput layma-propsInputWide"
+        [value]="tbl.tableDataset ?? ''"
+        placeholder="InvoiceLine"
+        (change)="onPropChange('tableDataset', $event)"
+      />
+    </label>
+    <div class="layma-propsGrid" style="margin-top: 6px">
+      @for (cell of tbl.rowTemplate; track $index) {
+      <label class="layma-propsLabel">
+        Col {{ $index + 1 }}
+        <input
+          type="text"
+          class="layma-propsInput"
+          [value]="cell.text"
+          placeholder="#InvoiceLine_Field#"
+          (change)="onTableRowTagChange($index, $event)"
+        />
+      </label>
+      }
+    </div>
+    <label class="layma-propsLabelBlock"
       >Border
       <input
         type="color"
