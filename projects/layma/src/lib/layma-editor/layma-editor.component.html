@@ -125,7 +125,7 @@
       @for (el of elements(); track el.id; let idx = $index) {
       <div
         class="layma-elementHost"
-        [class.isSelected]="el.id === selectedElementId()"
+        [class.isSelected]="isElementSelected(el.id)"
         [ngClass]="elementClass(el)"
         [ngStyle]="elementStyle(el, idx)"
         (pointerdown)="onElementPointerDown($event, el.id)"
@@ -210,8 +210,13 @@
         </div>
         } }
       </div>
-      } @if (selectionStyle(); as s) {
+      }
+
+      <!-- Selection bounding box -->
+      @if (selectionBoxStyle(); as s) {
       <div class="layma-selection" [ngStyle]="s" aria-hidden="true">
+        <!-- Resize handles only for single selection -->
+        @if (selectedElements().length === 1) {
         <div
           class="layma-handle layma-handle--nw"
           (pointerdown)="onResizeHandlePointerDown($event, 'nw')"
@@ -244,7 +249,13 @@
           class="layma-handle layma-handle--w"
           (pointerdown)="onResizeHandlePointerDown($event, 'w')"
         ></div>
+        }
       </div>
+      }
+
+      <!-- Marquee selection rectangle -->
+      @if (marqueeStyle(); as m) {
+      <div class="layma-marquee" [ngStyle]="m" aria-hidden="true"></div>
       }
     </div>
 
@@ -260,6 +271,16 @@
       (replaceImage)="replaceSelectedImage()"
       (imageFitChange)="setSelectedImageObjectFit($event)"
     />
+    } @else if (selectedElements().length > 1) {
+    <div class="layma-multiSelect" (pointerdown)="$event.stopPropagation()">
+      <div class="layma-multiSelectHeader">
+        <span class="layma-multiSelectCount">{{ selectedElements().length }} elements</span>
+        <button type="button" class="layma-propsClose" (click)="clearSelection()">&times;</button>
+      </div>
+      <button type="button" class="layma-propsDeleteBtn" (click)="deleteSelected()">
+        Delete all
+      </button>
+    </div>
     }
   </div>
 </div>

@@ -69,7 +69,28 @@ interface DragStateCreate {
   readonly startPointerMm: { readonly xMm: number; readonly yMm: number };
 }
 
-type DragState = DragStateNone | DragStateMove | DragStateResize | DragStateCreate;
+interface DragStateMarquee {
+  readonly kind: 'marquee';
+  readonly startPointerMm: { readonly xMm: number; readonly yMm: number };
+}
+
+interface DragStateMultiMove {
+  readonly kind: 'multi-move';
+  readonly elementIds: ReadonlySet<LaymaElementId>;
+  readonly startPointerMm: { readonly xMm: number; readonly yMm: number };
+  readonly startPositions: ReadonlyMap<
+    LaymaElementId,
+    { readonly xMm: number; readonly yMm: number }
+  >;
+}
+
+type DragState =
+  | DragStateNone
+  | DragStateMove
+  | DragStateResize
+  | DragStateCreate
+  | DragStateMarquee
+  | DragStateMultiMove;
 
 @Component({
   selector: 'layma-editor',
@@ -137,11 +158,12 @@ export class LaymaEditorComponent {
   private readonly documentState = signal<LaymaDocument>(createEmptyDocument());
 
   readonly tool = signal<LaymaTool>('select');
-  readonly selectedElementId = signal<LaymaElementId | null>(null);
+  readonly selectedElementIds = signal<ReadonlySet<LaymaElementId>>(new Set());
   readonly dragState = signal<DragState>({ kind: 'none' });
   readonly pendingImageDataUri = signal<string | null>(null);
   readonly brokenImageIds = signal<ReadonlySet<LaymaElementId>>(new Set());
   readonly editingTextId = signal<LaymaElementId | null>(null);
+  readonly marqueeEndMm = signal<{ readonly xMm: number; readonly yMm: number } | null>(null);
   private replaceMode = false;
 
   private latestPointerEvent: PointerEvent | null = null;
@@ -149,20 +171,64 @@ export class LaymaEditorComponent {
   private isDragging = false;
 
   readonly elements = computed(() => this.documentState().elements);
-  readonly selectedElement = computed((): LaymaElement | null => {
-    const selectedId = this.selectedElementId();
-    if (!selectedId) return null;
-    return this.documentState().elements.find((el) => el.id === selectedId) ?? null;
+
+  /** All selected elements. */
+  readonly selectedElements = computed((): readonly LaymaElement[] => {
+    const ids = this.selectedElementIds();
+    if (ids.size === 0) return [];
+    return this.documentState().elements.filter((el) => ids.has(el.id));
   });
 
-  readonly selectionStyle = computed(() => {
-    const el = this.selectedElement();
-    if (!el) return null;
+  /** Single selected element (for the props panel) — null when 0 or 2+ are selected. */
+  readonly selectedElement = computed((): LaymaElement | null => {
+    const els = this.selectedElements();
+    return els.length === 1 ? els[0] : null;
+  });
+
+  /** Convenience: first selected id (for resize handles, image replace, etc.). */
+  readonly primarySelectedId = computed((): LaymaElementId | null => {
+    const ids = this.selectedElementIds();
+    if (ids.size === 0) return null;
+    return ids.values().next().value ?? null;
+  });
+
+  isElementSelected(id: LaymaElementId): boolean {
+    return this.selectedElementIds().has(id);
+  }
+
+  /** Bounding box of all selected elements — used for the blue selection outline. */
+  readonly selectionBoxStyle = computed(() => {
+    const els = this.selectedElements();
+    if (els.length === 0) return null;
+    const minX = Math.min(...els.map((el) => el.xMm));
+    const minY = Math.min(...els.map((el) => el.yMm));
+    const maxX = Math.max(...els.map((el) => el.xMm + el.widthMm));
+    const maxY = Math.max(...els.map((el) => el.yMm + el.heightMm));
     return {
-      left: `${el.xMm}mm`,
-      top: `${el.yMm}mm`,
-      width: `${el.widthMm}mm`,
-      height: `${el.heightMm}mm`,
+      left: `${minX}mm`,
+      top: `${minY}mm`,
+      width: `${maxX - minX}mm`,
+      height: `${maxY - minY}mm`,
+    };
+  });
+
+  /** Live marquee rectangle style while the user is drawing. */
+  readonly marqueeStyle = computed(() => {
+    const drag = this.dragState();
+    if (drag.kind !== 'marquee') return null;
+    const end = this.marqueeEndMm();
+    if (!end) return null;
+    const box = normalizeBoxMm({
+      xMm: drag.startPointerMm.xMm,
+      yMm: drag.startPointerMm.yMm,
+      widthMm: end.xMm - drag.startPointerMm.xMm,
+      heightMm: end.yMm - drag.startPointerMm.yMm,
+    });
+    return {
+      left: `${box.xMm}mm`,
+      top: `${box.yMm}mm`,
+      width: `${box.widthMm}mm`,
+      height: `${box.heightMm}mm`,
     };
   });
 
@@ -176,12 +242,13 @@ export class LaymaEditorComponent {
     window.addEventListener('keydown', onKeyDown);
     this.destroyRef.onDestroy(() => window.removeEventListener('keydown', onKeyDown));
 
-    // If the host replaces the document with one that doesn't contain the current selection, clear it.
+    // If the host replaces the document, prune any selected ids that no longer exist.
     effect(() => {
-      const selectedId = this.selectedElementId();
-      if (!selectedId) return;
-      const stillExists = this.documentState().elements.some((el) => el.id === selectedId);
-      if (!stillExists) this.selectedElementId.set(null);
+      const ids = this.selectedElementIds();
+      if (ids.size === 0) return;
+      const elementIds = new Set(this.documentState().elements.map((el) => el.id));
+      const pruned = new Set([...ids].filter((id) => elementIds.has(id)));
+      if (pruned.size !== ids.size) this.selectedElementIds.set(pruned);
     });
   }
 
@@ -189,15 +256,22 @@ export class LaymaEditorComponent {
     this.tool.set(tool);
   }
 
-  selectElement(elementId: LaymaElementId): void {
-    this.editingTextId.set(null); // Exit any inline text editing.
-    this.selectedElementId.set(elementId);
+  selectElement(elementId: LaymaElementId, additive = false): void {
+    this.editingTextId.set(null);
+    if (additive) {
+      const ids = new Set(this.selectedElementIds());
+      if (ids.has(elementId)) ids.delete(elementId);
+      else ids.add(elementId);
+      this.selectedElementIds.set(ids);
+    } else {
+      this.selectedElementIds.set(new Set([elementId]));
+    }
     this.tool.set('select');
   }
 
   clearSelection(): void {
     this.editingTextId.set(null);
-    this.selectedElementId.set(null);
+    this.selectedElementIds.set(new Set());
   }
 
   onTextDblClick(event: MouseEvent, elementId: LaymaElementId): void {
@@ -252,10 +326,10 @@ export class LaymaEditorComponent {
   }
 
   deleteSelected(): void {
-    const selectedId = this.selectedElementId();
-    if (!selectedId) return;
-    const nextElements = this.documentState().elements.filter((el) => el.id !== selectedId);
-    this.selectedElementId.set(null);
+    const ids = this.selectedElementIds();
+    if (ids.size === 0) return;
+    const nextElements = this.documentState().elements.filter((el) => !ids.has(el.id));
+    this.selectedElementIds.set(new Set());
     this.applyDocument({ ...this.documentState(), elements: nextElements });
   }
 
@@ -331,7 +405,7 @@ export class LaymaEditorComponent {
       return { ...el, ...snapped };
     });
 
-    this.selectedElementId.set(null);
+    this.selectedElementIds.set(new Set());
     this.tool.set('select');
     this.applyDocument({ ...imported, elements: snappedElements });
   }
@@ -381,7 +455,7 @@ export class LaymaEditorComponent {
     }
     this.applyDocument({ ...doc, elements: [...doc.elements, ...newElements] });
     if (newElements.length > 0) {
-      this.selectedElementId.set(newElements[newElements.length - 1].id);
+      this.selectedElementIds.set(new Set([newElements[newElements.length - 1].id]));
     }
     this.tool.set('select');
   }
@@ -394,7 +468,7 @@ export class LaymaEditorComponent {
   }
 
   private replaceSelectedImageData(dataUri: string): void {
-    const selectedId = this.selectedElementId();
+    const selectedId = this.primarySelectedId();
     if (!selectedId) return;
     const doc = this.documentState();
     const elements = doc.elements.map((el) =>
@@ -445,19 +519,27 @@ export class LaymaEditorComponent {
 
     this.applyDocument({ ...doc, elements: [...doc.elements, ...newElements] });
     if (newElements.length > 0) {
-      this.selectedElementId.set(newElements[newElements.length - 1].id);
+      this.selectedElementIds.set(new Set([newElements[newElements.length - 1].id]));
     }
     this.tool.set('select');
   }
 
   onPagePointerDown(event: PointerEvent): void {
     if (event.button !== 0) return;
-    event.stopPropagation(); // Prevent stage clearSelection from deselecting newly created elements.
+    event.stopPropagation();
     const tool = this.tool();
 
-    // If clicking on the page background while selecting, clear selection.
     if (tool === 'select') {
+      // Start marquee selection rectangle on the page background.
+      const startPointerMm = this.pointerToPageMm(event);
+      if (!startPointerMm) {
+        this.clearSelection();
+        return;
+      }
       this.clearSelection();
+      this.marqueeEndMm.set(startPointerMm);
+      this.dragState.set({ kind: 'marquee', startPointerMm });
+      this.beginGlobalPointerTracking(event);
       return;
     }
 
@@ -468,7 +550,7 @@ export class LaymaEditorComponent {
     const elementId = this.createElementForTool(tool, startPointerMm);
     if (!elementId) return;
 
-    this.selectedElementId.set(elementId);
+    this.selectedElementIds.set(new Set([elementId]));
     this.dragState.set({ kind: 'create', tool, elementId, startPointerMm });
     this.beginGlobalPointerTracking(event);
   }
@@ -476,16 +558,57 @@ export class LaymaEditorComponent {
   onElementPointerDown(event: PointerEvent, elementId: LaymaElementId): void {
     if (event.button !== 0) return;
 
-    // While editing a text element, let clicks pass through so the browser
-    // handles caret placement inside the contenteditable.
+    // While editing a text element, let clicks pass through.
     if (this.editingTextId() === elementId) return;
 
     event.stopPropagation();
-    this.selectElement(elementId);
+
+    const additive = event.shiftKey;
+
+    // If the element is already selected AND part of a multi-selection, start multi-move.
+    if (this.isElementSelected(elementId) && this.selectedElementIds().size > 1 && !additive) {
+      const pointerMm = this.pointerToPageMm(event);
+      if (!pointerMm) return;
+      const doc = this.documentState();
+      const ids = this.selectedElementIds();
+      const startPositions = new Map<LaymaElementId, { xMm: number; yMm: number }>();
+      for (const el of doc.elements) {
+        if (ids.has(el.id)) startPositions.set(el.id, { xMm: el.xMm, yMm: el.yMm });
+      }
+      this.dragState.set({
+        kind: 'multi-move',
+        elementIds: ids,
+        startPointerMm: pointerMm,
+        startPositions,
+      });
+      this.beginGlobalPointerTracking(event);
+      return;
+    }
+
+    this.selectElement(elementId, additive);
 
     const pointerMm = this.pointerToPageMm(event);
     if (!pointerMm) return;
 
+    // If after selection we have multiple elements, start multi-move.
+    const ids = this.selectedElementIds();
+    if (ids.size > 1) {
+      const doc = this.documentState();
+      const startPositions = new Map<LaymaElementId, { xMm: number; yMm: number }>();
+      for (const el of doc.elements) {
+        if (ids.has(el.id)) startPositions.set(el.id, { xMm: el.xMm, yMm: el.yMm });
+      }
+      this.dragState.set({
+        kind: 'multi-move',
+        elementIds: ids,
+        startPointerMm: pointerMm,
+        startPositions,
+      });
+      this.beginGlobalPointerTracking(event);
+      return;
+    }
+
+    // Single element: standard move.
     const el = this.documentState().elements.find((e) => e.id === elementId);
     if (!el) return;
 
@@ -502,8 +625,8 @@ export class LaymaEditorComponent {
     if (event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
-    const selectedId = this.selectedElementId();
-    if (!selectedId) return;
+    const selectedId = this.primarySelectedId();
+    if (!selectedId || this.selectedElementIds().size !== 1) return;
 
     const pointerMm = this.pointerToPageMm(event);
     if (!pointerMm) return;
@@ -655,6 +778,33 @@ export class LaymaEditorComponent {
 
     // Final apply on pointer up.
     this.applyDrag(event);
+
+    if (drag.kind === 'marquee') {
+      // Select all elements intersecting the marquee rectangle.
+      const endMm = this.pointerToPageMm(event);
+      if (endMm) {
+        const box = normalizeBoxMm({
+          xMm: drag.startPointerMm.xMm,
+          yMm: drag.startPointerMm.yMm,
+          widthMm: endMm.xMm - drag.startPointerMm.xMm,
+          heightMm: endMm.yMm - drag.startPointerMm.yMm,
+        });
+        const ids = new Set<LaymaElementId>();
+        for (const el of this.documentState().elements) {
+          if (
+            el.xMm < box.xMm + box.widthMm &&
+            el.xMm + el.widthMm > box.xMm &&
+            el.yMm < box.yMm + box.heightMm &&
+            el.yMm + el.heightMm > box.yMm
+          ) {
+            ids.add(el.id);
+          }
+        }
+        this.selectedElementIds.set(ids);
+      }
+      this.marqueeEndMm.set(null);
+    }
+
     this.dragState.set({ kind: 'none' });
 
     if (drag.kind === 'create') {
@@ -682,8 +832,14 @@ export class LaymaEditorComponent {
       if (isTypingTarget) return;
     }
 
-    const selectedId = this.selectedElementId();
-    if (!selectedId) return;
+    const ids = this.selectedElementIds();
+    if (ids.size === 0) return;
+
+    if (event.key === 'Delete' || event.key === 'Backspace') {
+      event.preventDefault();
+      this.deleteSelected();
+      return;
+    }
 
     const key = event.key;
     if (key !== 'ArrowLeft' && key !== 'ArrowRight' && key !== 'ArrowUp' && key !== 'ArrowDown')
@@ -700,13 +856,13 @@ export class LaymaEditorComponent {
   }
 
   private moveSelectedBy(dxMm: number, dyMm: number): void {
-    const selectedId = this.selectedElementId();
-    if (!selectedId) return;
+    const ids = this.selectedElementIds();
+    if (ids.size === 0) return;
     const doc = this.documentState();
     const page = doc.page;
 
     const elements = doc.elements.map((el) => {
-      if (el.id !== selectedId) return el;
+      if (!ids.has(el.id)) return el;
       let nextX = el.xMm + dxMm;
       let nextY = el.yMm + dyMm;
 
@@ -734,7 +890,7 @@ export class LaymaEditorComponent {
   }
 
   setSelectedImageObjectFit(nextFit: LaymaImageElement['objectFit']): void {
-    const selectedId = this.selectedElementId();
+    const selectedId = this.primarySelectedId();
     if (!selectedId) return;
     const doc = this.documentState();
     const elements = doc.elements.map((el) =>
@@ -753,11 +909,11 @@ export class LaymaEditorComponent {
 
   /** Handle property changes emitted by the LaymaPropsComponent. */
   onPropsChange(event: LaymaPropsEvent): void {
-    const selectedId = this.selectedElementId();
-    if (!selectedId) return;
+    const ids = this.selectedElementIds();
+    if (ids.size === 0) return;
     const doc = this.documentState();
     const elements = doc.elements.map((el) =>
-      el.id === selectedId ? { ...el, [event.propName]: event.value } : el
+      ids.has(el.id) ? { ...el, [event.propName]: event.value } : el
     );
     this.applyDocument({ ...doc, elements });
   }
@@ -795,6 +951,16 @@ export class LaymaEditorComponent {
     const pointerMm = this.pointerToPageMm(event);
     if (!pointerMm) return;
 
+    if (drag.kind === 'marquee') {
+      this.marqueeEndMm.set(pointerMm);
+      return;
+    }
+
+    if (drag.kind === 'multi-move') {
+      this.applyMultiMove(drag, pointerMm);
+      return;
+    }
+
     if (drag.kind === 'move') {
       this.applyMove(drag, pointerMm);
       return;
@@ -808,6 +974,38 @@ export class LaymaEditorComponent {
     if (drag.kind === 'create') {
       this.applyCreate(drag, pointerMm);
     }
+  }
+
+  private applyMultiMove(
+    drag: DragStateMultiMove,
+    pointerMm: { readonly xMm: number; readonly yMm: number }
+  ): void {
+    const dxMm = pointerMm.xMm - drag.startPointerMm.xMm;
+    const dyMm = pointerMm.yMm - drag.startPointerMm.yMm;
+    const doc = this.documentState();
+    const page = doc.page;
+
+    const elements = doc.elements.map((el) => {
+      const start = drag.startPositions.get(el.id);
+      if (!start) return el;
+
+      let nextX = start.xMm + dxMm;
+      let nextY = start.yMm + dyMm;
+      if (this.snapEnabled()) {
+        const grid = this.gridSizeMm();
+        nextX = snapMm(nextX, grid);
+        nextY = snapMm(nextY, grid);
+      }
+      const maxX = Math.max(0, page.widthMm - el.widthMm);
+      const maxY = Math.max(0, page.heightMm - el.heightMm);
+      return {
+        ...el,
+        xMm: Math.max(0, Math.min(maxX, nextX)),
+        yMm: Math.max(0, Math.min(maxY, nextY)),
+      };
+    });
+
+    this.applyDocument({ ...doc, elements });
   }
 
   private applyMove(
@@ -943,7 +1141,7 @@ export class LaymaEditorComponent {
   private reorderSelected(
     reorder: (elements: readonly LaymaElement[], selectedIndex: number) => readonly LaymaElement[]
   ): void {
-    const selectedId = this.selectedElementId();
+    const selectedId = this.primarySelectedId();
     if (!selectedId) return;
     const doc = this.documentState();
     const index = doc.elements.findIndex((el) => el.id === selectedId);
