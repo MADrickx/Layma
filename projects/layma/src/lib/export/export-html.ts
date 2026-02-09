@@ -29,7 +29,7 @@ function elementInlineStyleMm(el: LaymaElement, zIndex: number): string {
     stylePairs.push(['font-size', `${el.fontSizePt}pt`]);
     stylePairs.push(['color', el.color]);
     stylePairs.push(['text-align', el.align]);
-    stylePairs.push(['padding', '1mm']);
+    stylePairs.push(['padding', `${el.paddingMm}mm`]);
   }
 
   if (el.type === 'rect') {

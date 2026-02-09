@@ -187,10 +187,10 @@ export class LaymaEditorComponent {
 
   setTool(tool: LaymaTool): void {
     this.tool.set(tool);
-    if (tool === 'image' && this.pendingImageDataUri() === null) this.triggerImagePick();
   }
 
   selectElement(elementId: LaymaElementId): void {
+    this.editingTextId.set(null); // Exit any inline text editing.
     this.selectedElementId.set(elementId);
     this.tool.set('select');
   }
@@ -204,12 +204,36 @@ export class LaymaEditorComponent {
     event.stopPropagation();
     this.selectElement(elementId);
     this.editingTextId.set(elementId);
+
+    // Resolve the text content before Angular clears the binding (null during editing).
+    const el = this.documentState().elements.find((e) => e.id === elementId);
+    if (!el || el.type !== 'text') return;
+    const text = el.text;
+
+    const textEl = event.currentTarget;
+    if (textEl instanceof HTMLElement) {
+      // After Angular applies contenteditable and clears [textContent],
+      // populate the element and focus. Runs before the next paint → no flash.
+      requestAnimationFrame(() => {
+        textEl.textContent = text;
+        textEl.focus();
+        // Place cursor at end of text.
+        const sel = window.getSelection();
+        if (sel) {
+          const range = document.createRange();
+          range.selectNodeContents(textEl);
+          range.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      });
+    }
   }
 
   onTextBlur(event: FocusEvent, elementId: LaymaElementId): void {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
-    const newText = target.innerText;
+    const newText = (target.textContent ?? '').replace(/\u00a0/g, ' ').trim();
     this.editingTextId.set(null);
     const doc = this.documentState();
     const elements = doc.elements.map((el) =>
@@ -298,22 +322,34 @@ export class LaymaEditorComponent {
     if (!file) return;
 
     const xmlText = await file.text();
-    const nextDoc = importRdlToLaymaDocument(xmlText);
+    const imported = importRdlToLaymaDocument(xmlText);
+
+    // Snap every imported element to the current grid for a clean layout.
+    const grid = this.gridSizeMm();
+    const snappedElements = imported.elements.map((el) => {
+      const snapped = snapBoxMm(el, grid);
+      return { ...el, ...snapped };
+    });
+
     this.selectedElementId.set(null);
     this.tool.set('select');
-    this.applyDocument(nextDoc);
+    this.applyDocument({ ...imported, elements: snappedElements });
   }
 
   async onImageFilePicked(): Promise<void> {
     const inputEl = this.fileInputEl().nativeElement;
-    const files = inputEl.files;
+    // Snapshot into a plain array *before* clearing; FileList becomes empty once value is reset.
+    const files = inputEl.files ? Array.from(inputEl.files) : [];
     inputEl.value = '';
-    if (!files || files.length === 0) return;
+    if (files.length === 0) {
+      this.replaceMode = false; // User cancelled the picker.
+      return;
+    }
 
     // Replace mode: swap the selected image's dataUri instead of creating new elements.
     if (this.replaceMode) {
       this.replaceMode = false;
-      const file = files.item(0);
+      const file = files[0];
       if (!file) return;
       const dataUri = await readFileAsDataUri(file);
       this.replaceSelectedImageData(dataUri);
@@ -321,7 +357,7 @@ export class LaymaEditorComponent {
     }
 
     // Multi-upload: convert all files and either queue for placement or create directly.
-    const imageFiles = Array.from(files).filter((f) => f.type.startsWith('image/'));
+    const imageFiles = files.filter((f) => f.type.startsWith('image/'));
     if (imageFiles.length === 0) return;
 
     if (imageFiles.length === 1) {
@@ -416,6 +452,7 @@ export class LaymaEditorComponent {
 
   onPagePointerDown(event: PointerEvent): void {
     if (event.button !== 0) return;
+    event.stopPropagation(); // Prevent stage clearSelection from deselecting newly created elements.
     const tool = this.tool();
 
     // If clicking on the page background while selecting, clear selection.
@@ -438,6 +475,11 @@ export class LaymaEditorComponent {
 
   onElementPointerDown(event: PointerEvent, elementId: LaymaElementId): void {
     if (event.button !== 0) return;
+
+    // While editing a text element, let clicks pass through so the browser
+    // handles caret placement inside the contenteditable.
+    if (this.editingTextId() === elementId) return;
+
     event.stopPropagation();
     this.selectElement(elementId);
 
@@ -550,12 +592,9 @@ export class LaymaEditorComponent {
     const seedBox = { xMm: startPointerMm.xMm, yMm: startPointerMm.yMm, widthMm: 1, heightMm: 1 };
 
     if (tool === 'image') {
-      const dataUri = this.pendingImageDataUri();
-      if (!dataUri) {
-        this.triggerImagePick();
-        return null;
-      }
-      const el = createDefaultImageElement({ ...seedBox, widthMm: 60, heightMm: 40 }, dataUri);
+      // Create with a placeholder; the real image is picked after the draw-to-size drag.
+      const dataUri = this.pendingImageDataUri() ?? '';
+      const el = createDefaultImageElement(seedBox, dataUri);
       this.applyDocument({
         ...this.documentState(),
         elements: [...this.documentState().elements, el],
@@ -619,8 +658,14 @@ export class LaymaEditorComponent {
     this.dragState.set({ kind: 'none' });
 
     if (drag.kind === 'create') {
-      if (drag.tool === 'image') this.pendingImageDataUri.set(null);
+      this.pendingImageDataUri.set(null);
       this.tool.set('select');
+
+      // After drawing the image box, ask for the actual image file.
+      if (drag.tool === 'image') {
+        this.replaceMode = true;
+        this.triggerImagePick();
+      }
     }
 
     window.removeEventListener('pointermove', this.onGlobalPointerMove);

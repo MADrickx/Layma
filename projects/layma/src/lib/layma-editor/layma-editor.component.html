@@ -109,7 +109,12 @@
   </header>
 
   <!-- ── Stage: canvas ── -->
-  <div class="layma-stage" (dragover)="onStageDragOver($event)" (drop)="onStageDrop($event)">
+  <div
+    class="layma-stage"
+    (pointerdown)="clearSelection()"
+    (dragover)="onStageDragOver($event)"
+    (drop)="onStageDrop($event)"
+  >
     <div
       #page
       class="layma-page"
@@ -134,14 +139,15 @@
             fontFamily: el.fontFamily,
             fontSize: el.fontSizePt + 'pt',
             color: el.color,
-            textAlign: el.align
+            textAlign: el.align,
+            padding: el.paddingMm + 'mm',
+            '--layma-pad': el.paddingMm + 'mm'
           }"
+          [textContent]="editingTextId() === el.id ? null : el.text"
           (dblclick)="onTextDblClick($event, el.id)"
           (blur)="onTextBlur($event, el.id)"
           (keydown)="onTextKeyDown($event)"
-        >
-          {{ el.text }}
-        </div>
+        ></div>
         } @case ('rect') {
         <div
           class="layma-rect"
@@ -175,6 +181,7 @@
           [style.objectFit]="el.objectFit"
           [style.opacity]="el.opacity"
           alt=""
+          draggable="false"
           (error)="onImageError(el.id)"
         />
         } } @case ('table') {
@@ -245,6 +252,7 @@
     @if (selectedElement(); as sel) {
     <layma-props
       [element]="sel"
+      (pointerdown)="$event.stopPropagation()"
       (propChange)="onPropsChange($event)"
       (close)="clearSelection()"
       (deleteElement)="deleteSelected()"

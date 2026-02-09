@@ -203,6 +203,12 @@ function importTextbox(
   const color = parseColor(firstTextContentByTagNS(textboxEl, 'Color'));
   const align = parseTextAlign(firstTextContentByTagNS(textboxEl, 'TextAlign'));
 
+  // RDL uses individual PaddingLeft/PaddingRight/PaddingTop/PaddingBottom; pick the largest as uniform.
+  const paddings = ['PaddingLeft', 'PaddingRight', 'PaddingTop', 'PaddingBottom']
+    .map((tag) => mmFromRdlSize(firstTextContentByTagNS(textboxEl, tag) ?? '0mm'))
+    .filter((v) => Number.isFinite(v));
+  const paddingMm = paddings.length > 0 ? Math.max(...paddings) : 1;
+
   return {
     id: createLaymaElementId(),
     type: 'text',
@@ -215,6 +221,7 @@ function importTextbox(
     fontSizePt: Number.isFinite(fontSizePt) ? Math.max(1, Math.round(fontSizePt * 10) / 10) : 12,
     color,
     align,
+    paddingMm,
   };
 }
 

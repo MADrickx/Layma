@@ -68,6 +68,7 @@ export class LaymaPropsComponent {
       'widthMm',
       'heightMm',
       'fontSizePt',
+      'paddingMm',
       'borderWidthMm',
       'borderRadiusMm',
       'opacity',

@@ -34,6 +34,8 @@ export interface LaymaTextElement extends LaymaElementBase {
   readonly fontSizePt: number;
   readonly color: string;
   readonly align: 'left' | 'center' | 'right';
+  /** Uniform padding on all four sides, in mm. */
+  readonly paddingMm: number;
 }
 
 export interface LaymaRectElement extends LaymaElementBase {
@@ -118,6 +120,7 @@ export function createDefaultTextElement(boxMm: {
     fontSizePt: 12,
     color: '#111',
     align: 'left',
+    paddingMm: 1,
   };
 }
 

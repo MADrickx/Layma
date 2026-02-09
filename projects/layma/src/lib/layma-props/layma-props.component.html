@@ -132,14 +132,31 @@
         />
       </label>
     </div>
-    <label class="layma-propsLabelBlock"
-      >Align
-      <select class="layma-propsSelect" [value]="t.align" (change)="onPropChange('align', $event)">
-        <option value="left">Left</option>
-        <option value="center">Center</option>
-        <option value="right">Right</option>
-      </select>
-    </label>
+    <div class="layma-propsGrid" style="margin-top: 6px">
+      <label class="layma-propsLabel"
+        >Align
+        <select
+          class="layma-propsSelect"
+          [value]="t.align"
+          (change)="onPropChange('align', $event)"
+        >
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+        </select>
+      </label>
+      <label class="layma-propsLabel"
+        >Padding
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="t.paddingMm"
+          step="0.5"
+          min="0"
+          (change)="onPropChange('paddingMm', $event)"
+        />
+      </label>
+    </div>
   </section>
   }
 
