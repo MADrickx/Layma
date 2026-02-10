@@ -21,6 +21,7 @@ import {
   type LaymaElementId,
   type LaymaImageElement,
   type LaymaSection,
+  type LaymaTableColumn,
   createDefaultLineElement,
   createDefaultImageElement,
   createDefaultRectElement,
@@ -84,6 +85,13 @@ interface DragStateMultiMove {
     LaymaElementId,
     { readonly xMm: number; readonly yMm: number }
   >;
+}
+
+type TableCellKind = 'header' | 'row';
+interface TableCellEdit {
+  readonly elementId: LaymaElementId;
+  readonly kind: TableCellKind;
+  readonly index: number;
 }
 
 type DragState =
@@ -165,6 +173,7 @@ export class LaymaEditorComponent {
   readonly pendingImageDataUri = signal<string | null>(null);
   readonly brokenImageIds = signal<ReadonlySet<LaymaElementId>>(new Set());
   readonly editingTextId = signal<LaymaElementId | null>(null);
+  readonly editingTableCell = signal<TableCellEdit | null>(null);
   readonly marqueeEndMm = signal<{ readonly xMm: number; readonly yMm: number } | null>(null);
   readonly activeSection = signal<LaymaSection>('body');
   private replaceMode = false;
@@ -206,6 +215,15 @@ export class LaymaEditorComponent {
     this.activeSection.set(section);
     this.clearSelection();
     this.dragState.set({ kind: 'none' });
+  }
+
+  private normalizeTableColumns(
+    columns: readonly LaymaTableColumn[],
+    widthMm: number
+  ): LaymaTableColumn[] {
+    if (columns.length === 0) return [];
+    const w = widthMm / columns.length;
+    return columns.map((col) => ({ ...col, widthMm: w }));
   }
 
   onZoneDblClick(event: MouseEvent, section: LaymaSection): void {
@@ -330,6 +348,7 @@ export class LaymaEditorComponent {
 
   selectElement(elementId: LaymaElementId, additive = false): void {
     this.editingTextId.set(null);
+    this.editingTableCell.set(null);
     if (additive) {
       const ids = new Set(this.selectedElementIds());
       if (ids.has(elementId)) ids.delete(elementId);
@@ -343,6 +362,7 @@ export class LaymaEditorComponent {
 
   clearSelection(): void {
     this.editingTextId.set(null);
+    this.editingTableCell.set(null);
     this.selectedElementIds.set(new Set());
   }
 
@@ -350,6 +370,7 @@ export class LaymaEditorComponent {
     event.stopPropagation();
     this.selectElement(elementId);
     this.editingTextId.set(elementId);
+    this.editingTableCell.set(null);
 
     // Resolve the text content before Angular clears the binding (null during editing).
     const el = this.documentState().elements.find((e) => e.id === elementId);
@@ -395,6 +416,80 @@ export class LaymaEditorComponent {
     if (event.key === 'Escape') {
       (event.target as HTMLElement)?.blur();
     }
+  }
+
+  isEditingTableCell(elementId: LaymaElementId, kind: TableCellKind, index: number): boolean {
+    const editing = this.editingTableCell();
+    return (
+      !!editing &&
+      editing.elementId === elementId &&
+      editing.kind === kind &&
+      editing.index === index
+    );
+  }
+
+  onTableCellDblClick(
+    event: MouseEvent,
+    elementId: LaymaElementId,
+    kind: TableCellKind,
+    index: number
+  ): void {
+    event.stopPropagation();
+    this.selectElement(elementId);
+    this.editingTextId.set(null);
+    this.editingTableCell.set({ elementId, kind, index });
+
+    const el = this.documentState().elements.find((e) => e.id === elementId);
+    if (!el || el.type !== 'table') return;
+    const text =
+      kind === 'header' ? el.header[index]?.text ?? '' : el.rowTemplate[index]?.text ?? '';
+
+    const cell = event.currentTarget;
+    if (cell instanceof HTMLElement) {
+      requestAnimationFrame(() => {
+        cell.textContent = text;
+        cell.focus();
+        const sel = window.getSelection();
+        if (sel) {
+          const range = document.createRange();
+          range.selectNodeContents(cell);
+          range.collapse(false);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      });
+    }
+  }
+
+  onTableCellBlur(
+    event: FocusEvent,
+    elementId: LaymaElementId,
+    kind: TableCellKind,
+    index: number
+  ): void {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const newText = (target.textContent ?? '').replace(/\u00a0/g, ' ').trim();
+    this.editingTableCell.set(null);
+    const doc = this.documentState();
+    const elements = doc.elements.map((el) => {
+      if (el.id !== elementId || el.type !== 'table') return el;
+      if (kind === 'header') {
+        const header = el.header.map((cell, i) =>
+          i === index ? { ...cell, text: newText } : cell
+        );
+        return { ...el, header };
+      }
+      const rowTemplate = el.rowTemplate.map((cell, i) =>
+        i === index ? { ...cell, text: newText } : cell
+      );
+      return { ...el, rowTemplate };
+    });
+    this.applyDocument({ ...doc, elements });
+  }
+
+  onTableCellKeyDown(event: KeyboardEvent): void {
+    this.onTextKeyDown(event);
   }
 
   deleteSelected(): void {
@@ -645,6 +740,8 @@ export class LaymaEditorComponent {
 
     // While editing a text element, let clicks pass through.
     if (this.editingTextId() === elementId) return;
+    const editingTable = this.editingTableCell();
+    if (editingTable?.elementId === elementId) return;
 
     event.stopPropagation();
 
@@ -758,8 +855,14 @@ export class LaymaEditorComponent {
   }
 
   private applyDocument(nextDocument: LaymaDocument): void {
-    this.documentState.set(nextDocument);
-    this.emitDocument(nextDocument);
+    const elements = nextDocument.elements.map((el) => {
+      if (el.type !== 'table') return el;
+      const columns = this.normalizeTableColumns(el.columns, el.widthMm);
+      return { ...el, columns };
+    });
+    const normalized = { ...nextDocument, elements };
+    this.documentState.set(normalized);
+    this.emitDocument(normalized);
   }
 
   readonly pageStyle = computed(() => {
@@ -1002,9 +1105,25 @@ export class LaymaEditorComponent {
     const ids = this.selectedElementIds();
     if (ids.size === 0) return;
     const doc = this.documentState();
-    const elements = doc.elements.map((el) =>
-      ids.has(el.id) ? { ...el, [event.propName]: event.value } : el
-    );
+    const elements = doc.elements.map((el) => {
+      if (!ids.has(el.id)) return el;
+      if (el.type !== 'table') return { ...el, [event.propName]: event.value };
+
+      if (event.propName === 'widthMm' && typeof event.value === 'number') {
+        const nextColumns = this.normalizeTableColumns(el.columns, event.value);
+        return { ...el, widthMm: event.value, columns: nextColumns };
+      }
+
+      if (event.propName === 'columns' && Array.isArray(event.value)) {
+        const nextColumns = this.normalizeTableColumns(
+          event.value as LaymaTableColumn[],
+          el.widthMm
+        );
+        return { ...el, columns: nextColumns };
+      }
+
+      return { ...el, [event.propName]: event.value };
+    });
     this.applyDocument({ ...doc, elements });
   }
 
@@ -1202,9 +1321,12 @@ export class LaymaEditorComponent {
     const heightMm = Math.max(minSizeMm, Math.min(bounds.bottomMm - yMm, clamped.heightMm));
     clamped = { ...clamped, yMm, heightMm };
 
-    const elements = doc.elements.map((el) =>
-      el.id === drag.elementId ? { ...el, ...clamped } : el
-    );
+    const elements = doc.elements.map((el) => {
+      if (el.id !== drag.elementId) return el;
+      if (el.type !== 'table') return { ...el, ...clamped };
+      const nextColumns = this.normalizeTableColumns(el.columns, clamped.widthMm);
+      return { ...el, ...clamped, columns: nextColumns };
+    });
     this.applyDocument({ ...doc, elements });
   }
 

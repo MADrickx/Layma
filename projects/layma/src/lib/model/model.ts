@@ -214,16 +214,16 @@ export function createDefaultTableElement(boxMm: {
     section: 'body',
     ...normalized,
     columns: [
-      { widthMm: normalized.widthMm * 0.3, align: 'left' },
-      { widthMm: normalized.widthMm * 0.7, align: 'left' },
+      { widthMm: normalized.widthMm / 2, align: 'left' },
+      { widthMm: normalized.widthMm / 2, align: 'left' },
     ],
     header: [
       { text: 'Header1', isHeader: true },
       { text: 'Header2', isHeader: true },
     ],
     rowTemplate: [
-      { text: '{{Row.Col1}}', isHeader: false },
-      { text: '{{Row.Col2}}', isHeader: false },
+      { text: '#InvoiceLine_Field1#', isHeader: false },
+      { text: '#InvoiceLine_Field2#', isHeader: false },
     ],
     borderColor: '#cbd5e1',
     borderWidthMm: 0.3,

@@ -292,6 +292,12 @@
   background: #fff;
 }
 
+.layma-tablePreviewCell.isEditing {
+  outline: 0.4mm solid rgba(37, 99, 235, 0.6);
+  outline-offset: -0.4mm;
+  background: #fff;
+}
+
 .layma-tablePreviewCell--header {
   font-weight: 700;
   background: #f3f4f6;

@@ -94,6 +94,47 @@ export class LaymaPropsComponent {
     this.imageFitChange.emit(value);
   }
 
+  onTableColumnCountChange(event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    const table = this.asTable();
+    if (!table) return;
+    const count = Math.max(1, Math.round(Number(target.value)));
+    if (!Number.isFinite(count)) return;
+
+    const totalWidth = table.widthMm;
+    const widthMm = totalWidth / count;
+    const nextColumns = Array.from({ length: count }, (_, i) => ({
+      widthMm,
+      align: table.columns[i]?.align ?? 'left',
+    }));
+
+    const nextHeader = Array.from({ length: count }, (_, i) => ({
+      text: table.header[i]?.text ?? `Header${i + 1}`,
+      isHeader: true,
+    }));
+
+    const nextRow = Array.from({ length: count }, (_, i) => ({
+      text: table.rowTemplate[i]?.text ?? `#InvoiceLine_Field${i + 1}#`,
+      isHeader: false,
+    }));
+
+    this.propChange.emit({ propName: 'columns', value: nextColumns });
+    this.propChange.emit({ propName: 'header', value: nextHeader });
+    this.propChange.emit({ propName: 'rowTemplate', value: nextRow });
+  }
+
+  onTableHeaderChange(index: number, event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    const table = this.asTable();
+    if (!table) return;
+    const next = table.header.map((cell, i) =>
+      i === index ? { ...cell, text: target.value } : cell
+    );
+    this.propChange.emit({ propName: 'header', value: next });
+  }
+
   onTableRowTagChange(index: number, event: Event): void {
     const target = event.target;
     if (!(target instanceof HTMLInputElement)) return;

@@ -249,14 +249,34 @@
             <thead>
               <tr>
                 @for (c of el.header; track $index) {
-                <th class="layma-tablePreviewCell layma-tablePreviewCell--header">{{ c.text }}</th>
+                <th
+                  class="layma-tablePreviewCell layma-tablePreviewCell--header"
+                  [class.isEditing]="isEditingTableCell(el.id, 'header', $index)"
+                  [attr.contenteditable]="
+                    isEditingTableCell(el.id, 'header', $index) ? 'plaintext-only' : null
+                  "
+                  [textContent]="isEditingTableCell(el.id, 'header', $index) ? null : c.text"
+                  (dblclick)="onTableCellDblClick($event, el.id, 'header', $index)"
+                  (blur)="onTableCellBlur($event, el.id, 'header', $index)"
+                  (keydown)="onTableCellKeyDown($event)"
+                ></th>
                 }
               </tr>
             </thead>
             <tbody>
               <tr>
                 @for (c of el.rowTemplate; track $index) {
-                <td class="layma-tablePreviewCell">{{ c.text }}</td>
+                <td
+                  class="layma-tablePreviewCell"
+                  [class.isEditing]="isEditingTableCell(el.id, 'row', $index)"
+                  [attr.contenteditable]="
+                    isEditingTableCell(el.id, 'row', $index) ? 'plaintext-only' : null
+                  "
+                  [textContent]="isEditingTableCell(el.id, 'row', $index) ? null : c.text"
+                  (dblclick)="onTableCellDblClick($event, el.id, 'row', $index)"
+                  (blur)="onTableCellBlur($event, el.id, 'row', $index)"
+                  (keydown)="onTableCellKeyDown($event)"
+                ></td>
                 }
               </tr>
             </tbody>
