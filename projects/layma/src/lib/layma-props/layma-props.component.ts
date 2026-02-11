@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 
 import type {
   LaymaElement,
@@ -12,6 +12,16 @@ import type {
   LaymaTextAlign,
   LaymaTextElement,
 } from '../model/model';
+
+type LaymaPropsSectionId =
+  | 'position'
+  | 'layer'
+  | 'text'
+  | 'rect'
+  | 'line'
+  | 'image'
+  | 'table'
+  | 'delete';
 
 export interface LaymaPropsEvent {
   readonly propName: string;
@@ -27,6 +37,23 @@ export interface LaymaPropsEvent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaymaPropsComponent {
+  private readonly openSections = signal<ReadonlySet<LaymaPropsSectionId>>(
+    new Set<LaymaPropsSectionId>(['position', 'layer', 'text', 'rect', 'line', 'image', 'table', 'delete'])
+  );
+
+  isSectionOpen(id: LaymaPropsSectionId): boolean {
+    return this.openSections().has(id);
+  }
+
+  toggleSection(id: LaymaPropsSectionId): void {
+    this.openSections.update((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
   readonly element = input.required<LaymaElement>();
 
   readonly asText = computed((): LaymaTextElement | null => {
@@ -77,7 +104,7 @@ export class LaymaPropsComponent {
       const text =
         kind === 'header'
           ? `Header${i + 1}`
-          : kind === 'rowTemplate'
+          : kind === 'rowTemplate' || kind === 'footer'
             ? `#InvoiceLine_Field${i + 1}#`
             : '';
       return { text, isHeader };
@@ -172,7 +199,7 @@ export class LaymaPropsComponent {
     }));
 
     const nextFooter = Array.from({ length: count }, (_, i) => ({
-      text: table.footer?.[i]?.text ?? '',
+      text: table.footer?.[i]?.text ?? `#InvoiceLine_Field${i + 1}#`,
       isHeader: false,
       style: table.footer?.[i]?.style,
     }));

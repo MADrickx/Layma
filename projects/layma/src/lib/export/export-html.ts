@@ -70,7 +70,7 @@ function tableCells(el: LaymaTableElement, kind: 'header' | 'rowTemplate' | 'foo
     const text =
       kind === 'header'
         ? `Header${i + 1}`
-        : kind === 'rowTemplate'
+        : kind === 'rowTemplate' || kind === 'footer'
           ? `#InvoiceLine_Field${i + 1}#`
           : '';
     return { text, isHeader };
@@ -97,11 +97,13 @@ function tableCellStyleAttr(
   ];
 
   if (kind === 'header') stylePairs.push(['background', el.headerBackground]);
+  if (kind === 'footer') stylePairs.push(['background', el.footerBackground]);
   return escapeHtmlAttr(stylePairs.map(([k, v]) => `${k}:${v}`).join(';'));
 }
 
 function tableHtml(el: LaymaTableElement, zIndex: number): string {
   const style = escapeHtmlAttr(elementInlineStyleMm(el, zIndex));
+  const DEFAULT_TABLE_ROW_HEIGHT_MM = 5;
   // Repeat marker: external pipeline should duplicate the template row per dataset item.
   const repeatAttr = el.tableDataset
     ? ` data-layma-repeat="${escapeHtmlAttr(el.tableDataset)}"`
@@ -152,7 +154,7 @@ function tableHtml(el: LaymaTableElement, zIndex: number): string {
       : '';
 
   return [
-    `<div class="layma-table" style="${style}">`,
+    `<div class="layma-table" style="${style}" data-table-height="${escapeHtmlAttr(String(el.heightMm))}" data-table-row-height="${escapeHtmlAttr(String(DEFAULT_TABLE_ROW_HEIGHT_MM))}">`,
     `<table class="layma-tableInner" cellspacing="0" cellpadding="0">`,
     `<colgroup>${colgroup}</colgroup>`,
     `<thead><tr>${headerCells}</tr></thead>`,

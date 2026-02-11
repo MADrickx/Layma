@@ -198,7 +198,7 @@ export class LaymaEditorComponent {
       const text =
         kind === 'header'
           ? `Header${i + 1}`
-          : kind === 'rowTemplate'
+          : kind === 'rowTemplate' || kind === 'footer'
             ? `#InvoiceLine_Field${i + 1}#`
             : '';
       return { text, isHeader };
@@ -223,6 +223,7 @@ export class LaymaEditorComponent {
       textAlign,
     };
     if (kind === 'header') style['background'] = table.headerBackground;
+    if (kind === 'footer') style['background'] = table.footerBackground;
     return style;
   }
 

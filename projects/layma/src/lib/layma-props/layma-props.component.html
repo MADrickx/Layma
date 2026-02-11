@@ -8,7 +8,18 @@
 
   <!-- Position & Size -->
   <section class="layma-propsSection">
-    <h4 class="layma-propsSectionTitle">Position</h4>
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('position')"
+        [attr.aria-expanded]="isSectionOpen('position')"
+      >
+        <span>Position</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('position')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('position')) {
     <div class="layma-propsGrid">
       <label class="layma-propsLabel"
         >X
@@ -53,11 +64,23 @@
         />
       </label>
     </div>
+    }
   </section>
 
   <!-- Layer -->
   <section class="layma-propsSection">
-    <h4 class="layma-propsSectionTitle">Layer</h4>
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('layer')"
+        [attr.aria-expanded]="isSectionOpen('layer')"
+      >
+        <span>Layer</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('layer')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('layer')) {
     <div class="layma-propsRow">
       <button type="button" class="layma-propsBtnSm" (click)="reorder.emit('back')" title="To back">
         <svg viewBox="0 0 16 16" fill="currentColor" class="layma-iconSm">
@@ -95,12 +118,24 @@
         </svg>
       </button>
     </div>
+    }
   </section>
 
   <!-- Text -->
   @if (asText(); as t) {
   <section class="layma-propsSection">
-    <h4 class="layma-propsSectionTitle">Text</h4>
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('text')"
+        [attr.aria-expanded]="isSectionOpen('text')"
+      >
+        <span>Text</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('text')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('text')) {
     <label class="layma-propsLabelBlock"
       >Font
       <input
@@ -168,13 +203,25 @@
         />
       </label>
     </div>
+    }
   </section>
   }
 
   <!-- Rect -->
   @if (asRect(); as r) {
   <section class="layma-propsSection">
-    <h4 class="layma-propsSectionTitle">Style</h4>
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('rect')"
+        [attr.aria-expanded]="isSectionOpen('rect')"
+      >
+        <span>Rect</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('rect')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('rect')) {
     <div class="layma-propsGrid">
       <label class="layma-propsLabel"
         >Fill
@@ -217,13 +264,25 @@
         />
       </label>
     </div>
+    }
   </section>
   }
 
   <!-- Line -->
   @if (asLine(); as l) {
   <section class="layma-propsSection">
-    <h4 class="layma-propsSectionTitle">Style</h4>
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('line')"
+        [attr.aria-expanded]="isSectionOpen('line')"
+      >
+        <span>Line</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('line')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('line')) {
     <label class="layma-propsLabelBlock"
       >Color
       <input
@@ -233,13 +292,25 @@
         (change)="onPropChange('color', $event)"
       />
     </label>
+    }
   </section>
   }
 
   <!-- Image -->
   @if (asImage(); as img) {
   <section class="layma-propsSection">
-    <h4 class="layma-propsSectionTitle">Image</h4>
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('image')"
+        [attr.aria-expanded]="isSectionOpen('image')"
+      >
+        <span>Image</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('image')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('image')) {
     <label class="layma-propsLabelBlock"
       >Fit
       <select class="layma-propsSelect" [value]="img.objectFit" (change)="onImageFitChange($event)">
@@ -290,13 +361,25 @@
     >
       Replace image
     </button>
+    }
   </section>
   }
 
   <!-- Table -->
   @if (asTable(); as tbl) {
   <section class="layma-propsSection">
-    <h4 class="layma-propsSectionTitle">Table</h4>
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('table')"
+        [attr.aria-expanded]="isSectionOpen('table')"
+      >
+        <span>Table</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('table')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('table')) {
     <div class="layma-propsGrid">
       <label class="layma-propsLabel">
         Columns
@@ -351,6 +434,16 @@
         class="layma-propsColor"
         [value]="tbl.headerBackground"
         (change)="onPropChange('headerBackground', $event)"
+      />
+    </label>
+
+    <label class="layma-propsLabelBlock">
+      Footer background
+      <input
+        type="color"
+        class="layma-propsColor"
+        [value]="tbl.footerBackground"
+        (change)="onPropChange('footerBackground', $event)"
       />
     </label>
 
@@ -531,13 +624,27 @@
       </div>
       }
     </div>
+    }
   </section>
   }
 
   <!-- Delete -->
   <section class="layma-propsSection">
+    <h4 class="layma-propsSectionTitle">
+      <button
+        type="button"
+        class="layma-propsSectionTitleBtn"
+        (click)="toggleSection('delete')"
+        [attr.aria-expanded]="isSectionOpen('delete')"
+      >
+        <span>Delete</span>
+        <span class="layma-propsSectionChevron" [class.isOpen]="isSectionOpen('delete')">▸</span>
+      </button>
+    </h4>
+    @if (isSectionOpen('delete')) {
     <button type="button" class="layma-propsDeleteBtn" (click)="deleteElement.emit()">
       Delete element
     </button>
+    }
   </section>
 </div>

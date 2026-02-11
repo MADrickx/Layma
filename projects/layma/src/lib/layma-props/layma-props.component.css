@@ -73,6 +73,40 @@
   color: #9ca3af;
 }
 
+.layma-propsSectionTitleBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.layma-propsSectionTitleBtn:hover {
+  color: #6b7280;
+}
+
+.layma-propsSectionChevron {
+  display: inline-block;
+  color: #9ca3af;
+  transition: transform 0.12s ease;
+  transform: rotate(0deg);
+  user-select: none;
+}
+
+.layma-propsSectionChevron.isOpen {
+  transform: rotate(90deg);
+}
+
 /* 2-column grid for compact fields */
 
 .layma-propsGrid {

@@ -107,6 +107,7 @@ export interface LaymaTableElement extends LaymaElementBase {
   readonly borderColor: string;
   readonly borderWidthMm: number;
   readonly headerBackground: string;
+  readonly footerBackground: string;
 }
 
 export type LaymaElement =
@@ -242,8 +243,8 @@ export function createDefaultTableElement(boxMm: {
       { text: 'Header2', isHeader: true },
     ],
     footer: [
-      { text: '', isHeader: false },
-      { text: '', isHeader: false },
+      { text: '#InvoiceLine_Field1#', isHeader: false },
+      { text: '#InvoiceLine_Field2#', isHeader: false },
     ],
     rowTemplate: [
       { text: '#InvoiceLine_Field1#', isHeader: false },
@@ -252,6 +253,7 @@ export function createDefaultTableElement(boxMm: {
     borderColor: '#cbd5e1',
     borderWidthMm: 0.3,
     headerBackground: '#f3f4f6',
+    footerBackground: '#ffffff',
   };
 }
 

@@ -348,6 +348,7 @@ function importTablixAsTable(
     borderColor: '#cbd5e1',
     borderWidthMm: 0.3,
     headerBackground: '#f3f4f6',
+    footerBackground: '#ffffff',
   };
 }
 
