@@ -229,3 +229,32 @@
 .layma-propsDeleteBtn:hover {
   background: #fef2f2;
 }
+
+/* Table cell editor blocks */
+
+.layma-propsCellSection {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #f3f4f6;
+}
+
+.layma-propsCellSectionTitle {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 6px;
+}
+
+.layma-propsCell {
+  padding: 8px;
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+
+.layma-propsCellTitle {
+  font-size: 10px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+}

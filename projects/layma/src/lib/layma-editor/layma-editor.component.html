@@ -191,6 +191,7 @@
           [attr.contenteditable]="editingTextId() === el.id ? 'plaintext-only' : null"
           [ngStyle]="{
             fontFamily: el.fontFamily,
+            fontWeight: el.fontWeight,
             fontSize: el.fontSizePt + 'pt',
             color: el.color,
             textAlign: el.align,
@@ -248,13 +249,14 @@
             </colgroup>
             <thead>
               <tr>
-                @for (c of el.header; track $index) {
+                @for (c of tableCells(el, 'header'); track $index) {
                 <th
                   class="layma-tablePreviewCell layma-tablePreviewCell--header"
                   [class.isEditing]="isEditingTableCell(el.id, 'header', $index)"
                   [attr.contenteditable]="
                     isEditingTableCell(el.id, 'header', $index) ? 'plaintext-only' : null
                   "
+                  [ngStyle]="tablePreviewCellStyle(el, c, 'header', $index)"
                   [textContent]="isEditingTableCell(el.id, 'header', $index) ? null : c.text"
                   (dblclick)="onTableCellDblClick($event, el.id, 'header', $index)"
                   (blur)="onTableCellBlur($event, el.id, 'header', $index)"
@@ -265,13 +267,14 @@
             </thead>
             <tbody>
               <tr>
-                @for (c of el.rowTemplate; track $index) {
+                @for (c of tableCells(el, 'rowTemplate'); track $index) {
                 <td
                   class="layma-tablePreviewCell"
                   [class.isEditing]="isEditingTableCell(el.id, 'row', $index)"
                   [attr.contenteditable]="
                     isEditingTableCell(el.id, 'row', $index) ? 'plaintext-only' : null
                   "
+                  [ngStyle]="tablePreviewCellStyle(el, c, 'rowTemplate', $index)"
                   [textContent]="isEditingTableCell(el.id, 'row', $index) ? null : c.text"
                   (dblclick)="onTableCellDblClick($event, el.id, 'row', $index)"
                   (blur)="onTableCellBlur($event, el.id, 'row', $index)"
@@ -280,6 +283,24 @@
                 }
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                @for (c of tableCells(el, 'footer'); track $index) {
+                <td
+                  class="layma-tablePreviewCell layma-tablePreviewCell--footer"
+                  [class.isEditing]="isEditingTableCell(el.id, 'footer', $index)"
+                  [attr.contenteditable]="
+                    isEditingTableCell(el.id, 'footer', $index) ? 'plaintext-only' : null
+                  "
+                  [ngStyle]="tablePreviewCellStyle(el, c, 'footer', $index)"
+                  [textContent]="isEditingTableCell(el.id, 'footer', $index) ? null : c.text"
+                  (dblclick)="onTableCellDblClick($event, el.id, 'footer', $index)"
+                  (blur)="onTableCellBlur($event, el.id, 'footer', $index)"
+                  (keydown)="onTableCellKeyDown($event)"
+                ></td>
+                }
+              </tr>
+            </tfoot>
           </table>
         </div>
         } }

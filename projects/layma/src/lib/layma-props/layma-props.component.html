@@ -146,6 +146,17 @@
         </select>
       </label>
       <label class="layma-propsLabel"
+        >Weight
+        <select
+          class="layma-propsSelect"
+          [value]="t.fontWeight"
+          (change)="onPropChange('fontWeight', $event)"
+        >
+          <option value="normal">Normal</option>
+          <option value="bold">Bold</option>
+        </select>
+      </label>
+      <label class="layma-propsLabel"
         >Padding
         <input
           type="number"
@@ -309,42 +320,217 @@
         />
       </label>
     </div>
+
     <div class="layma-propsGrid" style="margin-top: 6px">
-      @for (cell of tbl.header; track $index) {
       <label class="layma-propsLabel">
-        Header {{ $index + 1 }}
+        Border
+        <input
+          type="color"
+          class="layma-propsColor"
+          [value]="tbl.borderColor"
+          (change)="onPropChange('borderColor', $event)"
+        />
+      </label>
+      <label class="layma-propsLabel">
+        Border width
+        <input
+          type="number"
+          class="layma-propsInput"
+          [value]="tbl.borderWidthMm"
+          step="0.1"
+          min="0"
+          (change)="onPropChange('borderWidthMm', $event)"
+        />
+      </label>
+    </div>
+
+    <label class="layma-propsLabelBlock">
+      Header background
+      <input
+        type="color"
+        class="layma-propsColor"
+        [value]="tbl.headerBackground"
+        (change)="onPropChange('headerBackground', $event)"
+      />
+    </label>
+
+    <div class="layma-propsCellSection">
+      <div class="layma-propsCellSectionTitle">Header cells</div>
+      @for (cell of tableCells(tbl, 'header'); track $index) {
+      <div class="layma-propsCell">
+        <div class="layma-propsCellTitle">Header {{ $index + 1 }}</div>
         <input
           type="text"
           class="layma-propsInput"
           [value]="cell.text"
-          (change)="onTableHeaderChange($index, $event)"
+          (change)="onTableCellTextChange('header', $index, $event)"
         />
-      </label>
+        <div class="layma-propsGrid" style="margin-top: 6px">
+          <label class="layma-propsLabel">
+            Align
+            <select
+              class="layma-propsSelect"
+              [value]="cell.style?.align ?? tbl.columns[$index]?.align ?? 'left'"
+              (change)="onTableCellAlignChange('header', $index, $event)"
+            >
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </label>
+          <label class="layma-propsCheckboxLabel" style="margin-top: 14px">
+            <input
+              type="checkbox"
+              [checked]="(cell.style?.fontWeight ?? 'bold') === 'bold'"
+              (change)="onTableCellBoldChange('header', $index, $event)"
+            />
+            Bold
+          </label>
+        </div>
+        <div class="layma-propsGrid" style="margin-top: 6px">
+          <label class="layma-propsLabel">
+            Border
+            <input
+              type="color"
+              class="layma-propsColor"
+              [value]="cell.style?.borderColor ?? tbl.borderColor"
+              (change)="onTableCellBorderColorChange('header', $index, $event)"
+            />
+          </label>
+          <label class="layma-propsLabel">
+            Width
+            <input
+              type="number"
+              class="layma-propsInput"
+              [value]="cell.style?.borderWidthMm ?? tbl.borderWidthMm"
+              step="0.1"
+              min="0"
+              (change)="onTableCellBorderWidthChange('header', $index, $event)"
+            />
+          </label>
+        </div>
+      </div>
       }
     </div>
-    <div class="layma-propsGrid" style="margin-top: 6px">
-      @for (cell of tbl.rowTemplate; track $index) {
-      <label class="layma-propsLabel">
-        Row {{ $index + 1 }}
+
+    <div class="layma-propsCellSection">
+      <div class="layma-propsCellSectionTitle">Body cells (template row)</div>
+      @for (cell of tableCells(tbl, 'rowTemplate'); track $index) {
+      <div class="layma-propsCell">
+        <div class="layma-propsCellTitle">Cell {{ $index + 1 }}</div>
         <input
           type="text"
           class="layma-propsInput"
           [value]="cell.text"
           placeholder="#InvoiceLine_Field#"
-          (change)="onTableRowTagChange($index, $event)"
+          (change)="onTableCellTextChange('rowTemplate', $index, $event)"
         />
-      </label>
+        <div class="layma-propsGrid" style="margin-top: 6px">
+          <label class="layma-propsLabel">
+            Align
+            <select
+              class="layma-propsSelect"
+              [value]="cell.style?.align ?? tbl.columns[$index]?.align ?? 'left'"
+              (change)="onTableCellAlignChange('rowTemplate', $index, $event)"
+            >
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </label>
+          <label class="layma-propsCheckboxLabel" style="margin-top: 14px">
+            <input
+              type="checkbox"
+              [checked]="(cell.style?.fontWeight ?? 'normal') === 'bold'"
+              (change)="onTableCellBoldChange('rowTemplate', $index, $event)"
+            />
+            Bold
+          </label>
+        </div>
+        <div class="layma-propsGrid" style="margin-top: 6px">
+          <label class="layma-propsLabel">
+            Border
+            <input
+              type="color"
+              class="layma-propsColor"
+              [value]="cell.style?.borderColor ?? tbl.borderColor"
+              (change)="onTableCellBorderColorChange('rowTemplate', $index, $event)"
+            />
+          </label>
+          <label class="layma-propsLabel">
+            Width
+            <input
+              type="number"
+              class="layma-propsInput"
+              [value]="cell.style?.borderWidthMm ?? tbl.borderWidthMm"
+              step="0.1"
+              min="0"
+              (change)="onTableCellBorderWidthChange('rowTemplate', $index, $event)"
+            />
+          </label>
+        </div>
+      </div>
       }
     </div>
-    <label class="layma-propsLabelBlock"
-      >Border
-      <input
-        type="color"
-        class="layma-propsColor"
-        [value]="tbl.borderColor"
-        (change)="onPropChange('borderColor', $event)"
-      />
-    </label>
+
+    <div class="layma-propsCellSection">
+      <div class="layma-propsCellSectionTitle">Footer cells</div>
+      @for (cell of tableCells(tbl, 'footer'); track $index) {
+      <div class="layma-propsCell">
+        <div class="layma-propsCellTitle">Footer {{ $index + 1 }}</div>
+        <input
+          type="text"
+          class="layma-propsInput"
+          [value]="cell.text"
+          (change)="onTableCellTextChange('footer', $index, $event)"
+        />
+        <div class="layma-propsGrid" style="margin-top: 6px">
+          <label class="layma-propsLabel">
+            Align
+            <select
+              class="layma-propsSelect"
+              [value]="cell.style?.align ?? tbl.columns[$index]?.align ?? 'left'"
+              (change)="onTableCellAlignChange('footer', $index, $event)"
+            >
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </label>
+          <label class="layma-propsCheckboxLabel" style="margin-top: 14px">
+            <input
+              type="checkbox"
+              [checked]="(cell.style?.fontWeight ?? 'normal') === 'bold'"
+              (change)="onTableCellBoldChange('footer', $index, $event)"
+            />
+            Bold
+          </label>
+        </div>
+        <div class="layma-propsGrid" style="margin-top: 6px">
+          <label class="layma-propsLabel">
+            Border
+            <input
+              type="color"
+              class="layma-propsColor"
+              [value]="cell.style?.borderColor ?? tbl.borderColor"
+              (change)="onTableCellBorderColorChange('footer', $index, $event)"
+            />
+          </label>
+          <label class="layma-propsLabel">
+            Width
+            <input
+              type="number"
+              class="layma-propsInput"
+              [value]="cell.style?.borderWidthMm ?? tbl.borderWidthMm"
+              step="0.1"
+              min="0"
+              (change)="onTableCellBorderWidthChange('footer', $index, $event)"
+            />
+          </label>
+        </div>
+      </div>
+      }
+    </div>
   </section>
   }
 

@@ -2,10 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 
 import type {
   LaymaElement,
+  LaymaFontWeight,
   LaymaImageElement,
   LaymaLineElement,
   LaymaRectElement,
+  LaymaTableCell,
+  LaymaTableCellStyle,
   LaymaTableElement,
+  LaymaTextAlign,
   LaymaTextElement,
 } from '../model/model';
 
@@ -56,6 +60,52 @@ export class LaymaPropsComponent {
   readonly reorder = output<'forward' | 'backward' | 'front' | 'back'>();
   readonly replaceImage = output<void>();
   readonly imageFitChange = output<LaymaImageElement['objectFit']>();
+
+  private tableCellPropName(kind: 'header' | 'rowTemplate' | 'footer'): 'header' | 'rowTemplate' | 'footer' {
+    return kind;
+  }
+
+  tableCells(table: LaymaTableElement, kind: 'header' | 'rowTemplate' | 'footer'): readonly LaymaTableCell[] {
+    const count = Math.max(1, table.columns.length);
+    const current =
+      kind === 'header' ? table.header : kind === 'footer' ? (table.footer ?? []) : table.rowTemplate;
+
+    return Array.from({ length: count }, (_, i) => {
+      const existing = current[i];
+      if (existing) return existing;
+      const isHeader = kind === 'header';
+      const text =
+        kind === 'header'
+          ? `Header${i + 1}`
+          : kind === 'rowTemplate'
+            ? `#InvoiceLine_Field${i + 1}#`
+            : '';
+      return { text, isHeader };
+    });
+  }
+
+  private patchTableCell(
+    kind: 'header' | 'rowTemplate' | 'footer',
+    index: number,
+    patch: (cell: LaymaTableCell) => LaymaTableCell
+  ): void {
+    const table = this.asTable();
+    if (!table) return;
+    const cells = this.tableCells(table, kind);
+    const next = cells.map((cell, i) => (i === index ? patch(cell) : cell));
+    this.propChange.emit({ propName: this.tableCellPropName(kind), value: next });
+  }
+
+  private patchTableCellStyle(
+    kind: 'header' | 'rowTemplate' | 'footer',
+    index: number,
+    patch: (style: LaymaTableCellStyle) => LaymaTableCellStyle
+  ): void {
+    this.patchTableCell(kind, index, (cell) => {
+      const nextStyle = patch({ ...(cell.style ?? {}) });
+      return { ...cell, style: nextStyle };
+    });
+  }
 
   onPropChange(propName: string, event: Event): void {
     const target = event.target;
@@ -112,15 +162,24 @@ export class LaymaPropsComponent {
     const nextHeader = Array.from({ length: count }, (_, i) => ({
       text: table.header[i]?.text ?? `Header${i + 1}`,
       isHeader: true,
+      style: table.header[i]?.style,
     }));
 
     const nextRow = Array.from({ length: count }, (_, i) => ({
       text: table.rowTemplate[i]?.text ?? `#InvoiceLine_Field${i + 1}#`,
       isHeader: false,
+      style: table.rowTemplate[i]?.style,
+    }));
+
+    const nextFooter = Array.from({ length: count }, (_, i) => ({
+      text: table.footer?.[i]?.text ?? '',
+      isHeader: false,
+      style: table.footer?.[i]?.style,
     }));
 
     this.propChange.emit({ propName: 'columns', value: nextColumns });
     this.propChange.emit({ propName: 'header', value: nextHeader });
+    this.propChange.emit({ propName: 'footer', value: nextFooter });
     this.propChange.emit({ propName: 'rowTemplate', value: nextRow });
   }
 
@@ -144,5 +203,40 @@ export class LaymaPropsComponent {
       i === index ? { ...cell, text: target.value } : cell
     );
     this.propChange.emit({ propName: 'rowTemplate', value: next });
+  }
+
+  onTableCellTextChange(kind: 'header' | 'rowTemplate' | 'footer', index: number, event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    this.patchTableCell(kind, index, (cell) => ({ ...cell, text: target.value }));
+  }
+
+  onTableCellAlignChange(kind: 'header' | 'rowTemplate' | 'footer', index: number, event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLSelectElement)) return;
+    const value = target.value;
+    if (value !== 'left' && value !== 'center' && value !== 'right') return;
+    this.patchTableCellStyle(kind, index, (style) => ({ ...style, align: value as LaymaTextAlign }));
+  }
+
+  onTableCellBoldChange(kind: 'header' | 'rowTemplate' | 'footer', index: number, event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    const weight: LaymaFontWeight = target.checked ? 'bold' : 'normal';
+    this.patchTableCellStyle(kind, index, (style) => ({ ...style, fontWeight: weight }));
+  }
+
+  onTableCellBorderColorChange(kind: 'header' | 'rowTemplate' | 'footer', index: number, event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    this.patchTableCellStyle(kind, index, (style) => ({ ...style, borderColor: target.value }));
+  }
+
+  onTableCellBorderWidthChange(kind: 'header' | 'rowTemplate' | 'footer', index: number, event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    const value = Number(target.value);
+    if (!Number.isFinite(value) || value < 0) return;
+    this.patchTableCellStyle(kind, index, (style) => ({ ...style, borderWidthMm: value }));
   }
 }

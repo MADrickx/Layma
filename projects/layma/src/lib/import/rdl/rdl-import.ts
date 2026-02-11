@@ -221,6 +221,7 @@ function importTextbox(
     heightMm: box.heightMm,
     text,
     fontFamily,
+    fontWeight: 'normal',
     fontSizePt: Number.isFinite(fontSizePt) ? Math.max(1, Math.round(fontSizePt * 10) / 10) : 12,
     color,
     align,

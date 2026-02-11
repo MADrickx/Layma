@@ -4,6 +4,10 @@ export type LaymaElementId = string;
 
 export type LaymaSection = 'header' | 'body' | 'footer';
 
+export type LaymaTextAlign = 'left' | 'center' | 'right';
+
+export type LaymaFontWeight = 'normal' | 'bold';
+
 export interface LaymaPage {
   /**
    * Use millimeters for stable export to A4/PDF.
@@ -38,9 +42,10 @@ export interface LaymaTextElement extends LaymaElementBase {
   readonly type: 'text';
   readonly text: string;
   readonly fontFamily: string;
+  readonly fontWeight: LaymaFontWeight;
   readonly fontSizePt: number;
   readonly color: string;
-  readonly align: 'left' | 'center' | 'right';
+  readonly align: LaymaTextAlign;
   /** Uniform padding on all four sides, in mm. */
   readonly paddingMm: number;
 }
@@ -70,18 +75,32 @@ export interface LaymaImageElement extends LaymaElementBase {
 
 export interface LaymaTableColumn {
   readonly widthMm: number;
-  readonly align: 'left' | 'center' | 'right';
+  readonly align: LaymaTextAlign;
+}
+
+export interface LaymaTableCellStyle {
+  /** Overrides table defaults for this cell. All properties are optional for back-compat. */
+  readonly borderColor?: string;
+  readonly borderWidthMm?: number;
+  readonly fontWeight?: LaymaFontWeight;
+  readonly align?: LaymaTextAlign;
 }
 
 export interface LaymaTableCell {
   readonly text: string;
   readonly isHeader: boolean;
+  readonly style?: LaymaTableCellStyle;
 }
 
 export interface LaymaTableElement extends LaymaElementBase {
   readonly type: 'table';
   readonly columns: readonly LaymaTableColumn[];
   readonly header: readonly LaymaTableCell[];
+  /**
+   * A single static footer row (summary/total). Rendered as <tfoot>.
+   * Not repeated per dataset item.
+   */
+  readonly footer?: readonly LaymaTableCell[];
   readonly rowTemplate: readonly LaymaTableCell[];
   /** Optional dataset binding for the template row. */
   readonly tableDataset?: string;
@@ -129,6 +148,7 @@ export function createDefaultTextElement(boxMm: {
     ...normalized,
     text: 'Text',
     fontFamily: 'Arial, Helvetica, sans-serif',
+    fontWeight: 'normal',
     fontSizePt: 12,
     color: '#111',
     align: 'left',
@@ -220,6 +240,10 @@ export function createDefaultTableElement(boxMm: {
     header: [
       { text: 'Header1', isHeader: true },
       { text: 'Header2', isHeader: true },
+    ],
+    footer: [
+      { text: '', isHeader: false },
+      { text: '', isHeader: false },
     ],
     rowTemplate: [
       { text: '#InvoiceLine_Field1#', isHeader: false },

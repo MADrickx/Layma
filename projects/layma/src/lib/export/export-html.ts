@@ -1,4 +1,4 @@
-import type { LaymaDocument, LaymaElement, LaymaTableElement } from '../model/model';
+import type { LaymaDocument, LaymaElement, LaymaTableCell, LaymaTableElement } from '../model/model';
 
 function escapeHtmlText(text: string): string {
   return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -26,6 +26,7 @@ function elementInlineStyleMm(el: LaymaElement, zIndex: number): string {
   if (el.type === 'text') {
     stylePairs.push(['white-space', 'pre-wrap']);
     stylePairs.push(['font-family', el.fontFamily]);
+    stylePairs.push(['font-weight', el.fontWeight]);
     stylePairs.push(['font-size', `${el.fontSizePt}pt`]);
     stylePairs.push(['color', el.color]);
     stylePairs.push(['text-align', el.align]);
@@ -57,6 +58,48 @@ function elementInlineStyleMm(el: LaymaElement, zIndex: number): string {
   return stylePairs.map(([k, v]) => `${k}:${v}`).join(';');
 }
 
+function tableCells(el: LaymaTableElement, kind: 'header' | 'rowTemplate' | 'footer'): readonly LaymaTableCell[] {
+  const count = Math.max(1, el.columns.length);
+  const current =
+    kind === 'header' ? el.header : kind === 'footer' ? (el.footer ?? []) : el.rowTemplate;
+
+  return Array.from({ length: count }, (_, i) => {
+    const existing = current[i];
+    if (existing) return existing;
+    const isHeader = kind === 'header';
+    const text =
+      kind === 'header'
+        ? `Header${i + 1}`
+        : kind === 'rowTemplate'
+          ? `#InvoiceLine_Field${i + 1}#`
+          : '';
+    return { text, isHeader };
+  });
+}
+
+function tableCellStyleAttr(
+  el: LaymaTableElement,
+  cell: LaymaTableCell,
+  kind: 'header' | 'rowTemplate' | 'footer',
+  colIndex: number
+): string {
+  const borderColor = cell.style?.borderColor ?? el.borderColor;
+  const borderWidthMm = cell.style?.borderWidthMm ?? el.borderWidthMm;
+  const fontWeight = cell.style?.fontWeight ?? (kind === 'header' ? 'bold' : 'normal');
+  const textAlign = cell.style?.align ?? el.columns[colIndex]?.align ?? 'left';
+
+  const stylePairs: Array<[string, string]> = [
+    ['border-style', 'solid'],
+    ['border-color', borderColor],
+    ['border-width', `${borderWidthMm}mm`],
+    ['font-weight', fontWeight],
+    ['text-align', textAlign],
+  ];
+
+  if (kind === 'header') stylePairs.push(['background', el.headerBackground]);
+  return escapeHtmlAttr(stylePairs.map(([k, v]) => `${k}:${v}`).join(';'));
+}
+
 function tableHtml(el: LaymaTableElement, zIndex: number): string {
   const style = escapeHtmlAttr(elementInlineStyleMm(el, zIndex));
   // Repeat marker: external pipeline should duplicate the template row per dataset item.
@@ -68,13 +111,45 @@ function tableHtml(el: LaymaTableElement, zIndex: number): string {
     .map((c) => `<col style="width:${escapeHtmlAttr(`${c.widthMm}mm`)}" />`)
     .join('');
 
-  const headerCells = el.header
-    .map((c) => `<th class="layma-tableCell">${escapeHtmlText(c.text)}</th>`)
+  const headerCells = tableCells(el, 'header')
+    .map(
+      (c, i) =>
+        `<th class="layma-tableCell" data-layma-cell="header" data-layma-col="${i}" style="${tableCellStyleAttr(
+          el,
+          c,
+          'header',
+          i
+        )}">${escapeHtmlText(c.text)}</th>`
+    )
     .join('');
 
-  const rowCells = el.rowTemplate
-    .map((c) => `<td class="layma-tableCell">${escapeHtmlText(c.text)}</td>`)
+  const rowCells = tableCells(el, 'rowTemplate')
+    .map(
+      (c, i) =>
+        `<td class="layma-tableCell" data-layma-cell="body" data-layma-col="${i}" style="${tableCellStyleAttr(
+          el,
+          c,
+          'rowTemplate',
+          i
+        )}">${escapeHtmlText(c.text)}</td>`
+    )
     .join('');
+
+  const footer = el.footer ?? null;
+  const footerCells =
+    footer && footer.length
+      ? tableCells(el, 'footer')
+          .map(
+            (c, i) =>
+              `<td class="layma-tableCell" data-layma-cell="footer" data-layma-col="${i}" style="${tableCellStyleAttr(
+                el,
+                c,
+                'footer',
+                i
+              )}">${escapeHtmlText(c.text)}</td>`
+          )
+          .join('')
+      : '';
 
   return [
     `<div class="layma-table" style="${style}">`,
@@ -84,6 +159,7 @@ function tableHtml(el: LaymaTableElement, zIndex: number): string {
     `<tbody>`,
     `<tr class="layma-tableTemplate"${repeatAttr}>${rowCells}</tr>`,
     `</tbody>`,
+    footerCells ? `<tfoot><tr>${footerCells}</tr></tfoot>` : '',
     `</table>`,
     `</div>`,
   ].join('');
@@ -124,8 +200,8 @@ export function exportDocumentToHtml(doc: LaymaDocument): string {
 html,body{margin:0;padding:0}
 .page{position:relative;width:${widthMm}mm;height:${heightMm}mm;background:#fff;overflow:hidden}
 .layma-tableInner{width:100%;height:100%;border-collapse:collapse;table-layout:fixed}
-.layma-tableCell{border:0.3mm solid #cbd5e1;padding:1mm;font-family:Arial,Helvetica,sans-serif;font-size:9pt;vertical-align:top}
-.layma-table thead .layma-tableCell{background:#f3f4f6;font-weight:700}
+.layma-tableCell{border-style:solid;border-color:#cbd5e1;border-width:0.3mm;padding:1mm;font-family:Arial,Helvetica,sans-serif;font-size:9pt;vertical-align:top}
+.layma-table thead .layma-tableCell{font-weight:700}
 `.trim();
 
   return [

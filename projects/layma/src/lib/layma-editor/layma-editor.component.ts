@@ -21,7 +21,9 @@ import {
   type LaymaElementId,
   type LaymaImageElement,
   type LaymaSection,
+  type LaymaTableCell,
   type LaymaTableColumn,
+  type LaymaTableElement,
   createDefaultLineElement,
   createDefaultImageElement,
   createDefaultRectElement,
@@ -87,7 +89,7 @@ interface DragStateMultiMove {
   >;
 }
 
-type TableCellKind = 'header' | 'row';
+type TableCellKind = 'header' | 'row' | 'footer';
 interface TableCellEdit {
   readonly elementId: LaymaElementId;
   readonly kind: TableCellKind;
@@ -183,6 +185,46 @@ export class LaymaEditorComponent {
   private isDragging = false;
 
   readonly elements = computed(() => this.documentState().elements);
+
+  tableCells(el: LaymaTableElement, kind: 'header' | 'rowTemplate' | 'footer'): readonly LaymaTableCell[] {
+    const count = Math.max(1, el.columns.length);
+    const current =
+      kind === 'header' ? el.header : kind === 'footer' ? (el.footer ?? []) : el.rowTemplate;
+
+    return Array.from({ length: count }, (_, i) => {
+      const existing = current[i];
+      if (existing) return existing;
+      const isHeader = kind === 'header';
+      const text =
+        kind === 'header'
+          ? `Header${i + 1}`
+          : kind === 'rowTemplate'
+            ? `#InvoiceLine_Field${i + 1}#`
+            : '';
+      return { text, isHeader };
+    });
+  }
+
+  tablePreviewCellStyle(
+    table: LaymaTableElement,
+    cell: LaymaTableCell,
+    kind: 'header' | 'rowTemplate' | 'footer',
+    colIndex: number
+  ): Record<string, string> {
+    const borderColor = cell.style?.borderColor ?? table.borderColor;
+    const borderWidthMm = cell.style?.borderWidthMm ?? table.borderWidthMm;
+    const fontWeight = cell.style?.fontWeight ?? (kind === 'header' ? 'bold' : 'normal');
+    const textAlign = cell.style?.align ?? table.columns[colIndex]?.align ?? 'left';
+    const style: Record<string, string> = {
+      borderColor,
+      borderWidth: `${borderWidthMm}mm`,
+      borderStyle: 'solid',
+      fontWeight,
+      textAlign,
+    };
+    if (kind === 'header') style['background'] = table.headerBackground;
+    return style;
+  }
 
   readonly sectionHeights = computed(() => {
     const doc = this.documentState();
@@ -442,7 +484,11 @@ export class LaymaEditorComponent {
     const el = this.documentState().elements.find((e) => e.id === elementId);
     if (!el || el.type !== 'table') return;
     const text =
-      kind === 'header' ? el.header[index]?.text ?? '' : el.rowTemplate[index]?.text ?? '';
+      kind === 'header'
+        ? el.header[index]?.text ?? ''
+        : kind === 'footer'
+          ? el.footer?.[index]?.text ?? ''
+          : el.rowTemplate[index]?.text ?? '';
 
     const cell = event.currentTarget;
     if (cell instanceof HTMLElement) {
@@ -479,6 +525,15 @@ export class LaymaEditorComponent {
           i === index ? { ...cell, text: newText } : cell
         );
         return { ...el, header };
+      }
+      if (kind === 'footer') {
+        const count = el.columns.length;
+        const current = el.footer ?? [];
+        const footer = Array.from({ length: count }, (_, i) => ({
+          text: current[i]?.text ?? '',
+          isHeader: false,
+        })).map((cell, i) => (i === index ? { ...cell, text: newText } : cell));
+        return { ...el, footer };
       }
       const rowTemplate = el.rowTemplate.map((cell, i) =>
         i === index ? { ...cell, text: newText } : cell
