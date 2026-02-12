@@ -815,12 +815,15 @@ export class LaymaEditorComponent {
   onElementPointerDown(event: PointerEvent, elementId: LaymaElementId): void {
     if (event.button !== 0) return;
 
+    // Always stop bubbling to the page handler. Otherwise, when a text/table cell is in edit mode
+    // (and we early-return below), the page's pointerdown can start marquee/drag tracking which
+    // breaks native text selection (click + drag) inside the contenteditable.
+    event.stopPropagation();
+
     // While editing a text element, let clicks pass through.
     if (this.editingTextId() === elementId) return;
     const editingTable = this.editingTableCell();
     if (editingTable?.elementId === elementId) return;
-
-    event.stopPropagation();
 
     const additive = event.shiftKey;
 
