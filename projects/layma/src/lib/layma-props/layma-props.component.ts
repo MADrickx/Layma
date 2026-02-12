@@ -6,6 +6,7 @@ import type {
   LaymaImageElement,
   LaymaLineElement,
   LaymaRectElement,
+  LaymaTableEntityBinding,
   LaymaTableCell,
   LaymaTableCellStyle,
   LaymaTableElement,
@@ -55,6 +56,8 @@ export class LaymaPropsComponent {
   }
 
   readonly element = input.required<LaymaElement>();
+  /** Host-provided entity bindings for the Table props dropdowns. */
+  readonly tableEntityBindings = input<readonly LaymaTableEntityBinding[]>([]);
 
   readonly asText = computed((): LaymaTextElement | null => {
     const el = this.element();
@@ -79,6 +82,19 @@ export class LaymaPropsComponent {
   readonly asTable = computed((): LaymaTableElement | null => {
     const el = this.element();
     return el.type === 'table' ? el : null;
+  });
+
+  readonly tableMainEntityOptions = computed((): readonly string[] => {
+    const bindings = this.tableEntityBindings();
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const b of bindings) {
+      const main = b.mainEntity.trim();
+      if (!main || seen.has(main)) continue;
+      seen.add(main);
+      out.push(main);
+    }
+    return out;
   });
 
   readonly propChange = output<LaymaPropsEvent>();
@@ -161,6 +177,57 @@ export class LaymaPropsComponent {
     const target = event.target;
     if (!(target instanceof HTMLInputElement)) return;
     this.propChange.emit({ propName, value: target.checked });
+  }
+
+  repeatableEntityOptions(table: LaymaTableElement): readonly string[] {
+    const main = table.tableMainType?.trim() ?? '';
+    if (!main) return [];
+
+    const out: string[] = [];
+    const seen = new Set<string>();
+    for (const binding of this.tableEntityBindings()) {
+      if (binding.mainEntity.trim() !== main) continue;
+      for (const raw of binding.repeatableEntity) {
+        const next = raw.trim();
+        if (!next || seen.has(next)) continue;
+        seen.add(next);
+        out.push(next);
+      }
+    }
+    return out;
+  }
+
+  onTableMainTypeChange(event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLSelectElement)) return;
+
+    const raw = target.value.trim();
+    const isValid =
+      raw === '' ? true : this.tableMainEntityOptions().some((opt) => opt === raw);
+    if (!isValid) return;
+
+    const nextMain: string | undefined = raw === '' ? undefined : raw;
+    // Changing main invalidates dependent selections.
+    this.propChange.emit({ propName: 'tableMainType', value: nextMain });
+    this.propChange.emit({ propName: 'tableRepeatableType', value: undefined });
+    this.propChange.emit({ propName: 'tableDataset', value: undefined });
+  }
+
+  onTableRepeatableTypeChange(event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLSelectElement)) return;
+    const table = this.asTable();
+    if (!table) return;
+
+    const raw = target.value.trim();
+    const options = this.repeatableEntityOptions(table);
+    const isValid = raw === '' ? true : options.some((opt) => opt === raw);
+    if (!isValid) return;
+
+    const nextRepeatable: string | undefined = raw === '' ? undefined : raw;
+    this.propChange.emit({ propName: 'tableRepeatableType', value: nextRepeatable });
+    // Keep existing repeat contract working by syncing to tableDataset.
+    this.propChange.emit({ propName: 'tableDataset', value: nextRepeatable });
   }
 
   onImageFitChange(event: Event): void {

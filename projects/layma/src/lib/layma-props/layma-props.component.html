@@ -380,6 +380,16 @@
       </button>
     </h4>
     @if (isSectionOpen('table')) {
+    @if (tableEntityBindings().length === 0) {
+    <div class="layma-propsHint layma-propsHint--warn">
+      No table entity bindings were provided by the host app, so export metadata can’t be set.
+    </div>
+    }
+    @if (!tbl.tableMainType || !tbl.tableRepeatableType) {
+    <div class="layma-propsHint layma-propsHint--warn">
+      Required: choose a main entity and a repeatable entity to enable export.
+    </div>
+    }
     <div class="layma-propsGrid">
       <label class="layma-propsLabel">
         Columns
@@ -393,16 +403,36 @@
         />
       </label>
       <label class="layma-propsLabel">
-        Dataset
-        <input
-          type="text"
-          class="layma-propsInput"
-          [value]="tbl.tableDataset ?? ''"
-          placeholder="InvoiceLine"
-          (change)="onPropChange('tableDataset', $event)"
-        />
+        Main entity
+        <select
+          class="layma-propsSelect"
+          [class.isInvalid]="!tbl.tableMainType"
+          [value]="tbl.tableMainType ?? ''"
+          (change)="onTableMainTypeChange($event)"
+        >
+          <option value="">Select…</option>
+          @for (entity of tableMainEntityOptions(); track entity) {
+          <option [value]="entity">{{ entity }}</option>
+          }
+        </select>
       </label>
     </div>
+
+    <label class="layma-propsLabelBlock">
+      Repeatable entity
+      <select
+        class="layma-propsSelect"
+        [class.isInvalid]="!tbl.tableRepeatableType"
+        [disabled]="!tbl.tableMainType"
+        [value]="tbl.tableRepeatableType ?? ''"
+        (change)="onTableRepeatableTypeChange($event)"
+      >
+        <option value="">Select…</option>
+        @for (entity of repeatableEntityOptions(tbl); track entity) {
+        <option [value]="entity">{{ entity }}</option>
+        }
+      </select>
+    </label>
 
     <div class="layma-propsGrid" style="margin-top: 6px">
       <label class="layma-propsLabel">

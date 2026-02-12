@@ -8,6 +8,13 @@ export type LaymaTextAlign = 'left' | 'center' | 'right';
 
 export type LaymaFontWeight = 'normal' | 'bold';
 
+export interface LaymaTableEntityBinding {
+  /** Single-record entity for the document, e.g. `InvoiceHeader`. */
+  readonly mainEntity: string;
+  /** Repeatable entities available under the main entity, e.g. `InvoiceLine`. */
+  readonly repeatableEntity: readonly string[];
+}
+
 export interface LaymaPage {
   /**
    * Use millimeters for stable export to A4/PDF.
@@ -104,6 +111,10 @@ export interface LaymaTableElement extends LaymaElementBase {
   readonly rowTemplate: readonly LaymaTableCell[];
   /** Optional dataset binding for the template row. */
   readonly tableDataset?: string;
+  /** Mandatory export metadata: main (single-record) entity type. */
+  readonly tableMainType?: string;
+  /** Mandatory export metadata: repeatable (collection) entity type. */
+  readonly tableRepeatableType?: string;
   readonly borderColor: string;
   readonly borderWidthMm: number;
   readonly headerBackground: string;

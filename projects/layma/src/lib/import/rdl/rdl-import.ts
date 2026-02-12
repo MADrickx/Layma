@@ -345,6 +345,8 @@ function importTablixAsTable(
     columns: normalizedColumns,
     header: headerCells,
     rowTemplate: rowCells,
+    tableDataset: datasetHint,
+    tableRepeatableType: datasetHint,
     borderColor: '#cbd5e1',
     borderWidthMm: 0.3,
     headerBackground: '#f3f4f6',

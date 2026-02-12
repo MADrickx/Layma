@@ -116,7 +116,15 @@
     </span>
 
     <div class="layma-headerActions">
-      <button type="button" class="layma-headerBtn" (click)="requestExport()">Export HTML</button>
+      <button
+        type="button"
+        class="layma-headerBtn"
+        [disabled]="hasInvalidTableBindings()"
+        [title]="exportHtmlDisabledTitle()"
+        (click)="requestExport()"
+      >
+        Export HTML
+      </button>
       <button type="button" class="layma-headerBtn" (click)="triggerRdlPick()">Import RDL</button>
     </div>
 
@@ -358,6 +366,7 @@
     @if (selectedElement(); as sel) {
     <layma-props
       [element]="sel"
+      [tableEntityBindings]="tableEntityBindings()"
       (pointerdown)="$event.stopPropagation()"
       (propChange)="onPropsChange($event)"
       (close)="clearSelection()"

@@ -1,5 +1,7 @@
 import type { LaymaDocument, LaymaElement, LaymaTableCell, LaymaTableElement } from '../model/model';
 
+const PT_PER_MM = 72 / 25.4; // iText tends to be more consistent in pt than mm for borders.
+
 function escapeHtmlText(text: string): string {
   return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }
@@ -10,6 +12,24 @@ function escapeHtmlAttr(value: string): string {
     .replaceAll('"', '&quot;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;');
+}
+
+function mmToPt(mm: number): number {
+  return mm * PT_PER_MM;
+}
+
+function formatPt(pt: number): string {
+  if (!Number.isFinite(pt) || pt <= 0) return '0';
+  // Avoid long floats in HTML; keep enough precision for thin borders.
+  const rounded = Math.round(pt * 100) / 100;
+  // Trim trailing zeros (e.g. "3.00" -> "3", "2.80" -> "2.8").
+  return String(rounded).replace(/\.0+$/, '').replace(/(\.\d*[1-9])0+$/, '$1');
+}
+
+function borderShorthandFromMm(widthMm: number, color: string): string {
+  if (!Number.isFinite(widthMm) || widthMm <= 0) return 'none';
+  const widthPt = mmToPt(widthMm);
+  return `${formatPt(widthPt)}pt solid ${color}`;
 }
 
 function elementInlineStyleMm(el: LaymaElement, zIndex: number): string {
@@ -35,9 +55,7 @@ function elementInlineStyleMm(el: LaymaElement, zIndex: number): string {
 
   if (el.type === 'rect') {
     stylePairs.push(['background', el.fillColor]);
-    stylePairs.push(['border-style', 'solid']);
-    stylePairs.push(['border-color', el.borderColor]);
-    stylePairs.push(['border-width', `${el.borderWidthMm}mm`]);
+    stylePairs.push(['border', borderShorthandFromMm(el.borderWidthMm, el.borderColor)]);
     stylePairs.push(['border-radius', `${el.borderRadiusMm}mm`]);
   }
 
@@ -89,9 +107,9 @@ function tableCellStyleAttr(
   const textAlign = cell.style?.align ?? el.columns[colIndex]?.align ?? 'left';
 
   const stylePairs: Array<[string, string]> = [
-    ['border-style', 'solid'],
-    ['border-color', borderColor],
-    ['border-width', `${borderWidthMm}mm`],
+    // iText html2pdf is picky with border-collapse + separate border props.
+    // Use `border:` shorthand and pt for consistent PDF rendering.
+    ['border', borderShorthandFromMm(borderWidthMm, borderColor)],
     ['font-weight', fontWeight],
     ['text-align', textAlign],
   ];
@@ -105,9 +123,11 @@ function tableHtml(el: LaymaTableElement, zIndex: number): string {
   const style = escapeHtmlAttr(elementInlineStyleMm(el, zIndex));
   const DEFAULT_TABLE_ROW_HEIGHT_MM = 5;
   // Repeat marker: external pipeline should duplicate the template row per dataset item.
-  const repeatAttr = el.tableDataset
-    ? ` data-layma-repeat="${escapeHtmlAttr(el.tableDataset)}"`
-    : '';
+  const repeatAttr = el.tableRepeatableType ?? el.tableDataset;
+  const repeatAttrHtml = repeatAttr ? ` data-layma-repeat="${escapeHtmlAttr(repeatAttr)}"` : '';
+
+  const mainTypeHtml = escapeHtmlAttr(el.tableMainType ?? '');
+  const repeatableTypeHtml = escapeHtmlAttr(el.tableRepeatableType ?? '');
 
   const colgroup = el.columns
     .map((c) => `<col style="width:${escapeHtmlAttr(`${c.widthMm}mm`)}" />`)
@@ -154,12 +174,12 @@ function tableHtml(el: LaymaTableElement, zIndex: number): string {
       : '';
 
   return [
-    `<div class="layma-table" style="${style}" data-table-height="${escapeHtmlAttr(String(el.heightMm))}" data-table-row-height="${escapeHtmlAttr(String(DEFAULT_TABLE_ROW_HEIGHT_MM))}">`,
+    `<div class="layma-table" style="${style}" data-table-height="${escapeHtmlAttr(String(el.heightMm))}" data-table-row-height="${escapeHtmlAttr(String(DEFAULT_TABLE_ROW_HEIGHT_MM))}" data-table-main-type="${mainTypeHtml}" data-table-repeatable-type="${repeatableTypeHtml}">`,
     `<table class="layma-tableInner" cellspacing="0" cellpadding="0">`,
     `<colgroup>${colgroup}</colgroup>`,
     `<thead><tr>${headerCells}</tr></thead>`,
     `<tbody>`,
-    `<tr class="layma-tableTemplate"${repeatAttr}>${rowCells}</tr>`,
+    `<tr class="layma-tableTemplate"${repeatAttrHtml}>${rowCells}</tr>`,
     `</tbody>`,
     footerCells ? `<tfoot><tr>${footerCells}</tr></tfoot>` : '',
     `</table>`,
@@ -202,7 +222,7 @@ export function exportDocumentToHtml(doc: LaymaDocument): string {
 html,body{margin:0;padding:0}
 .page{position:relative;width:${widthMm}mm;height:${heightMm}mm;background:#fff;overflow:hidden}
 .layma-tableInner{width:100%;height:100%;border-collapse:collapse;table-layout:fixed}
-.layma-tableCell{border-style:solid;border-color:#cbd5e1;border-width:0.3mm;padding:1mm;font-family:Arial,Helvetica,sans-serif;font-size:9pt;vertical-align:top}
+.layma-tableCell{border:${borderShorthandFromMm(0.3, '#cbd5e1')};padding:1mm;font-family:Arial,Helvetica,sans-serif;font-size:9pt;vertical-align:top}
 .layma-table thead .layma-tableCell{font-weight:700}
 `.trim();
 

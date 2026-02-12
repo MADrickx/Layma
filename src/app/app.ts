@@ -1,6 +1,11 @@
 import { Component, signal } from '@angular/core';
 
-import { LaymaEditorComponent, createEmptyDocument, type LaymaDocument } from 'layma';
+import {
+  LaymaEditorComponent,
+  LaymaTableEntityBinding,
+  createEmptyDocument,
+  type LaymaDocument,
+} from 'layma';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +15,8 @@ import { LaymaEditorComponent, createEmptyDocument, type LaymaDocument } from 'l
 })
 export class App {
   readonly document = signal<LaymaDocument>(createEmptyDocument());
+  readonly bindings = [
+    { mainEntity: 'InvoiceHeader', repeatableEntity: ['InvoiceLine'] },
+    { mainEntity: 'Order', repeatableEntity: ['OrderLine', 'ShipmentLine'] },
+  ] as readonly LaymaTableEntityBinding[];
 }

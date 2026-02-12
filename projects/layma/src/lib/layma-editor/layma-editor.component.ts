@@ -24,6 +24,7 @@ import {
   type LaymaTableCell,
   type LaymaTableColumn,
   type LaymaTableElement,
+  type LaymaTableEntityBinding,
   createDefaultLineElement,
   createDefaultImageElement,
   createDefaultRectElement,
@@ -145,6 +146,12 @@ export class LaymaEditorComponent {
    */
   readonly snapEnabled = input<boolean>(true);
 
+  /**
+   * Host-provided entity bindings for table export metadata.
+   * Used by the table props UI to offer dependent dropdowns.
+   */
+  readonly tableEntityBindings = input<readonly LaymaTableEntityBinding[]>([]);
+
   // ── Outputs ──
 
   /**
@@ -185,6 +192,20 @@ export class LaymaEditorComponent {
   private isDragging = false;
 
   readonly elements = computed(() => this.documentState().elements);
+
+  readonly hasInvalidTableBindings = computed((): boolean => {
+    for (const el of this.documentState().elements) {
+      if (el.type !== 'table') continue;
+      if (!el.tableMainType?.trim()) return true;
+      if (!el.tableRepeatableType?.trim()) return true;
+    }
+    return false;
+  });
+
+  readonly exportHtmlDisabledTitle = computed((): string => {
+    if (!this.hasInvalidTableBindings()) return 'Export HTML';
+    return 'Export disabled: select Table main entity and repeatable entity in the Properties panel.';
+  });
 
   tableCells(el: LaymaTableElement, kind: 'header' | 'rowTemplate' | 'footer'): readonly LaymaTableCell[] {
     const count = Math.max(1, el.columns.length);
