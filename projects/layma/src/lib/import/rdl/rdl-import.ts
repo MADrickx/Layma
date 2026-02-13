@@ -51,9 +51,17 @@ function firstTextContentByTagNS(root: ParentNode, localName: string): string | 
   return el?.textContent?.trim() ?? null;
 }
 
+function directChildTextContentByTag(itemEl: Element, localName: string): string | null {
+  for (const child of Array.from(itemEl.children)) {
+    if (child.localName !== localName) continue;
+    return child.textContent?.trim() ?? null;
+  }
+  return null;
+}
+
 function reportItemsElement(
   sectionEl: Element,
-  sectionName: 'PageHeader' | 'Body' | 'PageFooter'
+  sectionName: 'PageHeader' | 'Body' | 'PageFooter',
 ): Element | null {
   const section = sectionEl.getElementsByTagNameNS('*', sectionName).item(0);
   if (!section) return null;
@@ -61,12 +69,22 @@ function reportItemsElement(
 }
 
 function parsePositionBoxMm(
-  itemEl: Element
+  itemEl: Element,
 ): { xMm: number; yMm: number; widthMm: number; heightMm: number } | null {
-  const left = firstTextContentByTagNS(itemEl, 'Left');
-  const top = firstTextContentByTagNS(itemEl, 'Top');
-  const width = firstTextContentByTagNS(itemEl, 'Width');
-  const height = firstTextContentByTagNS(itemEl, 'Height');
+  // IMPORTANT: Report items (Textbox/Image/Line/Tablix) have Left/Top/Width/Height as direct children.
+  // Using descendant lookup can accidentally pick nested tags (e.g. a TablixColumn.Width),
+  // producing a tiny box for tablix-imported tables.
+  const left =
+    directChildTextContentByTag(itemEl, 'Left') ?? firstTextContentByTagNS(itemEl, 'Left');
+  const top = directChildTextContentByTag(itemEl, 'Top') ?? firstTextContentByTagNS(itemEl, 'Top');
+  const width =
+    directChildTextContentByTag(itemEl, 'Width') ??
+    // Avoid using descendant Width for Tablix: it often matches the first column width.
+    (itemEl.localName === 'Tablix' ? null : firstTextContentByTagNS(itemEl, 'Width'));
+  const height =
+    directChildTextContentByTag(itemEl, 'Height') ??
+    // Avoid using descendant Height for Tablix: it often matches the first row height.
+    (itemEl.localName === 'Tablix' ? null : firstTextContentByTagNS(itemEl, 'Height'));
   if (!left || !top || !width || !height) return null;
   const xMm = mmFromRdlSize(left);
   const yMm = mmFromRdlSize(top);
@@ -97,6 +115,11 @@ function parseTextAlign(value: string | null): 'left' | 'center' | 'right' {
  */
 function toCtTag(category: string, field: string): string {
   return `#${category}_${field}#`;
+}
+
+/** Build a parameter placeholder tag: `#Param.Name#`. */
+function toParamTag(paramName: string): string {
+  return `#Param.${paramName}#`;
 }
 
 /**
@@ -130,7 +153,7 @@ function textFromRdlValue(rdlValue: string, datasetHint: string): string {
       const ds = explicitDataset ?? datasetHint;
       tokens.push(toCtTag(ds, fieldName));
     } else if (paramName) {
-      tokens.push(paramName);
+      tokens.push(toParamTag(paramName));
     } else if (globalName) {
       tokens.push(toCtTag('Globals', globalName));
     }
@@ -162,7 +185,7 @@ function buildEmbeddedImagesMap(doc: Document): Map<string, string> {
 
 function resolveEmbeddedImageDataUri(
   valueExpression: string,
-  embedded: Map<string, string>
+  embedded: Map<string, string>,
 ): string | null {
   const v = valueExpression.trim();
   if (!v.startsWith('=')) {
@@ -188,7 +211,7 @@ function importTextbox(
   textboxEl: Element,
   offsetMm: { xMm: number; yMm: number },
   datasetHint: string,
-  section: LaymaSection
+  section: LaymaSection,
 ): LaymaTextElement | null {
   const box = parsePositionBoxMm(textboxEl);
   if (!box) return null;
@@ -232,7 +255,7 @@ function importTextbox(
 function importLine(
   lineEl: Element,
   offsetMm: { xMm: number; yMm: number },
-  section: LaymaSection
+  section: LaymaSection,
 ): LaymaLineElement | null {
   const box = parsePositionBoxMm(lineEl);
   if (!box) return null;
@@ -256,7 +279,7 @@ function importImage(
   offsetMm: { xMm: number; yMm: number },
   embedded: Map<string, string>,
   datasetHint: string,
-  section: LaymaSection
+  section: LaymaSection,
 ): LaymaImageElement | null {
   const box = parsePositionBoxMm(imgEl);
   if (!box) return null;
@@ -300,7 +323,7 @@ function importTablixAsTable(
   tablixEl: Element,
   offsetMm: { xMm: number; yMm: number },
   datasetHint: string,
-  section: LaymaSection
+  section: LaymaSection,
 ): LaymaTableElement | null {
   const box = parsePositionBoxMm(tablixEl);
   if (!box) return null;
@@ -332,7 +355,36 @@ function importTablixAsTable(
 
   // Normalize columns count to the extracted cells length (some RDLs differ)
   const cellCount = Math.max(headerCells.length, rowCells.length);
-  const normalizedColumns = normalizeColumns(columns, box.widthMm, cellCount);
+  // Width/height sanity for editor usability.
+  const intrinsicWidthMm = columns.reduce(
+    (acc, c) => acc + (Number.isFinite(c.widthMm) ? c.widthMm : 0),
+    0,
+  );
+  const MIN_USABLE_TABLE_HEIGHT_MM = 80;
+  const rowHeightsMm = rowEls
+    .map((r) => directChildTextContentByTag(r, 'Height'))
+    .map((h) => (h ? mmFromRdlSize(h) : Number.NaN))
+    .filter((n) => Number.isFinite(n));
+  const intrinsicHeaderDetailHeightMm = (rowHeightsMm.at(0) ?? 5) + (rowHeightsMm.at(1) ?? 5);
+
+  const EPS_MM = 0.05;
+  const widthMm =
+    Number.isFinite(intrinsicWidthMm) &&
+    intrinsicWidthMm > 0 &&
+    box.widthMm + EPS_MM < intrinsicWidthMm
+      ? intrinsicWidthMm
+      : box.widthMm;
+
+  // Some RDLs effectively provide a row height here (due to authoring quirks).
+  // If height is implausibly small, pick a conservative editor-friendly height.
+  const heightLooksLikeSingleRow =
+    box.heightMm > 0 && box.heightMm <= intrinsicHeaderDetailHeightMm + 0.5;
+  const heightMm =
+    box.heightMm < 15 || heightLooksLikeSingleRow
+      ? Math.max(MIN_USABLE_TABLE_HEIGHT_MM, box.heightMm)
+      : box.heightMm;
+
+  const normalizedColumns = normalizeColumns(columns, widthMm, cellCount);
 
   return {
     id: createLaymaElementId(),
@@ -340,8 +392,8 @@ function importTablixAsTable(
     section,
     xMm: offsetMm.xMm + box.xMm,
     yMm: offsetMm.yMm + box.yMm,
-    widthMm: box.widthMm,
-    heightMm: box.heightMm,
+    widthMm,
+    heightMm,
     columns: normalizedColumns,
     header: headerCells,
     rowTemplate: rowCells,
@@ -357,7 +409,7 @@ function importTablixAsTable(
 function normalizeColumns(
   columns: readonly LaymaTableColumn[],
   tableWidthMm: number,
-  cellCount: number
+  cellCount: number,
 ): LaymaTableColumn[] {
   if (columns.length === cellCount && columns.length > 0) return [...columns];
   if (columns.length > 0) {
@@ -373,7 +425,7 @@ function normalizeColumns(
 function extractRowCells(
   tablixRowEl: Element,
   datasetHint: string,
-  isHeader: boolean
+  isHeader: boolean,
 ): LaymaTableCell[] {
   const cells: LaymaTableCell[] = [];
   const cellEls = Array.from(tablixRowEl.getElementsByTagNameNS('*', 'TablixCell'));
@@ -467,7 +519,7 @@ function importReportItems(
   offsetMm: { xMm: number; yMm: number },
   embedded: Map<string, string>,
   datasetHint: string,
-  section: LaymaSection
+  section: LaymaSection,
 ): LaymaElement[] {
   const out: LaymaElement[] = [];
   for (const child of Array.from(reportItemsEl.children)) {
