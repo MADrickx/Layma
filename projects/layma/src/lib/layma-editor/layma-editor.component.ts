@@ -44,6 +44,80 @@ import { importRdlToLaymaDocument } from '../import/rdl/rdl-import';
 type LaymaTool = 'select' | 'text' | 'rect' | 'line' | 'image' | 'table';
 type ResizeHandle = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 
+function normalizeEntityKey(value: string | undefined): string {
+  return (value ?? '').trim().toLowerCase();
+}
+
+function reconcileImportedTableBindings(
+  doc: LaymaDocument,
+  bindings: readonly LaymaTableEntityBinding[]
+): LaymaDocument {
+  if (bindings.length === 0) return doc;
+
+  const byMain = new Map<string, LaymaTableEntityBinding>();
+  for (const b of bindings) {
+    const key = normalizeEntityKey(b.mainEntity);
+    if (!key) continue;
+    if (!byMain.has(key)) byMain.set(key, b);
+  }
+
+  const findRepeatableExact = (b: LaymaTableEntityBinding, repeatable: string): string | undefined => {
+    const target = normalizeEntityKey(repeatable);
+    if (!target) return undefined;
+    for (const opt of b.repeatableEntity) {
+      if (normalizeEntityKey(opt) === target) return opt;
+    }
+    return undefined;
+  };
+
+  const findBindingByRepeatable = (repeatable: string): LaymaTableEntityBinding | undefined => {
+    const target = normalizeEntityKey(repeatable);
+    if (!target) return undefined;
+    for (const b of bindings) {
+      for (const opt of b.repeatableEntity) {
+        if (normalizeEntityKey(opt) === target) return b;
+      }
+    }
+    return undefined;
+  };
+
+  const elements = doc.elements.map((el): LaymaElement => {
+    if (el.type !== 'table') return el;
+
+    const currentMain = el.tableMainType ?? '';
+    const currentRepeatable = el.tableRepeatableType ?? el.tableDataset ?? '';
+
+    // 1) Prefer matching by main entity, then normalize repeatable under that binding.
+    const mainBinding = byMain.get(normalizeEntityKey(currentMain));
+    if (mainBinding) {
+      const repeatableExact = findRepeatableExact(mainBinding, currentRepeatable);
+      return {
+        ...el,
+        tableMainType: mainBinding.mainEntity,
+        tableRepeatableType: repeatableExact ?? el.tableRepeatableType,
+        tableDataset: repeatableExact ?? el.tableDataset,
+      };
+    }
+
+    // 2) If main didn't match, but repeatable matches some binding option, adopt that binding.
+    const repeatableBinding = findBindingByRepeatable(currentRepeatable);
+    if (repeatableBinding) {
+      const repeatableExact = findRepeatableExact(repeatableBinding, currentRepeatable);
+      return {
+        ...el,
+        tableMainType: repeatableBinding.mainEntity,
+        tableRepeatableType: repeatableExact ?? el.tableRepeatableType,
+        tableDataset: repeatableExact ?? el.tableDataset,
+      };
+    }
+
+    // 3) No match: leave as-is.
+    return el;
+  });
+
+  return { ...doc, elements };
+}
+
 interface DragStateNone {
   readonly kind: 'none';
 }
@@ -641,17 +715,18 @@ export class LaymaEditorComponent {
 
     const xmlText = await file.text();
     const imported = importRdlToLaymaDocument(xmlText);
+    const reconciled = reconcileImportedTableBindings(imported, this.tableEntityBindings());
 
     // Snap every imported element to the current grid for a clean layout.
     const grid = this.gridSizeMm();
-    const snappedElements = imported.elements.map((el) => {
+    const snappedElements = reconciled.elements.map((el) => {
       const snapped = snapBoxMm(el, grid);
       return { ...el, ...snapped };
     });
 
     this.selectedElementIds.set(new Set());
     this.tool.set('select');
-    this.applyDocument({ ...imported, elements: snappedElements });
+    this.applyDocument({ ...reconciled, elements: snappedElements });
     this.activeSection.set('body');
   }
 

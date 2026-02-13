@@ -323,10 +323,21 @@ function importTablixAsTable(
   tablixEl: Element,
   offsetMm: { xMm: number; yMm: number },
   datasetHint: string,
+  datasetNames: ReadonlySet<string>,
   section: LaymaSection,
 ): LaymaTableElement | null {
   const box = parsePositionBoxMm(tablixEl);
   if (!box) return null;
+
+  const tablixDatasetName =
+    directChildTextContentByTag(tablixEl, 'DataSetName') ?? firstTextContentByTagNS(tablixEl, 'DataSetName');
+  const repeatableType = (tablixDatasetName ?? datasetHint).trim();
+
+  const inferredMain =
+    repeatableType.endsWith('Line') && repeatableType.length > 'Line'.length
+      ? `${repeatableType.slice(0, -'Line'.length)}Header`
+      : null;
+  const mainType = inferredMain && datasetNames.has(inferredMain) ? inferredMain : undefined;
 
   const columns: LaymaTableColumn[] = [];
   const colEls = tablixEl.getElementsByTagNameNS('*', 'TablixColumn');
@@ -397,8 +408,9 @@ function importTablixAsTable(
     columns: normalizedColumns,
     header: headerCells,
     rowTemplate: rowCells,
-    tableDataset: datasetHint,
-    tableRepeatableType: datasetHint,
+    tableDataset: repeatableType,
+    tableRepeatableType: repeatableType,
+    tableMainType: mainType,
     borderColor: '#cbd5e1',
     borderWidthMm: 0.3,
     headerBackground: '#f3f4f6',
@@ -479,25 +491,37 @@ export function importRdlToLaymaDocument(xmlText: string): LaymaDocument {
 
   const embedded = buildEmbeddedImagesMap(parsed);
 
+  const datasetNames = new Set<string>();
+  for (const dsEl of Array.from(parsed.getElementsByTagNameNS('*', 'DataSet'))) {
+    const name = dsEl.getAttribute('Name')?.trim() ?? '';
+    if (name) datasetNames.add(name);
+  }
+
   const elements: LaymaElement[] = [];
 
   const headerItems = headerEl ? reportItemsElement(sectionEl, 'PageHeader') : null;
   if (headerItems) {
     const offsetMm = { xMm: leftMarginMm, yMm: topMarginMm };
-    elements.push(...importReportItems(headerItems, offsetMm, embedded, 'InvoiceHeader', 'header'));
+    elements.push(
+      ...importReportItems(headerItems, offsetMm, embedded, 'InvoiceHeader', datasetNames, 'header'),
+    );
   }
 
   const bodyItems = bodyEl ? reportItemsElement(sectionEl, 'Body') : null;
   if (bodyItems) {
     const offsetMm = { xMm: leftMarginMm, yMm: topMarginMm + headerHeightMm };
-    elements.push(...importReportItems(bodyItems, offsetMm, embedded, 'InvoiceLine', 'body'));
+    elements.push(
+      ...importReportItems(bodyItems, offsetMm, embedded, 'InvoiceLine', datasetNames, 'body'),
+    );
   }
 
   const footerItems = footerEl ? reportItemsElement(sectionEl, 'PageFooter') : null;
   if (footerItems) {
     const yBase = pageHeightMm - bottomMarginMm - footerHeightMm;
     const offsetMm = { xMm: leftMarginMm, yMm: yBase };
-    elements.push(...importReportItems(footerItems, offsetMm, embedded, 'InvoiceFooter', 'footer'));
+    elements.push(
+      ...importReportItems(footerItems, offsetMm, embedded, 'InvoiceFooter', datasetNames, 'footer'),
+    );
   }
 
   const cleanPageWidthMm = Number.isFinite(pageWidthMm) ? pageWidthMm : 210;
@@ -519,6 +543,7 @@ function importReportItems(
   offsetMm: { xMm: number; yMm: number },
   embedded: Map<string, string>,
   datasetHint: string,
+  datasetNames: ReadonlySet<string>,
   section: LaymaSection,
 ): LaymaElement[] {
   const out: LaymaElement[] = [];
@@ -539,7 +564,7 @@ function importReportItems(
       continue;
     }
     if (child.localName === 'Tablix') {
-      const el = importTablixAsTable(child, offsetMm, datasetHint, section);
+      const el = importTablixAsTable(child, offsetMm, datasetHint, datasetNames, section);
       if (el) out.push(el);
       continue;
     }

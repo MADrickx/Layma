@@ -122,4 +122,60 @@ describe('Layma', () => {
     expect(texts.length).toBe(1);
     expect(texts[0].text).toBe('#Param.Facture#');
   });
+
+  it('infers table entities from tablix dataset (InvoiceLine → InvoiceHeader)', () => {
+    const xml = `
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <PageWidth>21cm</PageWidth>
+  <PageHeight>29.7cm</PageHeight>
+  <DataSets>
+    <DataSet Name="InvoiceHeader"></DataSet>
+    <DataSet Name="InvoiceLine"></DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix>
+            <Left>10mm</Left>
+            <Top>20mm</Top>
+            <Width>180mm</Width>
+            <Height>100mm</Height>
+            <DataSetName>InvoiceLine</DataSetName>
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn><Width>90mm</Width></TablixColumn>
+                <TablixColumn><Width>90mm</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>5mm</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox><Value>H1</Value></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox><Value>H2</Value></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>5mm</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox><Value>=Fields!X.Value</Value></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox><Value>=Fields!Y.Value</Value></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+          </Tablix>
+        </ReportItems>
+      </Body>
+    </ReportSection>
+  </ReportSections>
+</Report>
+`.trim();
+
+    const doc = importRdlToLaymaDocument(xml);
+    const tables = doc.elements.filter((el) => el.type === 'table');
+    expect(tables.length).toBe(1);
+    expect(tables[0].tableRepeatableType).toBe('InvoiceLine');
+    expect(tables[0].tableMainType).toBe('InvoiceHeader');
+  });
 });
